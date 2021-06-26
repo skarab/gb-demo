@@ -1,0 +1,151 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.0 #12072 (MINGW32)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module demo
+                                      6 	.optsdcc -mgbz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl b_Scene_SpritesPhysics
+                                     13 	.globl _Scene_SpritesPhysics
+                                     14 	.globl b_Scene_Axelay
+                                     15 	.globl _Scene_Axelay
+                                     16 	.globl b_Scene_Fire
+                                     17 	.globl _Scene_Fire
+                                     18 	.globl b_Scene_Noise
+                                     19 	.globl _Scene_Noise
+                                     20 	.globl b_Scene_CubePhysics
+                                     21 	.globl _Scene_CubePhysics
+                                     22 	.globl b_Scene_Cube
+                                     23 	.globl _Scene_Cube
+                                     24 	.globl b_Scene_Lines
+                                     25 	.globl _Scene_Lines
+                                     26 	.globl b_Scene_Title
+                                     27 	.globl _Scene_Title
+                                     28 	.globl b_Scene_Sega
+                                     29 	.globl _Scene_Sega
+                                     30 	.globl b_Scene_Nintendo
+                                     31 	.globl _Scene_Nintendo
+                                     32 	.globl _play_music
+                                     33 ;--------------------------------------------------------
+                                     34 ; special function registers
+                                     35 ;--------------------------------------------------------
+                                     36 ;--------------------------------------------------------
+                                     37 ; ram data
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _DATA
+                                     40 ;--------------------------------------------------------
+                                     41 ; absolute external ram data
+                                     42 ;--------------------------------------------------------
+                                     43 	.area _DABS (ABS)
+                                     44 ;--------------------------------------------------------
+                                     45 ; global & static initialisations
+                                     46 ;--------------------------------------------------------
+                                     47 	.area _HOME
+                                     48 	.area _GSINIT
+                                     49 	.area _GSFINAL
+                                     50 	.area _GSINIT
+                                     51 ;--------------------------------------------------------
+                                     52 ; Home
+                                     53 ;--------------------------------------------------------
+                                     54 	.area _HOME
+                                     55 	.area _HOME
+                                     56 ;--------------------------------------------------------
+                                     57 ; code
+                                     58 ;--------------------------------------------------------
+                                     59 	.area _CODE
+                                     60 ;src\demo.c:21: void main()
+                                     61 ;	---------------------------------
+                                     62 ; Function main
+                                     63 ; ---------------------------------
+      000000                         64 _main::
+                                     65 ;src\demo.c:23: LCDC_REG = 0xD1;
+      000000 3E D1                   66 	ld	a, #0xd1
+      000002 E0r00                   67 	ldh	(_LCDC_REG+0),a
+                                     68 ;src\demo.c:24: NR52_REG = 0x80;
+      000004 3E 80                   69 	ld	a, #0x80
+      000006 E0r00                   70 	ldh	(_NR52_REG+0),a
+                                     71 ;src\demo.c:25: NR51_REG = 0xFF;
+      000008 3E FF                   72 	ld	a, #0xff
+      00000A E0r00                   73 	ldh	(_NR51_REG+0),a
+                                     74 ;src\demo.c:26: NR50_REG = 0x77;
+      00000C 3E 77                   75 	ld	a, #0x77
+      00000E E0r00                   76 	ldh	(_NR50_REG+0),a
+                                     77 ;src\demo.c:28: SWITCH_ROM_MBC1((UINT8)&__bank_sega);
+      000010 3Er00                   78 	ld	a, #<(___bank_sega)
+      000012 E0r00                   79 	ldh	(__current_bank+0),a
+      000014 3Er00                   80 	ld	a, #<(___bank_sega)
+      000016 EA 00 20                81 	ld	(#0x2000),a
+                                     82 ;src\demo.c:29: Scene_Nintendo();
+      000019 1Er00                   83 	ld	e, #b_Scene_Nintendo
+      00001B 21r00r00                84 	ld	hl, #_Scene_Nintendo
+      00001E CDr00r00                85 	call	___sdcc_bcall_ehl
+                                     86 ;src\demo.c:30: Scene_Sega();
+      000021 1Er00                   87 	ld	e, #b_Scene_Sega
+      000023 21r00r00                88 	ld	hl, #_Scene_Sega
+      000026 CDr00r00                89 	call	___sdcc_bcall_ehl
+                                     90 ;src\demo.c:32: play_music(&part1_music, (UINT8)&__bank_part1_music);
+      000029 06r00                   91 	ld	b, #<(___bank_part1_music)
+      00002B C5                      92 	push	bc
+      00002C 33                      93 	inc	sp
+      00002D 21r00r00                94 	ld	hl, #_part1_music
+      000030 E5                      95 	push	hl
+      000031 CDr00r00                96 	call	_play_music
+      000034 E8 03                   97 	add	sp, #3
+                                     98 ;src\demo.c:34: SWITCH_ROM_MBC1((UINT8)&__bank_title);
+      000036 3Er00                   99 	ld	a, #<(___bank_title)
+      000038 E0r00                  100 	ldh	(__current_bank+0),a
+      00003A 3Er00                  101 	ld	a, #<(___bank_title)
+      00003C EA 00 20               102 	ld	(#0x2000),a
+                                    103 ;src\demo.c:35: Scene_Lines();
+      00003F 1Er00                  104 	ld	e, #b_Scene_Lines
+      000041 21r00r00               105 	ld	hl, #_Scene_Lines
+      000044 CDr00r00               106 	call	___sdcc_bcall_ehl
+                                    107 ;src\demo.c:36: Scene_Title();
+      000047 1Er00                  108 	ld	e, #b_Scene_Title
+      000049 21r00r00               109 	ld	hl, #_Scene_Title
+      00004C CDr00r00               110 	call	___sdcc_bcall_ehl
+                                    111 ;src\demo.c:37: SWITCH_ROM_MBC1((UINT8)&__bank_cube);
+      00004F 3Er00                  112 	ld	a, #<(___bank_cube)
+      000051 E0r00                  113 	ldh	(__current_bank+0),a
+      000053 3Er00                  114 	ld	a, #<(___bank_cube)
+      000055 EA 00 20               115 	ld	(#0x2000),a
+                                    116 ;src\demo.c:38: Scene_Cube();
+      000058 1Er00                  117 	ld	e, #b_Scene_Cube
+      00005A 21r00r00               118 	ld	hl, #_Scene_Cube
+      00005D CDr00r00               119 	call	___sdcc_bcall_ehl
+                                    120 ;src\demo.c:39: Scene_CubePhysics();
+      000060 1Er00                  121 	ld	e, #b_Scene_CubePhysics
+      000062 21r00r00               122 	ld	hl, #_Scene_CubePhysics
+      000065 CDr00r00               123 	call	___sdcc_bcall_ehl
+                                    124 ;src\demo.c:40: Scene_Noise();
+      000068 1Er00                  125 	ld	e, #b_Scene_Noise
+      00006A 21r00r00               126 	ld	hl, #_Scene_Noise
+      00006D CDr00r00               127 	call	___sdcc_bcall_ehl
+                                    128 ;src\demo.c:41: Scene_Nintendo();
+      000070 1Er00                  129 	ld	e, #b_Scene_Nintendo
+      000072 21r00r00               130 	ld	hl, #_Scene_Nintendo
+      000075 CDr00r00               131 	call	___sdcc_bcall_ehl
+                                    132 ;src\demo.c:42: Scene_Fire();
+      000078 1Er00                  133 	ld	e, #b_Scene_Fire
+      00007A 21r00r00               134 	ld	hl, #_Scene_Fire
+      00007D CDr00r00               135 	call	___sdcc_bcall_ehl
+                                    136 ;src\demo.c:43: SWITCH_ROM_MBC1((UINT8)&__bank_axelay);
+      000080 3Er00                  137 	ld	a, #<(___bank_axelay)
+      000082 E0r00                  138 	ldh	(__current_bank+0),a
+      000084 3Er00                  139 	ld	a, #<(___bank_axelay)
+      000086 EA 00 20               140 	ld	(#0x2000),a
+                                    141 ;src\demo.c:44: Scene_Axelay();
+      000089 1Er00                  142 	ld	e, #b_Scene_Axelay
+      00008B 21r00r00               143 	ld	hl, #_Scene_Axelay
+      00008E CDr00r00               144 	call	___sdcc_bcall_ehl
+                                    145 ;src\demo.c:45: Scene_SpritesPhysics();
+      000091 1Er00                  146 	ld	e, #b_Scene_SpritesPhysics
+      000093 21r00r00               147 	ld	hl, #_Scene_SpritesPhysics
+                                    148 ;src\demo.c:48: }
+      000096 C3r00r00               149 	jp  ___sdcc_bcall_ehl
+                                    150 	.area _CODE
+                                    151 	.area _CABS (ABS)

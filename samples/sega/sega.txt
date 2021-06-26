@@ -1,0 +1,9 @@
+                         Sega.83p
+Author: Tadd Nuznov
+Date: July 2, 2000
+Description:  This is the product of me fooling around 
+with sound on the TI-83.  Run this program with Waveplayer and Ashell. 
+You can find both at TIcalc.org.
+
+If you don't have earphones that work on the calc, you can use Rusty 
+Wagner's "Virtual TI", which supports TI-xx sound.

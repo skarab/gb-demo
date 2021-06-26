@@ -1,0 +1,65 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 1.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000000 L
+    _BGP_REG                                                       ****** GX
+    _LCDC_REG                                                      ****** GX
+    _LY_REG                                                        ****** GX
+    _PalScroll                                                     ****** GX
+    _PalScrollCount                                                ****** GX
+    _SCX_REG                                                       ****** GX
+    _SCY_REG                                                       ****** GX
+    _STAT_REG                                                      ****** GX
+  6 _Scene_SquaresZoom                                             003248 GR
+    ___bank_squares_zoom                                        =  000006 G
+    __moduint                                                      ****** GX
+    _add_LCD                                                       ****** GX
+    _add_VBL                                                       ****** GX
+    _disable_interrupts                                            ****** GX
+    _display_off                                                   ****** GX
+    _enable_interrupts                                             ****** GX
+    _remove_VBL                                                    ****** GX
+    _set_bkg_data                                                  ****** GX
+    _set_bkg_tiles                                                 ****** GX
+    _set_interrupts                                                ****** GX
+    _set_palette                                                   ****** GX
+    _sintable                                                      ****** GX
+  1 _squares_s                                                     000004 GR
+  1 _squares_scroll                                                000000 GR
+  1 _squares_size                                                  000002 GR
+  1 _squares_t                                                     000003 GR
+  6 _squares_zoom_lcd                                              00320E GR
+  6 _squares_zoom_precalc                                          001069 GR
+  1 _squares_zoom_scroll                                           000001 GR
+  6 _squares_zoom_tiledata                                         0001C3 GR
+  6 _squares_zoom_tiledata_count                                   0001C1 GR
+  6 _squares_zoom_tilemap0                                         000DA5 GR
+  6 _squares_zoom_tilemap0_count                                   000DA3 GR
+  6 _squares_zoom_tilemap1                                         000EA7 GR
+  6 _squares_zoom_tilemap1_count                                   000EA5 GR
+  6 _squares_zoom_tilemap2                                         000FA9 GR
+  6 _squares_zoom_tilemap2_count                                   000FA7 GR
+  6 _squares_zoom_vbl1                                             000000 GR
+  6 _squares_zoom_vbl2                                             003071 GR
+    _wait_vbl_done                                                 ****** GX
+    b_Scene_SquaresZoom                                         =  000006 G
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size      0   flags    0
+   1 _DATA                                      size      5   flags    0
+   2 _DABS                                      size      0   flags    8
+   3 _HOME                                      size      0   flags    0
+   4 _GSINIT                                    size     19   flags    0
+   5 _GSFINAL                                   size      0   flags    0
+   6 _CODE_6                                    size   332C   flags    0
+   7 _CABS                                      size      0   flags    8
+

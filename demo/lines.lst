@@ -1,0 +1,2378 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.0 #12072 (MINGW32)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module lines
+                                      6 	.optsdcc -mgbz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl b_Scene_Lines
+                                     12 	.globl _Scene_Lines
+                                     13 	.globl _color
+                                     14 	.globl _line
+                                     15 	.globl _mod
+                                     16 	.globl _abs
+                                     17 	.globl _set_default_palette
+                                     18 	.globl _set_palette
+                                     19 	.globl ___bank_lines
+                                     20 ;--------------------------------------------------------
+                                     21 ; special function registers
+                                     22 ;--------------------------------------------------------
+                                     23 ;--------------------------------------------------------
+                                     24 ; ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area _DATA
+                                     27 ;--------------------------------------------------------
+                                     28 ; absolute external ram data
+                                     29 ;--------------------------------------------------------
+                                     30 	.area _DABS (ABS)
+                                     31 ;--------------------------------------------------------
+                                     32 ; global & static initialisations
+                                     33 ;--------------------------------------------------------
+                                     34 	.area _HOME
+                                     35 	.area _GSINIT
+                                     36 	.area _GSFINAL
+                                     37 	.area _GSINIT
+                                     38 ;--------------------------------------------------------
+                                     39 ; Home
+                                     40 ;--------------------------------------------------------
+                                     41 	.area _HOME
+                                     42 	.area _HOME
+                                     43 ;--------------------------------------------------------
+                                     44 ; code
+                                     45 ;--------------------------------------------------------
+                                     46 	.area _CODE_3
+                                     47 ;src\lines.c:7: void Scene_Lines() BANKED
+                                     48 ;	---------------------------------
+                                     49 ; Function Scene_Lines
+                                     50 ; ---------------------------------
+                           000003    51 	b_Scene_Lines	= 3
+      000000                         52 _Scene_Lines::
+      000000 E8 A2                   53 	add	sp, #-94
+                                     54 ;src\lines.c:9: LCDC_REG = 0xD1;
+      000002 3E D1                   55 	ld	a, #0xd1
+      000004 E0r00                   56 	ldh	(_LCDC_REG+0),a
+                                     57 ;src\lines.c:11: set_default_palette();
+      000006 CDr00r00                58 	call	_set_default_palette
+                                     59 ;src\lines.c:18: short int x0s[7] = { minx, 0, 0, 0 };
+      000009 F8 00                   60 	ldhl	sp,	#0
+      00000B 7D                      61 	ld	a, l
+      00000C 54                      62 	ld	d, h
+      00000D F8 38                   63 	ldhl	sp,	#56
+      00000F 22                      64 	ld	(hl+), a
+      000010 7A                      65 	ld	a, d
+      000011 32                      66 	ld	(hl-), a
+      000012 2A                      67 	ld	a, (hl+)
+      000013 66                      68 	ld	h, (hl)
+      000014 6F                      69 	ld	l, a
+      000015 AF                      70 	xor	a, a
+      000016 22                      71 	ld	(hl+), a
+      000017 77                      72 	ld	(hl), a
+      000018 F8 38                   73 	ldhl	sp,	#56
+      00001A 2A                      74 	ld	a, (hl+)
+      00001B 66                      75 	ld	h, (hl)
+      00001C 6F                      76 	ld	l, a
+      00001D 23                      77 	inc	hl
+      00001E 23                      78 	inc	hl
+      00001F AF                      79 	xor	a, a
+      000020 22                      80 	ld	(hl+), a
+      000021 77                      81 	ld	(hl), a
+                                     82 ;c
+      000022 F8 38                   83 	ldhl	sp,#56
+      000024 2A                      84 	ld	a, (hl+)
+      000025 5F                      85 	ld	e, a
+      000026 56                      86 	ld	d, (hl)
+      000027 21 04 00                87 	ld	hl, #0x0004
+      00002A 19                      88 	add	hl, de
+      00002B 4D                      89 	ld	c, l
+      00002C 44                      90 	ld	b, h
+      00002D AF                      91 	xor	a, a
+      00002E 02                      92 	ld	(bc), a
+      00002F 03                      93 	inc	bc
+      000030 02                      94 	ld	(bc), a
+                                     95 ;c
+      000031 F8 38                   96 	ldhl	sp,#56
+      000033 2A                      97 	ld	a, (hl+)
+      000034 5F                      98 	ld	e, a
+      000035 56                      99 	ld	d, (hl)
+      000036 21 06 00               100 	ld	hl, #0x0006
+      000039 19                     101 	add	hl, de
+      00003A 4D                     102 	ld	c, l
+      00003B 44                     103 	ld	b, h
+      00003C AF                     104 	xor	a, a
+      00003D 02                     105 	ld	(bc), a
+      00003E 03                     106 	inc	bc
+      00003F 02                     107 	ld	(bc), a
+                                    108 ;c
+      000040 F8 38                  109 	ldhl	sp,#56
+      000042 2A                     110 	ld	a, (hl+)
+      000043 5F                     111 	ld	e, a
+      000044 56                     112 	ld	d, (hl)
+      000045 21 08 00               113 	ld	hl, #0x0008
+      000048 19                     114 	add	hl, de
+      000049 4D                     115 	ld	c, l
+      00004A 44                     116 	ld	b, h
+      00004B AF                     117 	xor	a, a
+      00004C 02                     118 	ld	(bc), a
+      00004D 03                     119 	inc	bc
+      00004E 02                     120 	ld	(bc), a
+                                    121 ;c
+      00004F F8 38                  122 	ldhl	sp,#56
+      000051 2A                     123 	ld	a, (hl+)
+      000052 5F                     124 	ld	e, a
+      000053 56                     125 	ld	d, (hl)
+      000054 21 0A 00               126 	ld	hl, #0x000a
+      000057 19                     127 	add	hl, de
+      000058 4D                     128 	ld	c, l
+      000059 44                     129 	ld	b, h
+      00005A AF                     130 	xor	a, a
+      00005B 02                     131 	ld	(bc), a
+      00005C 03                     132 	inc	bc
+      00005D 02                     133 	ld	(bc), a
+                                    134 ;c
+      00005E F8 38                  135 	ldhl	sp,#56
+      000060 2A                     136 	ld	a, (hl+)
+      000061 5F                     137 	ld	e, a
+      000062 56                     138 	ld	d, (hl)
+      000063 21 0C 00               139 	ld	hl, #0x000c
+      000066 19                     140 	add	hl, de
+      000067 4D                     141 	ld	c, l
+      000068 44                     142 	ld	b, h
+      000069 AF                     143 	xor	a, a
+      00006A 02                     144 	ld	(bc), a
+      00006B 03                     145 	inc	bc
+      00006C 02                     146 	ld	(bc), a
+                                    147 ;src\lines.c:19: short int y0s[7] = { miny, 0, 0, 0 };
+      00006D F8 0E                  148 	ldhl	sp,	#14
+      00006F 7D                     149 	ld	a, l
+      000070 54                     150 	ld	d, h
+      000071 F8 3A                  151 	ldhl	sp,	#58
+      000073 22                     152 	ld	(hl+), a
+      000074 7A                     153 	ld	a, d
+      000075 32                     154 	ld	(hl-), a
+      000076 2A                     155 	ld	a, (hl+)
+      000077 66                     156 	ld	h, (hl)
+      000078 6F                     157 	ld	l, a
+      000079 AF                     158 	xor	a, a
+      00007A 22                     159 	ld	(hl+), a
+      00007B 77                     160 	ld	(hl), a
+      00007C F8 3A                  161 	ldhl	sp,	#58
+      00007E 2A                     162 	ld	a, (hl+)
+      00007F 66                     163 	ld	h, (hl)
+      000080 6F                     164 	ld	l, a
+      000081 23                     165 	inc	hl
+      000082 23                     166 	inc	hl
+      000083 AF                     167 	xor	a, a
+      000084 22                     168 	ld	(hl+), a
+      000085 77                     169 	ld	(hl), a
+                                    170 ;c
+      000086 F8 3A                  171 	ldhl	sp,#58
+      000088 2A                     172 	ld	a, (hl+)
+      000089 5F                     173 	ld	e, a
+      00008A 56                     174 	ld	d, (hl)
+      00008B 21 04 00               175 	ld	hl, #0x0004
+      00008E 19                     176 	add	hl, de
+      00008F 4D                     177 	ld	c, l
+      000090 44                     178 	ld	b, h
+      000091 AF                     179 	xor	a, a
+      000092 02                     180 	ld	(bc), a
+      000093 03                     181 	inc	bc
+      000094 02                     182 	ld	(bc), a
+                                    183 ;c
+      000095 F8 3A                  184 	ldhl	sp,#58
+      000097 2A                     185 	ld	a, (hl+)
+      000098 5F                     186 	ld	e, a
+      000099 56                     187 	ld	d, (hl)
+      00009A 21 06 00               188 	ld	hl, #0x0006
+      00009D 19                     189 	add	hl, de
+      00009E 4D                     190 	ld	c, l
+      00009F 44                     191 	ld	b, h
+      0000A0 AF                     192 	xor	a, a
+      0000A1 02                     193 	ld	(bc), a
+      0000A2 03                     194 	inc	bc
+      0000A3 02                     195 	ld	(bc), a
+                                    196 ;c
+      0000A4 F8 3A                  197 	ldhl	sp,#58
+      0000A6 2A                     198 	ld	a, (hl+)
+      0000A7 5F                     199 	ld	e, a
+      0000A8 56                     200 	ld	d, (hl)
+      0000A9 21 08 00               201 	ld	hl, #0x0008
+      0000AC 19                     202 	add	hl, de
+      0000AD 4D                     203 	ld	c, l
+      0000AE 44                     204 	ld	b, h
+      0000AF AF                     205 	xor	a, a
+      0000B0 02                     206 	ld	(bc), a
+      0000B1 03                     207 	inc	bc
+      0000B2 02                     208 	ld	(bc), a
+                                    209 ;c
+      0000B3 F8 3A                  210 	ldhl	sp,#58
+      0000B5 2A                     211 	ld	a, (hl+)
+      0000B6 5F                     212 	ld	e, a
+      0000B7 56                     213 	ld	d, (hl)
+      0000B8 21 0A 00               214 	ld	hl, #0x000a
+      0000BB 19                     215 	add	hl, de
+      0000BC 4D                     216 	ld	c, l
+      0000BD 44                     217 	ld	b, h
+      0000BE AF                     218 	xor	a, a
+      0000BF 02                     219 	ld	(bc), a
+      0000C0 03                     220 	inc	bc
+      0000C1 02                     221 	ld	(bc), a
+                                    222 ;c
+      0000C2 F8 3A                  223 	ldhl	sp,#58
+      0000C4 2A                     224 	ld	a, (hl+)
+      0000C5 5F                     225 	ld	e, a
+      0000C6 56                     226 	ld	d, (hl)
+      0000C7 21 0C 00               227 	ld	hl, #0x000c
+      0000CA 19                     228 	add	hl, de
+      0000CB 4D                     229 	ld	c, l
+      0000CC 44                     230 	ld	b, h
+      0000CD AF                     231 	xor	a, a
+      0000CE 02                     232 	ld	(bc), a
+      0000CF 03                     233 	inc	bc
+      0000D0 02                     234 	ld	(bc), a
+                                    235 ;src\lines.c:20: short int x1s[7] = { maxx, 0, 0, 0 };
+      0000D1 F8 1C                  236 	ldhl	sp,	#28
+      0000D3 7D                     237 	ld	a, l
+      0000D4 54                     238 	ld	d, h
+      0000D5 F8 3C                  239 	ldhl	sp,	#60
+      0000D7 22                     240 	ld	(hl+), a
+      0000D8 7A                     241 	ld	a, d
+      0000D9 32                     242 	ld	(hl-), a
+      0000DA 2A                     243 	ld	a, (hl+)
+      0000DB 66                     244 	ld	h, (hl)
+      0000DC 6F                     245 	ld	l, a
+      0000DD 3E 9F                  246 	ld	a, #0x9f
+      0000DF 22                     247 	ld	(hl+), a
+      0000E0 36 00                  248 	ld	(hl), #0x00
+      0000E2 F8 3C                  249 	ldhl	sp,	#60
+      0000E4 2A                     250 	ld	a, (hl+)
+      0000E5 66                     251 	ld	h, (hl)
+      0000E6 6F                     252 	ld	l, a
+      0000E7 23                     253 	inc	hl
+      0000E8 23                     254 	inc	hl
+      0000E9 AF                     255 	xor	a, a
+      0000EA 22                     256 	ld	(hl+), a
+      0000EB 77                     257 	ld	(hl), a
+                                    258 ;c
+      0000EC F8 3C                  259 	ldhl	sp,#60
+      0000EE 2A                     260 	ld	a, (hl+)
+      0000EF 5F                     261 	ld	e, a
+      0000F0 56                     262 	ld	d, (hl)
+      0000F1 21 04 00               263 	ld	hl, #0x0004
+      0000F4 19                     264 	add	hl, de
+      0000F5 4D                     265 	ld	c, l
+      0000F6 44                     266 	ld	b, h
+      0000F7 AF                     267 	xor	a, a
+      0000F8 02                     268 	ld	(bc), a
+      0000F9 03                     269 	inc	bc
+      0000FA 02                     270 	ld	(bc), a
+                                    271 ;c
+      0000FB F8 3C                  272 	ldhl	sp,#60
+      0000FD 2A                     273 	ld	a, (hl+)
+      0000FE 5F                     274 	ld	e, a
+      0000FF 56                     275 	ld	d, (hl)
+      000100 21 06 00               276 	ld	hl, #0x0006
+      000103 19                     277 	add	hl, de
+      000104 4D                     278 	ld	c, l
+      000105 44                     279 	ld	b, h
+      000106 AF                     280 	xor	a, a
+      000107 02                     281 	ld	(bc), a
+      000108 03                     282 	inc	bc
+      000109 02                     283 	ld	(bc), a
+                                    284 ;c
+      00010A F8 3C                  285 	ldhl	sp,#60
+      00010C 2A                     286 	ld	a, (hl+)
+      00010D 5F                     287 	ld	e, a
+      00010E 56                     288 	ld	d, (hl)
+      00010F 21 08 00               289 	ld	hl, #0x0008
+      000112 19                     290 	add	hl, de
+      000113 4D                     291 	ld	c, l
+      000114 44                     292 	ld	b, h
+      000115 AF                     293 	xor	a, a
+      000116 02                     294 	ld	(bc), a
+      000117 03                     295 	inc	bc
+      000118 02                     296 	ld	(bc), a
+                                    297 ;c
+      000119 F8 3C                  298 	ldhl	sp,#60
+      00011B 2A                     299 	ld	a, (hl+)
+      00011C 5F                     300 	ld	e, a
+      00011D 56                     301 	ld	d, (hl)
+      00011E 21 0A 00               302 	ld	hl, #0x000a
+      000121 19                     303 	add	hl, de
+      000122 4D                     304 	ld	c, l
+      000123 44                     305 	ld	b, h
+      000124 AF                     306 	xor	a, a
+      000125 02                     307 	ld	(bc), a
+      000126 03                     308 	inc	bc
+      000127 02                     309 	ld	(bc), a
+                                    310 ;c
+      000128 F8 3C                  311 	ldhl	sp,#60
+      00012A 2A                     312 	ld	a, (hl+)
+      00012B 5F                     313 	ld	e, a
+      00012C 56                     314 	ld	d, (hl)
+      00012D 21 0C 00               315 	ld	hl, #0x000c
+      000130 19                     316 	add	hl, de
+      000131 4D                     317 	ld	c, l
+      000132 44                     318 	ld	b, h
+      000133 AF                     319 	xor	a, a
+      000134 02                     320 	ld	(bc), a
+      000135 03                     321 	inc	bc
+      000136 02                     322 	ld	(bc), a
+                                    323 ;src\lines.c:21: short int y1s[7] = { miny, 0, 0, 0 };
+      000137 F8 2A                  324 	ldhl	sp,	#42
+      000139 7D                     325 	ld	a, l
+      00013A 54                     326 	ld	d, h
+      00013B F8 3E                  327 	ldhl	sp,	#62
+      00013D 22                     328 	ld	(hl+), a
+      00013E 7A                     329 	ld	a, d
+      00013F 32                     330 	ld	(hl-), a
+      000140 2A                     331 	ld	a, (hl+)
+      000141 66                     332 	ld	h, (hl)
+      000142 6F                     333 	ld	l, a
+      000143 AF                     334 	xor	a, a
+      000144 22                     335 	ld	(hl+), a
+      000145 77                     336 	ld	(hl), a
+      000146 F8 3E                  337 	ldhl	sp,	#62
+      000148 2A                     338 	ld	a, (hl+)
+      000149 66                     339 	ld	h, (hl)
+      00014A 6F                     340 	ld	l, a
+      00014B 23                     341 	inc	hl
+      00014C 23                     342 	inc	hl
+      00014D AF                     343 	xor	a, a
+      00014E 22                     344 	ld	(hl+), a
+      00014F 77                     345 	ld	(hl), a
+                                    346 ;c
+      000150 F8 3E                  347 	ldhl	sp,#62
+      000152 2A                     348 	ld	a, (hl+)
+      000153 5F                     349 	ld	e, a
+      000154 56                     350 	ld	d, (hl)
+      000155 21 04 00               351 	ld	hl, #0x0004
+      000158 19                     352 	add	hl, de
+      000159 4D                     353 	ld	c, l
+      00015A 44                     354 	ld	b, h
+      00015B AF                     355 	xor	a, a
+      00015C 02                     356 	ld	(bc), a
+      00015D 03                     357 	inc	bc
+      00015E 02                     358 	ld	(bc), a
+                                    359 ;c
+      00015F F8 3E                  360 	ldhl	sp,#62
+      000161 2A                     361 	ld	a, (hl+)
+      000162 5F                     362 	ld	e, a
+      000163 56                     363 	ld	d, (hl)
+      000164 21 06 00               364 	ld	hl, #0x0006
+      000167 19                     365 	add	hl, de
+      000168 4D                     366 	ld	c, l
+      000169 44                     367 	ld	b, h
+      00016A AF                     368 	xor	a, a
+      00016B 02                     369 	ld	(bc), a
+      00016C 03                     370 	inc	bc
+      00016D 02                     371 	ld	(bc), a
+                                    372 ;c
+      00016E F8 3E                  373 	ldhl	sp,#62
+      000170 2A                     374 	ld	a, (hl+)
+      000171 5F                     375 	ld	e, a
+      000172 56                     376 	ld	d, (hl)
+      000173 21 08 00               377 	ld	hl, #0x0008
+      000176 19                     378 	add	hl, de
+      000177 4D                     379 	ld	c, l
+      000178 44                     380 	ld	b, h
+      000179 AF                     381 	xor	a, a
+      00017A 02                     382 	ld	(bc), a
+      00017B 03                     383 	inc	bc
+      00017C 02                     384 	ld	(bc), a
+                                    385 ;c
+      00017D F8 3E                  386 	ldhl	sp,#62
+      00017F 2A                     387 	ld	a, (hl+)
+      000180 5F                     388 	ld	e, a
+      000181 56                     389 	ld	d, (hl)
+      000182 21 0A 00               390 	ld	hl, #0x000a
+      000185 19                     391 	add	hl, de
+      000186 4D                     392 	ld	c, l
+      000187 44                     393 	ld	b, h
+      000188 AF                     394 	xor	a, a
+      000189 02                     395 	ld	(bc), a
+      00018A 03                     396 	inc	bc
+      00018B 02                     397 	ld	(bc), a
+                                    398 ;c
+      00018C F8 3E                  399 	ldhl	sp,#62
+      00018E 2A                     400 	ld	a, (hl+)
+      00018F 5F                     401 	ld	e, a
+      000190 56                     402 	ld	d, (hl)
+      000191 21 0C 00               403 	ld	hl, #0x000c
+      000194 19                     404 	add	hl, de
+      000195 4D                     405 	ld	c, l
+      000196 44                     406 	ld	b, h
+      000197 AF                     407 	xor	a, a
+      000198 02                     408 	ld	(bc), a
+      000199 03                     409 	inc	bc
+      00019A 02                     410 	ld	(bc), a
+                                    411 ;src\lines.c:22: INT8 i = 0;
+      00019B AF                     412 	xor	a, a
+      00019C F8 4C                  413 	ldhl	sp,	#76
+      00019E 77                     414 	ld	(hl), a
+                                    415 ;src\lines.c:24: short int dx0 = 0;
+      00019F AF                     416 	xor	a, a
+      0001A0 F8 53                  417 	ldhl	sp,	#83
+      0001A2 22                     418 	ld	(hl+), a
+                                    419 ;src\lines.c:25: short int dy0 = 4;
+      0001A3 22                     420 	ld	(hl+), a
+      0001A4 36 04                  421 	ld	(hl), #0x04
+      0001A6 AF                     422 	xor	a, a
+      0001A7 23                     423 	inc	hl
+      0001A8 77                     424 	ld	(hl), a
+                                    425 ;src\lines.c:26: short int dx1 = 0;
+      0001A9 AF                     426 	xor	a, a
+      0001AA 23                     427 	inc	hl
+      0001AB 22                     428 	ld	(hl+), a
+                                    429 ;src\lines.c:27: short int dy1 = 4;
+      0001AC 22                     430 	ld	(hl+), a
+      0001AD 36 04                  431 	ld	(hl), #0x04
+      0001AF AF                     432 	xor	a, a
+      0001B0 23                     433 	inc	hl
+                                    434 ;src\lines.c:33: UINT8 col_max = 6;
+      0001B1 22                     435 	ld	(hl+), a
+      0001B2 36 06                  436 	ld	(hl), #0x06
+                                    437 ;src\lines.c:35: while (1)
+      0001B4 AF                     438 	xor	a, a
+      0001B5 23                     439 	inc	hl
+      0001B6 22                     440 	ld	(hl+), a
+      0001B7 77                     441 	ld	(hl), a
+      0001B8                        442 00135$:
+                                    443 ;src\lines.c:37: ++sync;
+      0001B8 F8 5C                  444 	ldhl	sp,	#92
+      0001BA 34                     445 	inc	(hl)
+      0001BB 20 02                  446 	jr	NZ, 00335$
+      0001BD 23                     447 	inc	hl
+      0001BE 34                     448 	inc	(hl)
+      0001BF                        449 00335$:
+                                    450 ;src\lines.c:64: short int x0 = x0s[i];
+      0001BF F8 4C                  451 	ldhl	sp,	#76
+      0001C1 7E                     452 	ld	a, (hl)
+      0001C2 F8 40                  453 	ldhl	sp,	#64
+      0001C4 77                     454 	ld	(hl), a
+      0001C5 17                     455 	rla
+      0001C6 9F                     456 	sbc	a, a
+      0001C7 23                     457 	inc	hl
+      0001C8 32                     458 	ld	(hl-), a
+      0001C9 2A                     459 	ld	a, (hl+)
+      0001CA 4F                     460 	ld	c, a
+      0001CB 46                     461 	ld	b, (hl)
+      0001CC CB 21                  462 	sla	c
+      0001CE CB 10                  463 	rl	b
+      0001D0 F8 38                  464 	ldhl	sp,	#56
+      0001D2 2A                     465 	ld	a, (hl+)
+      0001D3 66                     466 	ld	h, (hl)
+      0001D4 6F                     467 	ld	l, a
+      0001D5 09                     468 	add	hl, bc
+      0001D6 E5                     469 	push	hl
+      0001D7 7D                     470 	ld	a, l
+      0001D8 F8 44                  471 	ldhl	sp,	#68
+      0001DA 77                     472 	ld	(hl), a
+      0001DB E1                     473 	pop	hl
+      0001DC 7C                     474 	ld	a, h
+      0001DD F8 43                  475 	ldhl	sp,	#67
+      0001DF 77                     476 	ld	(hl), a
+                                    477 ;src\lines.c:65: short int y0 = y0s[i];
+      0001E0 F8 3A                  478 	ldhl	sp,	#58
+      0001E2 2A                     479 	ld	a, (hl+)
+      0001E3 66                     480 	ld	h, (hl)
+      0001E4 6F                     481 	ld	l, a
+      0001E5 09                     482 	add	hl, bc
+      0001E6 E5                     483 	push	hl
+      0001E7 7D                     484 	ld	a, l
+      0001E8 F8 46                  485 	ldhl	sp,	#70
+      0001EA 77                     486 	ld	(hl), a
+      0001EB E1                     487 	pop	hl
+      0001EC 7C                     488 	ld	a, h
+      0001ED F8 45                  489 	ldhl	sp,	#69
+      0001EF 77                     490 	ld	(hl), a
+                                    491 ;src\lines.c:66: short int x1 = x1s[i];
+      0001F0 F8 3C                  492 	ldhl	sp,	#60
+      0001F2 2A                     493 	ld	a, (hl+)
+      0001F3 66                     494 	ld	h, (hl)
+      0001F4 6F                     495 	ld	l, a
+      0001F5 09                     496 	add	hl, bc
+      0001F6 E5                     497 	push	hl
+      0001F7 7D                     498 	ld	a, l
+      0001F8 F8 48                  499 	ldhl	sp,	#72
+      0001FA 77                     500 	ld	(hl), a
+      0001FB E1                     501 	pop	hl
+      0001FC 7C                     502 	ld	a, h
+      0001FD F8 47                  503 	ldhl	sp,	#71
+      0001FF 77                     504 	ld	(hl), a
+                                    505 ;src\lines.c:67: short int y1 = y1s[i];
+      000200 F8 3E                  506 	ldhl	sp,	#62
+      000202 2A                     507 	ld	a, (hl+)
+      000203 66                     508 	ld	h, (hl)
+      000204 6F                     509 	ld	l, a
+      000205 09                     510 	add	hl, bc
+      000206 E5                     511 	push	hl
+      000207 7D                     512 	ld	a, l
+      000208 F8 4A                  513 	ldhl	sp,	#74
+      00020A 77                     514 	ld	(hl), a
+      00020B E1                     515 	pop	hl
+      00020C 7C                     516 	ld	a, h
+      00020D F8 49                  517 	ldhl	sp,	#73
+      00020F 77                     518 	ld	(hl), a
+                                    519 ;src\lines.c:38: if (sync==100)
+      000210 F8 5C                  520 	ldhl	sp,	#92
+      000212 7E                     521 	ld	a, (hl)
+      000213 D6 64                  522 	sub	a, #0x64
+      000215 23                     523 	inc	hl
+      000216 B6                     524 	or	a, (hl)
+      000217 20 0F                  525 	jr	NZ, 00113$
+                                    526 ;src\lines.c:40: col_max = 7;
+      000219 F8 5B                  527 	ldhl	sp,	#91
+      00021B 36 07                  528 	ld	(hl), #0x07
+                                    529 ;src\lines.c:41: set_palette(0);
+      00021D 21 00 00               530 	ld	hl, #0x0000
+      000220 E5                     531 	push	hl
+      000221 CDr00r00               532 	call	_set_palette
+      000224 E8 02                  533 	add	sp, #2
+      000226 18 65                  534 	jr	00114$
+      000228                        535 00113$:
+                                    536 ;src\lines.c:43: else if (sync==101)
+      000228 F8 5C                  537 	ldhl	sp,	#92
+      00022A 7E                     538 	ld	a, (hl)
+      00022B D6 65                  539 	sub	a, #0x65
+      00022D 23                     540 	inc	hl
+      00022E B6                     541 	or	a, (hl)
+      00022F 20 0B                  542 	jr	NZ, 00110$
+                                    543 ;src\lines.c:45: set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
+      000231 21 1B 00               544 	ld	hl, #0x001b
+      000234 E5                     545 	push	hl
+      000235 CDr00r00               546 	call	_set_palette
+      000238 E8 02                  547 	add	sp, #2
+      00023A 18 51                  548 	jr	00114$
+      00023C                        549 00110$:
+                                    550 ;src\lines.c:47: else if (sync==205)
+      00023C F8 5C                  551 	ldhl	sp,	#92
+      00023E 7E                     552 	ld	a, (hl)
+      00023F D6 CD                  553 	sub	a, #0xcd
+      000241 23                     554 	inc	hl
+      000242 B6                     555 	or	a, (hl)
+      000243 20 19                  556 	jr	NZ, 00107$
+                                    557 ;src\lines.c:49: dx0 = -4;
+      000245 F8 53                  558 	ldhl	sp,	#83
+      000247 3E FC                  559 	ld	a, #0xfc
+      000249 22                     560 	ld	(hl+), a
+                                    561 ;src\lines.c:50: dy0 = 3;
+      00024A 3E FF                  562 	ld	a, #0xff
+      00024C 22                     563 	ld	(hl+), a
+      00024D 36 03                  564 	ld	(hl), #0x03
+      00024F AF                     565 	xor	a, a
+      000250 23                     566 	inc	hl
+                                    567 ;src\lines.c:51: dx1 = 2;
+      000251 22                     568 	ld	(hl+), a
+      000252 36 02                  569 	ld	(hl), #0x02
+      000254 AF                     570 	xor	a, a
+      000255 23                     571 	inc	hl
+                                    572 ;src\lines.c:52: dy1 = -3;
+      000256 22                     573 	ld	(hl+), a
+      000257 3E FD                  574 	ld	a, #0xfd
+      000259 22                     575 	ld	(hl+), a
+      00025A 36 FF                  576 	ld	(hl), #0xff
+      00025C 18 2F                  577 	jr	00114$
+      00025E                        578 00107$:
+                                    579 ;src\lines.c:54: else if (sync==270)
+      00025E F8 5C                  580 	ldhl	sp,	#92
+      000260 7E                     581 	ld	a, (hl)
+      000261 D6 0E                  582 	sub	a, #0x0e
+      000263 20 10                  583 	jr	NZ, 00104$
+      000265 23                     584 	inc	hl
+      000266 7E                     585 	ld	a, (hl)
+      000267 3D                     586 	dec	a
+      000268 20 0B                  587 	jr	NZ, 00104$
+                                    588 ;src\lines.c:56: set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
+      00026A 21 E4 00               589 	ld	hl, #0x00e4
+      00026D E5                     590 	push	hl
+      00026E CDr00r00               591 	call	_set_palette
+      000271 E8 02                  592 	add	sp, #2
+      000273 18 18                  593 	jr	00114$
+      000275                        594 00104$:
+                                    595 ;src\lines.c:58: else if (sync==380)
+      000275 F8 5C                  596 	ldhl	sp,	#92
+      000277 7E                     597 	ld	a, (hl)
+      000278 D6 7C                  598 	sub	a, #0x7c
+      00027A 20 11                  599 	jr	NZ, 00114$
+      00027C 23                     600 	inc	hl
+      00027D 7E                     601 	ld	a, (hl)
+      00027E 3D                     602 	dec	a
+      00027F 20 0C                  603 	jr	NZ, 00114$
+                                    604 ;src\lines.c:60: set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
+      000281 21 1B 00               605 	ld	hl, #0x001b
+      000284 E5                     606 	push	hl
+      000285 CDr00r00               607 	call	_set_palette
+      000288 E8 02                  608 	add	sp, #2
+                                    609 ;src\lines.c:61: break;
+      00028A C3r26r06               610 	jp	00195$
+      00028D                        611 00114$:
+                                    612 ;src\lines.c:64: short int x0 = x0s[i];
+      00028D F8 42                  613 	ldhl	sp,#66
+      00028F 2A                     614 	ld	a, (hl+)
+      000290 5F                     615 	ld	e, a
+      000291 56                     616 	ld	d, (hl)
+      000292 1A                     617 	ld	a, (de)
+      000293 F8 51                  618 	ldhl	sp,	#81
+      000295 22                     619 	ld	(hl+), a
+      000296 13                     620 	inc	de
+      000297 1A                     621 	ld	a, (de)
+      000298 77                     622 	ld	(hl), a
+                                    623 ;src\lines.c:65: short int y0 = y0s[i];
+      000299 F8 44                  624 	ldhl	sp,#68
+      00029B 2A                     625 	ld	a, (hl+)
+      00029C 5F                     626 	ld	e, a
+      00029D 56                     627 	ld	d, (hl)
+      00029E 1A                     628 	ld	a, (de)
+      00029F F8 4F                  629 	ldhl	sp,	#79
+      0002A1 22                     630 	ld	(hl+), a
+      0002A2 13                     631 	inc	de
+      0002A3 1A                     632 	ld	a, (de)
+      0002A4 77                     633 	ld	(hl), a
+                                    634 ;src\lines.c:66: short int x1 = x1s[i];
+      0002A5 F8 46                  635 	ldhl	sp,#70
+      0002A7 2A                     636 	ld	a, (hl+)
+      0002A8 5F                     637 	ld	e, a
+      0002A9 56                     638 	ld	d, (hl)
+      0002AA 1A                     639 	ld	a, (de)
+      0002AB F8 4D                  640 	ldhl	sp,	#77
+      0002AD 22                     641 	ld	(hl+), a
+      0002AE 13                     642 	inc	de
+      0002AF 1A                     643 	ld	a, (de)
+      0002B0 77                     644 	ld	(hl), a
+                                    645 ;src\lines.c:67: short int y1 = y1s[i];
+      0002B1 F8 48                  646 	ldhl	sp,#72
+      0002B3 2A                     647 	ld	a, (hl+)
+      0002B4 5F                     648 	ld	e, a
+      0002B5 56                     649 	ld	d, (hl)
+      0002B6 1A                     650 	ld	a, (de)
+      0002B7 23                     651 	inc	hl
+      0002B8 23                     652 	inc	hl
+      0002B9 22                     653 	ld	(hl+), a
+      0002BA 13                     654 	inc	de
+      0002BB 1A                     655 	ld	a, (de)
+      0002BC 77                     656 	ld	(hl), a
+                                    657 ;src\lines.c:69: if (x0+dx0<minx || x0+dx0>maxx) dx0 = -dx0; x0 += dx0;
+                                    658 ;c
+      0002BD F8 51                  659 	ldhl	sp,#81
+      0002BF 2A                     660 	ld	a, (hl+)
+      0002C0 5F                     661 	ld	e, a
+      0002C1 2A                     662 	ld	a, (hl+)
+      0002C2 57                     663 	ld	d, a
+      0002C3 2A                     664 	ld	a, (hl+)
+      0002C4 66                     665 	ld	h, (hl)
+      0002C5 6F                     666 	ld	l, a
+      0002C6 19                     667 	add	hl, de
+      0002C7 4D                     668 	ld	c, l
+      0002C8 44                     669 	ld	b, h
+      0002C9 CB 78                  670 	bit	7, b
+      0002CB 20 1B                  671 	jr	NZ, 00115$
+      0002CD 58                     672 	ld	e, b
+      0002CE 16 00                  673 	ld	d, #0x00
+      0002D0 3E 9F                  674 	ld	a, #0x9f
+      0002D2 B9                     675 	cp	a, c
+      0002D3 3E 00                  676 	ld	a, #0x00
+      0002D5 98                     677 	sbc	a, b
+      0002D6 CB 7B                  678 	bit	7, e
+      0002D8 28 07                  679 	jr	Z, 00347$
+      0002DA CB 7A                  680 	bit	7, d
+      0002DC 20 08                  681 	jr	NZ, 00348$
+      0002DE BF                     682 	cp	a, a
+      0002DF 18 05                  683 	jr	00348$
+      0002E1                        684 00347$:
+      0002E1 CB 7A                  685 	bit	7, d
+      0002E3 28 01                  686 	jr	Z, 00348$
+      0002E5 37                     687 	scf
+      0002E6                        688 00348$:
+      0002E6 30 11                  689 	jr	NC, 00116$
+      0002E8                        690 00115$:
+      0002E8 11 00 00               691 	ld	de, #0x0000
+      0002EB F8 53                  692 	ldhl	sp,	#83
+      0002ED 2A                     693 	ld	a, (hl+)
+      0002EE 66                     694 	ld	h, (hl)
+      0002EF 6F                     695 	ld	l, a
+      0002F0 7B                     696 	ld	a, e
+      0002F1 95                     697 	sub	a, l
+      0002F2 5F                     698 	ld	e, a
+      0002F3 7A                     699 	ld	a, d
+      0002F4 9C                     700 	sbc	a, h
+      0002F5 F8 54                  701 	ldhl	sp,	#84
+      0002F7 32                     702 	ld	(hl-), a
+      0002F8 73                     703 	ld	(hl), e
+      0002F9                        704 00116$:
+                                    705 ;c
+      0002F9 F8 51                  706 	ldhl	sp,#81
+      0002FB 2A                     707 	ld	a, (hl+)
+      0002FC 5F                     708 	ld	e, a
+      0002FD 2A                     709 	ld	a, (hl+)
+      0002FE 57                     710 	ld	d, a
+      0002FF 2A                     711 	ld	a, (hl+)
+      000300 66                     712 	ld	h, (hl)
+      000301 6F                     713 	ld	l, a
+      000302 19                     714 	add	hl, de
+      000303 4D                     715 	ld	c, l
+      000304 44                     716 	ld	b, h
+      000305 F8 51                  717 	ldhl	sp,	#81
+      000307 79                     718 	ld	a, c
+      000308 22                     719 	ld	(hl+), a
+                                    720 ;src\lines.c:70: if (y0+dy0<miny || y0+dy0>maxy) dy0 = -dy0; y0 += dy0;
+                                    721 ;c
+      000309 78                     722 	ld	a, b
+      00030A 32                     723 	ld	(hl-), a
+      00030B 2B                     724 	dec	hl
+      00030C 2B                     725 	dec	hl
+      00030D 2A                     726 	ld	a, (hl+)
+      00030E 5F                     727 	ld	e, a
+      00030F 56                     728 	ld	d, (hl)
+      000310 F8 55                  729 	ldhl	sp,	#85
+      000312 2A                     730 	ld	a, (hl+)
+      000313 66                     731 	ld	h, (hl)
+      000314 6F                     732 	ld	l, a
+      000315 19                     733 	add	hl, de
+      000316 4D                     734 	ld	c, l
+      000317 44                     735 	ld	b, h
+      000318 CB 78                  736 	bit	7, b
+      00031A 20 1B                  737 	jr	NZ, 00118$
+      00031C 58                     738 	ld	e, b
+      00031D 16 00                  739 	ld	d, #0x00
+      00031F 3E 8E                  740 	ld	a, #0x8e
+      000321 B9                     741 	cp	a, c
+      000322 3E 00                  742 	ld	a, #0x00
+      000324 98                     743 	sbc	a, b
+      000325 CB 7B                  744 	bit	7, e
+      000327 28 07                  745 	jr	Z, 00349$
+      000329 CB 7A                  746 	bit	7, d
+      00032B 20 08                  747 	jr	NZ, 00350$
+      00032D BF                     748 	cp	a, a
+      00032E 18 05                  749 	jr	00350$
+      000330                        750 00349$:
+      000330 CB 7A                  751 	bit	7, d
+      000332 28 01                  752 	jr	Z, 00350$
+      000334 37                     753 	scf
+      000335                        754 00350$:
+      000335 30 11                  755 	jr	NC, 00119$
+      000337                        756 00118$:
+      000337 11 00 00               757 	ld	de, #0x0000
+      00033A F8 55                  758 	ldhl	sp,	#85
+      00033C 2A                     759 	ld	a, (hl+)
+      00033D 66                     760 	ld	h, (hl)
+      00033E 6F                     761 	ld	l, a
+      00033F 7B                     762 	ld	a, e
+      000340 95                     763 	sub	a, l
+      000341 5F                     764 	ld	e, a
+      000342 7A                     765 	ld	a, d
+      000343 9C                     766 	sbc	a, h
+      000344 F8 56                  767 	ldhl	sp,	#86
+      000346 32                     768 	ld	(hl-), a
+      000347 73                     769 	ld	(hl), e
+      000348                        770 00119$:
+                                    771 ;c
+      000348 F8 4F                  772 	ldhl	sp,#79
+      00034A 2A                     773 	ld	a, (hl+)
+      00034B 5F                     774 	ld	e, a
+      00034C 56                     775 	ld	d, (hl)
+      00034D F8 55                  776 	ldhl	sp,	#85
+      00034F 2A                     777 	ld	a, (hl+)
+      000350 66                     778 	ld	h, (hl)
+      000351 6F                     779 	ld	l, a
+      000352 19                     780 	add	hl, de
+      000353 4D                     781 	ld	c, l
+      000354 44                     782 	ld	b, h
+      000355 F8 4F                  783 	ldhl	sp,	#79
+      000357 79                     784 	ld	a, c
+      000358 22                     785 	ld	(hl+), a
+                                    786 ;src\lines.c:71: if (x1+dx1<minx || x1+dx1>maxx) dx1 = -dx1; x1 += dx1;
+                                    787 ;c
+      000359 78                     788 	ld	a, b
+      00035A 32                     789 	ld	(hl-), a
+      00035B 2B                     790 	dec	hl
+      00035C 2B                     791 	dec	hl
+      00035D 2A                     792 	ld	a, (hl+)
+      00035E 5F                     793 	ld	e, a
+      00035F 56                     794 	ld	d, (hl)
+      000360 F8 57                  795 	ldhl	sp,	#87
+      000362 2A                     796 	ld	a, (hl+)
+      000363 66                     797 	ld	h, (hl)
+      000364 6F                     798 	ld	l, a
+      000365 19                     799 	add	hl, de
+      000366 4D                     800 	ld	c, l
+      000367 44                     801 	ld	b, h
+      000368 CB 78                  802 	bit	7, b
+      00036A 20 1B                  803 	jr	NZ, 00121$
+      00036C 58                     804 	ld	e, b
+      00036D 16 00                  805 	ld	d, #0x00
+      00036F 3E 9F                  806 	ld	a, #0x9f
+      000371 B9                     807 	cp	a, c
+      000372 3E 00                  808 	ld	a, #0x00
+      000374 98                     809 	sbc	a, b
+      000375 CB 7B                  810 	bit	7, e
+      000377 28 07                  811 	jr	Z, 00351$
+      000379 CB 7A                  812 	bit	7, d
+      00037B 20 08                  813 	jr	NZ, 00352$
+      00037D BF                     814 	cp	a, a
+      00037E 18 05                  815 	jr	00352$
+      000380                        816 00351$:
+      000380 CB 7A                  817 	bit	7, d
+      000382 28 01                  818 	jr	Z, 00352$
+      000384 37                     819 	scf
+      000385                        820 00352$:
+      000385 30 11                  821 	jr	NC, 00122$
+      000387                        822 00121$:
+      000387 11 00 00               823 	ld	de, #0x0000
+      00038A F8 57                  824 	ldhl	sp,	#87
+      00038C 2A                     825 	ld	a, (hl+)
+      00038D 66                     826 	ld	h, (hl)
+      00038E 6F                     827 	ld	l, a
+      00038F 7B                     828 	ld	a, e
+      000390 95                     829 	sub	a, l
+      000391 5F                     830 	ld	e, a
+      000392 7A                     831 	ld	a, d
+      000393 9C                     832 	sbc	a, h
+      000394 F8 58                  833 	ldhl	sp,	#88
+      000396 32                     834 	ld	(hl-), a
+      000397 73                     835 	ld	(hl), e
+      000398                        836 00122$:
+                                    837 ;c
+      000398 F8 4D                  838 	ldhl	sp,#77
+      00039A 2A                     839 	ld	a, (hl+)
+      00039B 5F                     840 	ld	e, a
+      00039C 56                     841 	ld	d, (hl)
+      00039D F8 57                  842 	ldhl	sp,	#87
+      00039F 2A                     843 	ld	a, (hl+)
+      0003A0 66                     844 	ld	h, (hl)
+      0003A1 6F                     845 	ld	l, a
+      0003A2 19                     846 	add	hl, de
+      0003A3 4D                     847 	ld	c, l
+      0003A4 44                     848 	ld	b, h
+      0003A5 F8 4D                  849 	ldhl	sp,	#77
+      0003A7 79                     850 	ld	a, c
+      0003A8 22                     851 	ld	(hl+), a
+                                    852 ;src\lines.c:72: if (y1+dy1<miny || y1+dy1>maxy) dy1 = -dy1; y1 += dy1;
+                                    853 ;c
+      0003A9 78                     854 	ld	a, b
+      0003AA 32                     855 	ld	(hl-), a
+      0003AB 2B                     856 	dec	hl
+      0003AC 2B                     857 	dec	hl
+      0003AD 2A                     858 	ld	a, (hl+)
+      0003AE 5F                     859 	ld	e, a
+      0003AF 56                     860 	ld	d, (hl)
+      0003B0 F8 59                  861 	ldhl	sp,	#89
+      0003B2 2A                     862 	ld	a, (hl+)
+      0003B3 66                     863 	ld	h, (hl)
+      0003B4 6F                     864 	ld	l, a
+      0003B5 19                     865 	add	hl, de
+      0003B6 4D                     866 	ld	c, l
+      0003B7 44                     867 	ld	b, h
+      0003B8 CB 78                  868 	bit	7, b
+      0003BA 20 1B                  869 	jr	NZ, 00124$
+      0003BC 58                     870 	ld	e, b
+      0003BD 16 00                  871 	ld	d, #0x00
+      0003BF 3E 8E                  872 	ld	a, #0x8e
+      0003C1 B9                     873 	cp	a, c
+      0003C2 3E 00                  874 	ld	a, #0x00
+      0003C4 98                     875 	sbc	a, b
+      0003C5 CB 7B                  876 	bit	7, e
+      0003C7 28 07                  877 	jr	Z, 00353$
+      0003C9 CB 7A                  878 	bit	7, d
+      0003CB 20 08                  879 	jr	NZ, 00354$
+      0003CD BF                     880 	cp	a, a
+      0003CE 18 05                  881 	jr	00354$
+      0003D0                        882 00353$:
+      0003D0 CB 7A                  883 	bit	7, d
+      0003D2 28 01                  884 	jr	Z, 00354$
+      0003D4 37                     885 	scf
+      0003D5                        886 00354$:
+      0003D5 30 11                  887 	jr	NC, 00125$
+      0003D7                        888 00124$:
+      0003D7 11 00 00               889 	ld	de, #0x0000
+      0003DA F8 59                  890 	ldhl	sp,	#89
+      0003DC 2A                     891 	ld	a, (hl+)
+      0003DD 66                     892 	ld	h, (hl)
+      0003DE 6F                     893 	ld	l, a
+      0003DF 7B                     894 	ld	a, e
+      0003E0 95                     895 	sub	a, l
+      0003E1 5F                     896 	ld	e, a
+      0003E2 7A                     897 	ld	a, d
+      0003E3 9C                     898 	sbc	a, h
+      0003E4 F8 5A                  899 	ldhl	sp,	#90
+      0003E6 32                     900 	ld	(hl-), a
+      0003E7 73                     901 	ld	(hl), e
+      0003E8                        902 00125$:
+                                    903 ;c
+      0003E8 F8 4B                  904 	ldhl	sp,#75
+      0003EA 2A                     905 	ld	a, (hl+)
+      0003EB 5F                     906 	ld	e, a
+      0003EC 56                     907 	ld	d, (hl)
+      0003ED F8 59                  908 	ldhl	sp,	#89
+      0003EF 2A                     909 	ld	a, (hl+)
+      0003F0 66                     910 	ld	h, (hl)
+      0003F1 6F                     911 	ld	l, a
+      0003F2 19                     912 	add	hl, de
+      0003F3 4D                     913 	ld	c, l
+      0003F4 44                     914 	ld	b, h
+      0003F5 F8 47                  915 	ldhl	sp,	#71
+      0003F7 79                     916 	ld	a, c
+      0003F8 22                     917 	ld	(hl+), a
+      0003F9 70                     918 	ld	(hl), b
+                                    919 ;src\lines.c:74: if (sync>300)
+      0003FA F8 5C                  920 	ldhl	sp,	#92
+      0003FC 3E 2C                  921 	ld	a, #0x2c
+      0003FE 96                     922 	sub	a, (hl)
+      0003FF 23                     923 	inc	hl
+      000400 3E 01                  924 	ld	a, #0x01
+      000402 9E                     925 	sbc	a, (hl)
+      000403 D2rDBr04               926 	jp	NC, 00132$
+                                    927 ;src\lines.c:76: w = abs(x0-x1);
+      000406 F8 51                  928 	ldhl	sp,	#81
+      000408 7E                     929 	ld	a, (hl)
+      000409 F8 4B                  930 	ldhl	sp,	#75
+      00040B 22                     931 	ld	(hl+), a
+      00040C 23                     932 	inc	hl
+      00040D 3A                     933 	ld	a, (hl-)
+      00040E 32                     934 	ld	(hl-), a
+      00040F 2A                     935 	ld	a, (hl+)
+      000410 96                     936 	sub	a, (hl)
+      000411 F5                     937 	push	af
+      000412 33                     938 	inc	sp
+      000413 CDr00r00               939 	call	_abs
+      000416 33                     940 	inc	sp
+      000417 F8 49                  941 	ldhl	sp,	#73
+      000419 73                     942 	ld	(hl), e
+                                    943 ;src\lines.c:77: h = abs(y0-y1);
+      00041A F8 4F                  944 	ldhl	sp,	#79
+      00041C 7E                     945 	ld	a, (hl)
+      00041D F8 47                  946 	ldhl	sp,	#71
+      00041F 4E                     947 	ld	c, (hl)
+      000420 91                     948 	sub	a, c
+      000421 F5                     949 	push	af
+      000422 33                     950 	inc	sp
+      000423 CDr00r00               951 	call	_abs
+      000426 33                     952 	inc	sp
+      000427 F8 4A                  953 	ldhl	sp,	#74
+                                    954 ;src\lines.c:79: if (w>max_length) x1 = x0 + (x1-x0)*max_length/w;
+      000429 7B                     955 	ld	a, e
+      00042A 32                     956 	ld	(hl-), a
+      00042B 5E                     957 	ld	e, (hl)
+      00042C 3E 28                  958 	ld	a,#0x28
+      00042E 57                     959 	ld	d,a
+      00042F 96                     960 	sub	a, (hl)
+      000430 CB 7B                  961 	bit	7, e
+      000432 28 07                  962 	jr	Z, 00355$
+      000434 CB 7A                  963 	bit	7, d
+      000436 20 08                  964 	jr	NZ, 00356$
+      000438 BF                     965 	cp	a, a
+      000439 18 05                  966 	jr	00356$
+      00043B                        967 00355$:
+      00043B CB 7A                  968 	bit	7, d
+      00043D 28 01                  969 	jr	Z, 00356$
+      00043F 37                     970 	scf
+      000440                        971 00356$:
+      000440 30 4A                  972 	jr	NC, 00128$
+      000442 F8 4D                  973 	ldhl	sp,#77
+      000444 2A                     974 	ld	a, (hl+)
+      000445 5F                     975 	ld	e, a
+      000446 56                     976 	ld	d, (hl)
+      000447 F8 51                  977 	ldhl	sp,	#81
+      000449 2A                     978 	ld	a, (hl+)
+      00044A 66                     979 	ld	h, (hl)
+      00044B 6F                     980 	ld	l, a
+      00044C 7B                     981 	ld	a, e
+      00044D 95                     982 	sub	a, l
+      00044E 5F                     983 	ld	e, a
+      00044F 7A                     984 	ld	a, d
+      000450 9C                     985 	sbc	a, h
+      000451 F8 4C                  986 	ldhl	sp,	#76
+      000453 32                     987 	ld	(hl-), a
+      000454 7B                     988 	ld	a, e
+      000455 22                     989 	ld	(hl+), a
+      000456 2B                     990 	dec	hl
+      000457 2A                     991 	ld	a, (hl+)
+      000458 4F                     992 	ld	c, a
+      000459 46                     993 	ld	b, (hl)
+      00045A 69                     994 	ld	l, c
+      00045B 60                     995 	ld	h, b
+      00045C 29                     996 	add	hl, hl
+      00045D 29                     997 	add	hl, hl
+      00045E 09                     998 	add	hl, bc
+      00045F 29                     999 	add	hl, hl
+      000460 29                    1000 	add	hl, hl
+      000461 29                    1001 	add	hl, hl
+      000462 E5                    1002 	push	hl
+      000463 7D                    1003 	ld	a, l
+      000464 F8 4F                 1004 	ldhl	sp,	#79
+      000466 77                    1005 	ld	(hl), a
+      000467 E1                    1006 	pop	hl
+      000468 7C                    1007 	ld	a, h
+      000469 F8 4E                 1008 	ldhl	sp,	#78
+      00046B 77                    1009 	ld	(hl), a
+      00046C F8 49                 1010 	ldhl	sp,	#73
+      00046E 7E                    1011 	ld	a, (hl)
+      00046F 4F                    1012 	ld	c, a
+      000470 17                    1013 	rla
+      000471 9F                    1014 	sbc	a, a
+      000472 47                    1015 	ld	b, a
+      000473 C5                    1016 	push	bc
+      000474 F8 4F                 1017 	ldhl	sp,	#79
+      000476 2A                    1018 	ld	a, (hl+)
+      000477 66                    1019 	ld	h, (hl)
+      000478 6F                    1020 	ld	l, a
+      000479 E5                    1021 	push	hl
+      00047A CDr00r00              1022 	call	__divsint
+      00047D E8 04                 1023 	add	sp, #4
+                                   1024 ;c
+      00047F F8 51                 1025 	ldhl	sp,	#81
+      000481 2A                    1026 	ld	a, (hl+)
+      000482 66                    1027 	ld	h, (hl)
+      000483 6F                    1028 	ld	l, a
+      000484 19                    1029 	add	hl, de
+      000485 4D                    1030 	ld	c, l
+      000486 44                    1031 	ld	b, h
+      000487 F8 4D                 1032 	ldhl	sp,	#77
+      000489 79                    1033 	ld	a, c
+      00048A 22                    1034 	ld	(hl+), a
+      00048B 70                    1035 	ld	(hl), b
+      00048C                       1036 00128$:
+                                   1037 ;src\lines.c:80: if (h>max_length) y1 = y0 + (y1-y0)*max_length/h;
+      00048C F8 4A                 1038 	ldhl	sp,	#74
+      00048E 5E                    1039 	ld	e, (hl)
+      00048F 3E 28                 1040 	ld	a,#0x28
+      000491 57                    1041 	ld	d,a
+      000492 96                    1042 	sub	a, (hl)
+      000493 CB 7B                 1043 	bit	7, e
+      000495 28 07                 1044 	jr	Z, 00357$
+      000497 CB 7A                 1045 	bit	7, d
+      000499 20 08                 1046 	jr	NZ, 00358$
+      00049B BF                    1047 	cp	a, a
+      00049C 18 05                 1048 	jr	00358$
+      00049E                       1049 00357$:
+      00049E CB 7A                 1050 	bit	7, d
+      0004A0 28 01                 1051 	jr	Z, 00358$
+      0004A2 37                    1052 	scf
+      0004A3                       1053 00358$:
+      0004A3 30 36                 1054 	jr	NC, 00132$
+      0004A5 F8 47                 1055 	ldhl	sp,#71
+      0004A7 2A                    1056 	ld	a, (hl+)
+      0004A8 5F                    1057 	ld	e, a
+      0004A9 56                    1058 	ld	d, (hl)
+      0004AA F8 4F                 1059 	ldhl	sp,	#79
+      0004AC 2A                    1060 	ld	a, (hl+)
+      0004AD 66                    1061 	ld	h, (hl)
+      0004AE 6F                    1062 	ld	l, a
+      0004AF 7B                    1063 	ld	a, e
+      0004B0 95                    1064 	sub	a, l
+      0004B1 5F                    1065 	ld	e, a
+      0004B2 7A                    1066 	ld	a, d
+      0004B3 9C                    1067 	sbc	a, h
+      0004B4 47                    1068 	ld	b, a
+      0004B5 4B                    1069 	ld	c, e
+      0004B6 69                    1070 	ld	l, c
+      0004B7 60                    1071 	ld	h, b
+      0004B8 29                    1072 	add	hl, hl
+      0004B9 29                    1073 	add	hl, hl
+      0004BA 09                    1074 	add	hl, bc
+      0004BB 29                    1075 	add	hl, hl
+      0004BC 29                    1076 	add	hl, hl
+      0004BD 29                    1077 	add	hl, hl
+      0004BE 4D                    1078 	ld	c, l
+      0004BF 44                    1079 	ld	b, h
+      0004C0 F8 4A                 1080 	ldhl	sp,	#74
+      0004C2 7E                    1081 	ld	a, (hl)
+      0004C3 5F                    1082 	ld	e, a
+      0004C4 17                    1083 	rla
+      0004C5 9F                    1084 	sbc	a, a
+      0004C6 57                    1085 	ld	d, a
+      0004C7 D5                    1086 	push	de
+      0004C8 C5                    1087 	push	bc
+      0004C9 CDr00r00              1088 	call	__divsint
+      0004CC E8 04                 1089 	add	sp, #4
+                                   1090 ;c
+      0004CE F8 4F                 1091 	ldhl	sp,	#79
+      0004D0 2A                    1092 	ld	a, (hl+)
+      0004D1 66                    1093 	ld	h, (hl)
+      0004D2 6F                    1094 	ld	l, a
+      0004D3 19                    1095 	add	hl, de
+      0004D4 4D                    1096 	ld	c, l
+      0004D5 44                    1097 	ld	b, h
+      0004D6 F8 47                 1098 	ldhl	sp,	#71
+      0004D8 79                    1099 	ld	a, c
+      0004D9 22                    1100 	ld	(hl+), a
+      0004DA 70                    1101 	ld	(hl), b
+      0004DB                       1102 00132$:
+                                   1103 ;src\lines.c:83: i = (i+1)%7;
+      0004DB F8 40                 1104 	ldhl	sp,	#64
+      0004DD 2A                    1105 	ld	a, (hl+)
+      0004DE 66                    1106 	ld	h, (hl)
+      0004DF 6F                    1107 	ld	l, a
+      0004E0 23                    1108 	inc	hl
+      0004E1 11 07 00              1109 	ld	de, #0x0007
+      0004E4 D5                    1110 	push	de
+      0004E5 E5                    1111 	push	hl
+      0004E6 CDr00r00              1112 	call	__modsint
+      0004E9 E8 04                 1113 	add	sp, #4
+      0004EB F8 4C                 1114 	ldhl	sp,	#76
+      0004ED 73                    1115 	ld	(hl), e
+                                   1116 ;src\lines.c:84: x0s[i] = x0;
+      0004EE 3A                    1117 	ld	a, (hl-)
+      0004EF 2B                    1118 	dec	hl
+      0004F0 77                    1119 	ld	(hl), a
+      0004F1 17                    1120 	rla
+      0004F2 9F                    1121 	sbc	a, a
+      0004F3 23                    1122 	inc	hl
+      0004F4 32                    1123 	ld	(hl-), a
+      0004F5 2A                    1124 	ld	a, (hl+)
+      0004F6 4F                    1125 	ld	c, a
+      0004F7 46                    1126 	ld	b, (hl)
+      0004F8 CB 21                 1127 	sla	c
+      0004FA CB 10                 1128 	rl	b
+      0004FC F8 38                 1129 	ldhl	sp,	#56
+      0004FE 2A                    1130 	ld	a, (hl+)
+      0004FF 66                    1131 	ld	h, (hl)
+      000500 6F                    1132 	ld	l, a
+      000501 09                    1133 	add	hl, bc
+      000502 5D                    1134 	ld	e, l
+      000503 54                    1135 	ld	d, h
+      000504 F8 51                 1136 	ldhl	sp,	#81
+      000506 7E                    1137 	ld	a, (hl)
+      000507 12                    1138 	ld	(de), a
+      000508 13                    1139 	inc	de
+      000509 23                    1140 	inc	hl
+      00050A 7E                    1141 	ld	a, (hl)
+      00050B 12                    1142 	ld	(de), a
+                                   1143 ;src\lines.c:85: y0s[i] = y0;
+      00050C F8 3A                 1144 	ldhl	sp,	#58
+      00050E 2A                    1145 	ld	a, (hl+)
+      00050F 66                    1146 	ld	h, (hl)
+      000510 6F                    1147 	ld	l, a
+      000511 09                    1148 	add	hl, bc
+      000512 5D                    1149 	ld	e, l
+      000513 54                    1150 	ld	d, h
+      000514 F8 4F                 1151 	ldhl	sp,	#79
+      000516 7E                    1152 	ld	a, (hl)
+      000517 12                    1153 	ld	(de), a
+      000518 13                    1154 	inc	de
+      000519 23                    1155 	inc	hl
+      00051A 7E                    1156 	ld	a, (hl)
+      00051B 12                    1157 	ld	(de), a
+                                   1158 ;src\lines.c:86: x1s[i] = x1;
+      00051C F8 3C                 1159 	ldhl	sp,	#60
+      00051E 2A                    1160 	ld	a, (hl+)
+      00051F 66                    1161 	ld	h, (hl)
+      000520 6F                    1162 	ld	l, a
+      000521 09                    1163 	add	hl, bc
+      000522 5D                    1164 	ld	e, l
+      000523 54                    1165 	ld	d, h
+      000524 F8 4D                 1166 	ldhl	sp,	#77
+      000526 7E                    1167 	ld	a, (hl)
+      000527 12                    1168 	ld	(de), a
+      000528 13                    1169 	inc	de
+      000529 23                    1170 	inc	hl
+      00052A 7E                    1171 	ld	a, (hl)
+      00052B 12                    1172 	ld	(de), a
+                                   1173 ;src\lines.c:87: y1s[i] = y1;
+      00052C F8 3E                 1174 	ldhl	sp,	#62
+      00052E 2A                    1175 	ld	a, (hl+)
+      00052F 66                    1176 	ld	h, (hl)
+      000530 6F                    1177 	ld	l, a
+      000531 09                    1178 	add	hl, bc
+      000532 4D                    1179 	ld	c, l
+      000533 44                    1180 	ld	b, h
+      000534 F8 47                 1181 	ldhl	sp,	#71
+      000536 2A                    1182 	ld	a, (hl+)
+      000537 02                    1183 	ld	(bc), a
+      000538 03                    1184 	inc	bc
+      000539 7E                    1185 	ld	a, (hl)
+      00053A 02                    1186 	ld	(bc), a
+                                   1187 ;src\lines.c:89: for (INT8 j=i-6 ; j<=i ; ++j)
+      00053B F8 4C                 1188 	ldhl	sp,	#76
+      00053D 7E                    1189 	ld	a, (hl)
+      00053E C6 FA                 1190 	add	a, #0xfa
+      000540 F8 52                 1191 	ldhl	sp,	#82
+      000542 77                    1192 	ld	(hl), a
+      000543                       1193 00159$:
+      000543 F8 52                 1194 	ldhl	sp,	#82
+      000545 5E                    1195 	ld	e, (hl)
+      000546 F8 4C                 1196 	ldhl	sp,	#76
+      000548 56                    1197 	ld	d, (hl)
+      000549 7E                    1198 	ld	a, (hl)
+      00054A F8 52                 1199 	ldhl	sp,	#82
+      00054C 96                    1200 	sub	a, (hl)
+      00054D CB 7B                 1201 	bit	7, e
+      00054F 28 07                 1202 	jr	Z, 00360$
+      000551 CB 7A                 1203 	bit	7, d
+      000553 20 08                 1204 	jr	NZ, 00361$
+      000555 BF                    1205 	cp	a, a
+      000556 18 05                 1206 	jr	00361$
+      000558                       1207 00360$:
+      000558 CB 7A                 1208 	bit	7, d
+      00055A 28 01                 1209 	jr	Z, 00361$
+      00055C 37                    1210 	scf
+      00055D                       1211 00361$:
+      00055D DArB8r01              1212 	jp	C, 00135$
+                                   1213 ;src\lines.c:91: INT8 col = 3-(((i-j)%7)*3/col_max);
+      000560 F8 52                 1214 	ldhl	sp,	#82
+      000562 7E                    1215 	ld	a, (hl)
+      000563 4F                    1216 	ld	c, a
+      000564 17                    1217 	rla
+      000565 9F                    1218 	sbc	a, a
+      000566 47                    1219 	ld	b, a
+      000567 F8 4A                 1220 	ldhl	sp,#74
+      000569 2A                    1221 	ld	a, (hl+)
+      00056A 5F                    1222 	ld	e, a
+      00056B 56                    1223 	ld	d, (hl)
+      00056C 7B                    1224 	ld	a, e
+      00056D 91                    1225 	sub	a, c
+      00056E 5F                    1226 	ld	e, a
+      00056F 7A                    1227 	ld	a, d
+      000570 98                    1228 	sbc	a, b
+      000571 47                    1229 	ld	b, a
+      000572 4B                    1230 	ld	c, e
+      000573 21 07 00              1231 	ld	hl, #0x0007
+      000576 E5                    1232 	push	hl
+      000577 C5                    1233 	push	bc
+      000578 CDr00r00              1234 	call	__modsint
+      00057B E8 04                 1235 	add	sp, #4
+      00057D 4B                    1236 	ld	c, e
+      00057E 42                    1237 	ld	b, d
+      00057F 69                    1238 	ld	l, c
+      000580 60                    1239 	ld	h, b
+      000581 29                    1240 	add	hl, hl
+      000582 09                    1241 	add	hl, bc
+      000583 4D                    1242 	ld	c, l
+      000584 44                    1243 	ld	b, h
+      000585 F8 5B                 1244 	ldhl	sp,	#91
+      000587 5E                    1245 	ld	e, (hl)
+      000588 16 00                 1246 	ld	d, #0x00
+      00058A D5                    1247 	push	de
+      00058B C5                    1248 	push	bc
+      00058C CDr00r00              1249 	call	__divsint
+      00058F E8 04                 1250 	add	sp, #4
+      000591 3E 03                 1251 	ld	a, #0x03
+      000593 93                    1252 	sub	a, e
+      000594 47                    1253 	ld	b, a
+                                   1254 ;src\lines.c:92: INT8 id = mod(j, 7);
+      000595 C5                    1255 	push	bc
+      000596 3E 07                 1256 	ld	a, #0x07
+      000598 F5                    1257 	push	af
+      000599 33                    1258 	inc	sp
+      00059A F8 55                 1259 	ldhl	sp,	#85
+      00059C 7E                    1260 	ld	a, (hl)
+      00059D F5                    1261 	push	af
+      00059E 33                    1262 	inc	sp
+      00059F CDr00r00              1263 	call	_mod
+      0005A2 E8 02                 1264 	add	sp, #2
+      0005A4 C1                    1265 	pop	bc
+      0005A5 F8 51                 1266 	ldhl	sp,	#81
+      0005A7 73                    1267 	ld	(hl), e
+                                   1268 ;src\lines.c:93: color(col, 0, SOLID);
+      0005A8 AF                    1269 	xor	a, a
+      0005A9 F5                    1270 	push	af
+      0005AA 33                    1271 	inc	sp
+      0005AB AF                    1272 	xor	a, a
+      0005AC F5                    1273 	push	af
+      0005AD 33                    1274 	inc	sp
+      0005AE C5                    1275 	push	bc
+      0005AF 33                    1276 	inc	sp
+      0005B0 CDr00r00              1277 	call	_color
+      0005B3 E8 03                 1278 	add	sp, #3
+                                   1279 ;src\lines.c:94: line(x0s[id], y0s[id], x1s[id], y1s[id]);
+      0005B5 F8 51                 1280 	ldhl	sp,	#81
+      0005B7 3A                    1281 	ld	a, (hl-)
+      0005B8 77                    1282 	ld	(hl), a
+      0005B9 17                    1283 	rla
+      0005BA 9F                    1284 	sbc	a, a
+      0005BB 23                    1285 	inc	hl
+      0005BC 32                    1286 	ld	(hl-), a
+      0005BD 3A                    1287 	ld	a, (hl-)
+      0005BE 2B                    1288 	dec	hl
+      0005BF 77                    1289 	ld	(hl), a
+      0005C0 F8 51                 1290 	ldhl	sp,	#81
+      0005C2 3A                    1291 	ld	a, (hl-)
+      0005C3 2B                    1292 	dec	hl
+      0005C4 32                    1293 	ld	(hl-), a
+      0005C5 CB 26                 1294 	sla	(hl)
+      0005C7 23                    1295 	inc	hl
+      0005C8 CB 16                 1296 	rl	(hl)
+                                   1297 ;c
+      0005CA 2B                    1298 	dec	hl
+      0005CB 2A                    1299 	ld	a, (hl+)
+      0005CC 5F                    1300 	ld	e, a
+      0005CD 56                    1301 	ld	d, (hl)
+      0005CE F8 3E                 1302 	ldhl	sp,	#62
+      0005D0 2A                    1303 	ld	a, (hl+)
+      0005D1 66                    1304 	ld	h, (hl)
+      0005D2 6F                    1305 	ld	l, a
+      0005D3 19                    1306 	add	hl, de
+      0005D4 E5                    1307 	push	hl
+      0005D5 7D                    1308 	ld	a, l
+      0005D6 F8 52                 1309 	ldhl	sp,	#82
+      0005D8 77                    1310 	ld	(hl), a
+      0005D9 E1                    1311 	pop	hl
+      0005DA 7C                    1312 	ld	a, h
+      0005DB F8 51                 1313 	ldhl	sp,	#81
+      0005DD 32                    1314 	ld	(hl-), a
+      0005DE 2A                    1315 	ld	a, (hl+)
+      0005DF 5F                    1316 	ld	e, a
+      0005E0 56                    1317 	ld	d, (hl)
+      0005E1 1A                    1318 	ld	a, (de)
+      0005E2 77                    1319 	ld	(hl), a
+                                   1320 ;c
+      0005E3 F8 3C                 1321 	ldhl	sp,#60
+      0005E5 2A                    1322 	ld	a, (hl+)
+      0005E6 5F                    1323 	ld	e, a
+      0005E7 56                    1324 	ld	d, (hl)
+      0005E8 F8 4E                 1325 	ldhl	sp,	#78
+      0005EA 2A                    1326 	ld	a, (hl+)
+      0005EB 66                    1327 	ld	h, (hl)
+      0005EC 6F                    1328 	ld	l, a
+      0005ED 19                    1329 	add	hl, de
+      0005EE 4D                    1330 	ld	c, l
+      0005EF 44                    1331 	ld	b, h
+      0005F0 0A                    1332 	ld	a, (bc)
+      0005F1 47                    1333 	ld	b, a
+                                   1334 ;c
+      0005F2 F8 3A                 1335 	ldhl	sp,#58
+      0005F4 2A                    1336 	ld	a, (hl+)
+      0005F5 5F                    1337 	ld	e, a
+      0005F6 56                    1338 	ld	d, (hl)
+      0005F7 F8 4E                 1339 	ldhl	sp,	#78
+      0005F9 2A                    1340 	ld	a, (hl+)
+      0005FA 66                    1341 	ld	h, (hl)
+      0005FB 6F                    1342 	ld	l, a
+      0005FC 19                    1343 	add	hl, de
+      0005FD 5D                    1344 	ld	e, l
+      0005FE 54                    1345 	ld	d, h
+      0005FF 1A                    1346 	ld	a, (de)
+      000600 4F                    1347 	ld	c, a
+                                   1348 ;c
+      000601 F8 38                 1349 	ldhl	sp,#56
+      000603 2A                    1350 	ld	a, (hl+)
+      000604 5F                    1351 	ld	e, a
+      000605 56                    1352 	ld	d, (hl)
+      000606 F8 4E                 1353 	ldhl	sp,	#78
+      000608 2A                    1354 	ld	a, (hl+)
+      000609 66                    1355 	ld	h, (hl)
+      00060A 6F                    1356 	ld	l, a
+      00060B 19                    1357 	add	hl, de
+      00060C 5D                    1358 	ld	e, l
+      00060D 54                    1359 	ld	d, h
+      00060E 1A                    1360 	ld	a, (de)
+      00060F F8 51                 1361 	ldhl	sp,	#81
+      000611 66                    1362 	ld	h, (hl)
+      000612 E5                    1363 	push	hl
+      000613 33                    1364 	inc	sp
+      000614 C5                    1365 	push	bc
+      000615 33                    1366 	inc	sp
+      000616 61                    1367 	ld	h, c
+      000617 E5                    1368 	push	hl
+      000618 33                    1369 	inc	sp
+      000619 F5                    1370 	push	af
+      00061A 33                    1371 	inc	sp
+      00061B CDr00r00              1372 	call	_line
+      00061E E8 04                 1373 	add	sp, #4
+                                   1374 ;src\lines.c:89: for (INT8 j=i-6 ; j<=i ; ++j)
+      000620 F8 52                 1375 	ldhl	sp,	#82
+      000622 34                    1376 	inc	(hl)
+      000623 C3r43r05              1377 	jp	00159$
+                                   1378 ;src\lines.c:98: for (int k=0 ; k<144 ; k += 2)
+      000626                       1379 00195$:
+      000626 AF                    1380 	xor	a, a
+      000627 F8 5B                 1381 	ldhl	sp,	#91
+      000629 22                    1382 	ld	(hl+), a
+      00062A 77                    1383 	ld	(hl), a
+      00062B                       1384 00165$:
+      00062B F8 5B                 1385 	ldhl	sp,	#91
+      00062D 7E                    1386 	ld	a, (hl)
+      00062E D6 90                 1387 	sub	a, #0x90
+      000630 23                    1388 	inc	hl
+      000631 7E                    1389 	ld	a, (hl)
+      000632 DE 00                 1390 	sbc	a, #0x00
+      000634 56                    1391 	ld	d, (hl)
+      000635 3E 00                 1392 	ld	a, #0x00
+      000637 5F                    1393 	ld	e, a
+      000638 CB 7B                 1394 	bit	7, e
+      00063A 28 07                 1395 	jr	Z, 00363$
+      00063C CB 7A                 1396 	bit	7, d
+      00063E 20 08                 1397 	jr	NZ, 00364$
+      000640 BF                    1398 	cp	a, a
+      000641 18 05                 1399 	jr	00364$
+      000643                       1400 00363$:
+      000643 CB 7A                 1401 	bit	7, d
+      000645 28 01                 1402 	jr	Z, 00364$
+      000647 37                    1403 	scf
+      000648                       1404 00364$:
+      000648 D2rE0r0A              1405 	jp	NC, 00167$
+                                   1406 ;src\lines.c:100: miny = k+1;
+      00064B F8 5B                 1407 	ldhl	sp,#91
+      00064D 2A                    1408 	ld	a, (hl+)
+      00064E 4F                    1409 	ld	c, a
+      00064F 46                    1410 	ld	b, (hl)
+      000650 03                    1411 	inc	bc
+      000651 F8 51                 1412 	ldhl	sp,	#81
+      000653 79                    1413 	ld	a, c
+      000654 22                    1414 	ld	(hl+), a
+      000655 70                    1415 	ld	(hl), b
+                                   1416 ;src\lines.c:102: short int x0 = x0s[i];
+      000656 F8 42                 1417 	ldhl	sp,#66
+      000658 2A                    1418 	ld	a, (hl+)
+      000659 5F                    1419 	ld	e, a
+      00065A 56                    1420 	ld	d, (hl)
+      00065B 1A                    1421 	ld	a, (de)
+      00065C 2B                    1422 	dec	hl
+      00065D 22                    1423 	ld	(hl+), a
+      00065E 13                    1424 	inc	de
+      00065F 1A                    1425 	ld	a, (de)
+                                   1426 ;src\lines.c:103: short int y0 = y0s[i];
+      000660 22                    1427 	ld	(hl+), a
+      000661 2A                    1428 	ld	a, (hl+)
+      000662 5F                    1429 	ld	e, a
+      000663 56                    1430 	ld	d, (hl)
+      000664 1A                    1431 	ld	a, (de)
+      000665 F8 4D                 1432 	ldhl	sp,	#77
+      000667 22                    1433 	ld	(hl+), a
+      000668 13                    1434 	inc	de
+      000669 1A                    1435 	ld	a, (de)
+      00066A 77                    1436 	ld	(hl), a
+                                   1437 ;src\lines.c:104: short int x1 = x1s[i];
+      00066B F8 46                 1438 	ldhl	sp,#70
+      00066D 2A                    1439 	ld	a, (hl+)
+      00066E 5F                    1440 	ld	e, a
+      00066F 56                    1441 	ld	d, (hl)
+      000670 1A                    1442 	ld	a, (de)
+      000671 F8 4F                 1443 	ldhl	sp,	#79
+      000673 22                    1444 	ld	(hl+), a
+      000674 13                    1445 	inc	de
+      000675 1A                    1446 	ld	a, (de)
+      000676 77                    1447 	ld	(hl), a
+                                   1448 ;src\lines.c:105: short int y1 = y1s[i];
+      000677 F8 48                 1449 	ldhl	sp,#72
+      000679 2A                    1450 	ld	a, (hl+)
+      00067A 5F                    1451 	ld	e, a
+      00067B 56                    1452 	ld	d, (hl)
+      00067C 1A                    1453 	ld	a, (de)
+      00067D 23                    1454 	inc	hl
+      00067E 23                    1455 	inc	hl
+      00067F 22                    1456 	ld	(hl+), a
+      000680 13                    1457 	inc	de
+      000681 1A                    1458 	ld	a, (de)
+      000682 77                    1459 	ld	(hl), a
+                                   1460 ;src\lines.c:107: if (x0+dx0<minx || x0+dx0>maxx) dx0 = -dx0; x0 += dx0;
+                                   1461 ;c
+      000683 F8 42                 1462 	ldhl	sp,#66
+      000685 2A                    1463 	ld	a, (hl+)
+      000686 5F                    1464 	ld	e, a
+      000687 56                    1465 	ld	d, (hl)
+      000688 F8 53                 1466 	ldhl	sp,	#83
+      00068A 2A                    1467 	ld	a, (hl+)
+      00068B 66                    1468 	ld	h, (hl)
+      00068C 6F                    1469 	ld	l, a
+      00068D 19                    1470 	add	hl, de
+      00068E E5                    1471 	push	hl
+      00068F 7D                    1472 	ld	a, l
+      000690 F8 4B                 1473 	ldhl	sp,	#75
+      000692 77                    1474 	ld	(hl), a
+      000693 E1                    1475 	pop	hl
+      000694 7C                    1476 	ld	a, h
+      000695 F8 4A                 1477 	ldhl	sp,	#74
+      000697 32                    1478 	ld	(hl-), a
+      000698 7E                    1479 	ld	a, (hl)
+      000699 D6 00                 1480 	sub	a, #0x00
+      00069B 23                    1481 	inc	hl
+      00069C 7E                    1482 	ld	a, (hl)
+      00069D DE 00                 1483 	sbc	a, #0x00
+      00069F 56                    1484 	ld	d, (hl)
+      0006A0 3E 00                 1485 	ld	a, #0x00
+      0006A2 CB 7F                 1486 	bit	7,a
+      0006A4 28 07                 1487 	jr	Z, 00365$
+      0006A6 CB 7A                 1488 	bit	7, d
+      0006A8 20 08                 1489 	jr	NZ, 00366$
+      0006AA BF                    1490 	cp	a, a
+      0006AB 18 05                 1491 	jr	00366$
+      0006AD                       1492 00365$:
+      0006AD CB 7A                 1493 	bit	7, d
+      0006AF 28 01                 1494 	jr	Z, 00366$
+      0006B1 37                    1495 	scf
+      0006B2                       1496 00366$:
+      0006B2 38 1E                 1497 	jr	C, 00137$
+      0006B4 F8 49                 1498 	ldhl	sp,	#73
+      0006B6 3E 9F                 1499 	ld	a, #0x9f
+      0006B8 96                    1500 	sub	a, (hl)
+      0006B9 23                    1501 	inc	hl
+      0006BA 3E 00                 1502 	ld	a, #0x00
+      0006BC 9E                    1503 	sbc	a, (hl)
+      0006BD 3E 00                 1504 	ld	a, #0x00
+      0006BF 57                    1505 	ld	d, a
+      0006C0 CB 7E                 1506 	bit	7, (hl)
+      0006C2 28 07                 1507 	jr	Z, 00367$
+      0006C4 CB 7A                 1508 	bit	7, d
+      0006C6 20 08                 1509 	jr	NZ, 00368$
+      0006C8 BF                    1510 	cp	a, a
+      0006C9 18 05                 1511 	jr	00368$
+      0006CB                       1512 00367$:
+      0006CB CB 7A                 1513 	bit	7, d
+      0006CD 28 01                 1514 	jr	Z, 00368$
+      0006CF 37                    1515 	scf
+      0006D0                       1516 00368$:
+      0006D0 30 11                 1517 	jr	NC, 00138$
+      0006D2                       1518 00137$:
+      0006D2 11 00 00              1519 	ld	de, #0x0000
+      0006D5 F8 53                 1520 	ldhl	sp,	#83
+      0006D7 2A                    1521 	ld	a, (hl+)
+      0006D8 66                    1522 	ld	h, (hl)
+      0006D9 6F                    1523 	ld	l, a
+      0006DA 7B                    1524 	ld	a, e
+      0006DB 95                    1525 	sub	a, l
+      0006DC 5F                    1526 	ld	e, a
+      0006DD 7A                    1527 	ld	a, d
+      0006DE 9C                    1528 	sbc	a, h
+      0006DF F8 54                 1529 	ldhl	sp,	#84
+      0006E1 32                    1530 	ld	(hl-), a
+      0006E2 73                    1531 	ld	(hl), e
+      0006E3                       1532 00138$:
+                                   1533 ;c
+      0006E3 F8 42                 1534 	ldhl	sp,#66
+      0006E5 2A                    1535 	ld	a, (hl+)
+      0006E6 5F                    1536 	ld	e, a
+      0006E7 56                    1537 	ld	d, (hl)
+      0006E8 F8 53                 1538 	ldhl	sp,	#83
+      0006EA 2A                    1539 	ld	a, (hl+)
+      0006EB 66                    1540 	ld	h, (hl)
+      0006EC 6F                    1541 	ld	l, a
+      0006ED 19                    1542 	add	hl, de
+      0006EE 4D                    1543 	ld	c, l
+      0006EF 44                    1544 	ld	b, h
+      0006F0 F8 48                 1545 	ldhl	sp,	#72
+      0006F2 79                    1546 	ld	a, c
+      0006F3 22                    1547 	ld	(hl+), a
+      0006F4 70                    1548 	ld	(hl), b
+                                   1549 ;src\lines.c:108: if (y0+dy0<miny || y0+dy0>maxy) dy0 = -dy0; y0 += dy0;
+                                   1550 ;c
+      0006F5 F8 4D                 1551 	ldhl	sp,#77
+      0006F7 2A                    1552 	ld	a, (hl+)
+      0006F8 5F                    1553 	ld	e, a
+      0006F9 56                    1554 	ld	d, (hl)
+      0006FA F8 55                 1555 	ldhl	sp,	#85
+      0006FC 2A                    1556 	ld	a, (hl+)
+      0006FD 66                    1557 	ld	h, (hl)
+      0006FE 6F                    1558 	ld	l, a
+      0006FF 19                    1559 	add	hl, de
+      000700 4D                    1560 	ld	c, l
+      000701 44                    1561 	ld	b, h
+      000702 F8 51                 1562 	ldhl	sp,	#81
+      000704 79                    1563 	ld	a, c
+      000705 96                    1564 	sub	a, (hl)
+      000706 23                    1565 	inc	hl
+      000707 78                    1566 	ld	a, b
+      000708 9E                    1567 	sbc	a, (hl)
+      000709 78                    1568 	ld	a, b
+      00070A 57                    1569 	ld	d, a
+      00070B CB 7E                 1570 	bit	7, (hl)
+      00070D 28 07                 1571 	jr	Z, 00369$
+      00070F CB 7A                 1572 	bit	7, d
+      000711 20 08                 1573 	jr	NZ, 00370$
+      000713 BF                    1574 	cp	a, a
+      000714 18 05                 1575 	jr	00370$
+      000716                       1576 00369$:
+      000716 CB 7A                 1577 	bit	7, d
+      000718 28 01                 1578 	jr	Z, 00370$
+      00071A 37                    1579 	scf
+      00071B                       1580 00370$:
+      00071B 38 1B                 1581 	jr	C, 00140$
+      00071D 58                    1582 	ld	e, b
+      00071E 16 00                 1583 	ld	d, #0x00
+      000720 3E 8E                 1584 	ld	a, #0x8e
+      000722 B9                    1585 	cp	a, c
+      000723 3E 00                 1586 	ld	a, #0x00
+      000725 98                    1587 	sbc	a, b
+      000726 CB 7B                 1588 	bit	7, e
+      000728 28 07                 1589 	jr	Z, 00371$
+      00072A CB 7A                 1590 	bit	7, d
+      00072C 20 08                 1591 	jr	NZ, 00372$
+      00072E BF                    1592 	cp	a, a
+      00072F 18 05                 1593 	jr	00372$
+      000731                       1594 00371$:
+      000731 CB 7A                 1595 	bit	7, d
+      000733 28 01                 1596 	jr	Z, 00372$
+      000735 37                    1597 	scf
+      000736                       1598 00372$:
+      000736 30 11                 1599 	jr	NC, 00141$
+      000738                       1600 00140$:
+      000738 11 00 00              1601 	ld	de, #0x0000
+      00073B F8 55                 1602 	ldhl	sp,	#85
+      00073D 2A                    1603 	ld	a, (hl+)
+      00073E 66                    1604 	ld	h, (hl)
+      00073F 6F                    1605 	ld	l, a
+      000740 7B                    1606 	ld	a, e
+      000741 95                    1607 	sub	a, l
+      000742 5F                    1608 	ld	e, a
+      000743 7A                    1609 	ld	a, d
+      000744 9C                    1610 	sbc	a, h
+      000745 F8 56                 1611 	ldhl	sp,	#86
+      000747 32                    1612 	ld	(hl-), a
+      000748 73                    1613 	ld	(hl), e
+      000749                       1614 00141$:
+                                   1615 ;c
+      000749 F8 4D                 1616 	ldhl	sp,#77
+      00074B 2A                    1617 	ld	a, (hl+)
+      00074C 5F                    1618 	ld	e, a
+      00074D 56                    1619 	ld	d, (hl)
+      00074E F8 55                 1620 	ldhl	sp,	#85
+      000750 2A                    1621 	ld	a, (hl+)
+      000751 66                    1622 	ld	h, (hl)
+      000752 6F                    1623 	ld	l, a
+      000753 19                    1624 	add	hl, de
+      000754 4D                    1625 	ld	c, l
+      000755 44                    1626 	ld	b, h
+      000756 F8 4D                 1627 	ldhl	sp,	#77
+      000758 79                    1628 	ld	a, c
+      000759 22                    1629 	ld	(hl+), a
+                                   1630 ;src\lines.c:109: if (x1+dx1<minx || x1+dx1>maxx) dx1 = -dx1; x1 += dx1;
+                                   1631 ;c
+      00075A 78                    1632 	ld	a, b
+      00075B 22                    1633 	ld	(hl+), a
+      00075C 2A                    1634 	ld	a, (hl+)
+      00075D 5F                    1635 	ld	e, a
+      00075E 56                    1636 	ld	d, (hl)
+      00075F F8 57                 1637 	ldhl	sp,	#87
+      000761 2A                    1638 	ld	a, (hl+)
+      000762 66                    1639 	ld	h, (hl)
+      000763 6F                    1640 	ld	l, a
+      000764 19                    1641 	add	hl, de
+      000765 4D                    1642 	ld	c, l
+      000766 44                    1643 	ld	b, h
+      000767 CB 78                 1644 	bit	7, b
+      000769 20 1B                 1645 	jr	NZ, 00143$
+      00076B 58                    1646 	ld	e, b
+      00076C 16 00                 1647 	ld	d, #0x00
+      00076E 3E 9F                 1648 	ld	a, #0x9f
+      000770 B9                    1649 	cp	a, c
+      000771 3E 00                 1650 	ld	a, #0x00
+      000773 98                    1651 	sbc	a, b
+      000774 CB 7B                 1652 	bit	7, e
+      000776 28 07                 1653 	jr	Z, 00373$
+      000778 CB 7A                 1654 	bit	7, d
+      00077A 20 08                 1655 	jr	NZ, 00374$
+      00077C BF                    1656 	cp	a, a
+      00077D 18 05                 1657 	jr	00374$
+      00077F                       1658 00373$:
+      00077F CB 7A                 1659 	bit	7, d
+      000781 28 01                 1660 	jr	Z, 00374$
+      000783 37                    1661 	scf
+      000784                       1662 00374$:
+      000784 30 11                 1663 	jr	NC, 00144$
+      000786                       1664 00143$:
+      000786 11 00 00              1665 	ld	de, #0x0000
+      000789 F8 57                 1666 	ldhl	sp,	#87
+      00078B 2A                    1667 	ld	a, (hl+)
+      00078C 66                    1668 	ld	h, (hl)
+      00078D 6F                    1669 	ld	l, a
+      00078E 7B                    1670 	ld	a, e
+      00078F 95                    1671 	sub	a, l
+      000790 5F                    1672 	ld	e, a
+      000791 7A                    1673 	ld	a, d
+      000792 9C                    1674 	sbc	a, h
+      000793 F8 58                 1675 	ldhl	sp,	#88
+      000795 32                    1676 	ld	(hl-), a
+      000796 73                    1677 	ld	(hl), e
+      000797                       1678 00144$:
+                                   1679 ;c
+      000797 F8 4F                 1680 	ldhl	sp,#79
+      000799 2A                    1681 	ld	a, (hl+)
+      00079A 5F                    1682 	ld	e, a
+      00079B 56                    1683 	ld	d, (hl)
+      00079C F8 57                 1684 	ldhl	sp,	#87
+      00079E 2A                    1685 	ld	a, (hl+)
+      00079F 66                    1686 	ld	h, (hl)
+      0007A0 6F                    1687 	ld	l, a
+      0007A1 19                    1688 	add	hl, de
+      0007A2 4D                    1689 	ld	c, l
+      0007A3 44                    1690 	ld	b, h
+      0007A4 F8 4F                 1691 	ldhl	sp,	#79
+      0007A6 79                    1692 	ld	a, c
+      0007A7 22                    1693 	ld	(hl+), a
+      0007A8 70                    1694 	ld	(hl), b
+                                   1695 ;src\lines.c:110: if (y1+dy1<miny || y1+dy1>maxy) dy1 = -dy1; y1 += dy1;
+                                   1696 ;c
+      0007A9 F8 4B                 1697 	ldhl	sp,#75
+      0007AB 2A                    1698 	ld	a, (hl+)
+      0007AC 5F                    1699 	ld	e, a
+      0007AD 56                    1700 	ld	d, (hl)
+      0007AE F8 59                 1701 	ldhl	sp,	#89
+      0007B0 2A                    1702 	ld	a, (hl+)
+      0007B1 66                    1703 	ld	h, (hl)
+      0007B2 6F                    1704 	ld	l, a
+      0007B3 19                    1705 	add	hl, de
+      0007B4 4D                    1706 	ld	c, l
+      0007B5 44                    1707 	ld	b, h
+      0007B6 F8 51                 1708 	ldhl	sp,	#81
+      0007B8 79                    1709 	ld	a, c
+      0007B9 96                    1710 	sub	a, (hl)
+      0007BA 23                    1711 	inc	hl
+      0007BB 78                    1712 	ld	a, b
+      0007BC 9E                    1713 	sbc	a, (hl)
+      0007BD 78                    1714 	ld	a, b
+      0007BE 57                    1715 	ld	d, a
+      0007BF CB 7E                 1716 	bit	7, (hl)
+      0007C1 28 07                 1717 	jr	Z, 00375$
+      0007C3 CB 7A                 1718 	bit	7, d
+      0007C5 20 08                 1719 	jr	NZ, 00376$
+      0007C7 BF                    1720 	cp	a, a
+      0007C8 18 05                 1721 	jr	00376$
+      0007CA                       1722 00375$:
+      0007CA CB 7A                 1723 	bit	7, d
+      0007CC 28 01                 1724 	jr	Z, 00376$
+      0007CE 37                    1725 	scf
+      0007CF                       1726 00376$:
+      0007CF 38 1B                 1727 	jr	C, 00146$
+      0007D1 58                    1728 	ld	e, b
+      0007D2 16 00                 1729 	ld	d, #0x00
+      0007D4 3E 8E                 1730 	ld	a, #0x8e
+      0007D6 B9                    1731 	cp	a, c
+      0007D7 3E 00                 1732 	ld	a, #0x00
+      0007D9 98                    1733 	sbc	a, b
+      0007DA CB 7B                 1734 	bit	7, e
+      0007DC 28 07                 1735 	jr	Z, 00377$
+      0007DE CB 7A                 1736 	bit	7, d
+      0007E0 20 08                 1737 	jr	NZ, 00378$
+      0007E2 BF                    1738 	cp	a, a
+      0007E3 18 05                 1739 	jr	00378$
+      0007E5                       1740 00377$:
+      0007E5 CB 7A                 1741 	bit	7, d
+      0007E7 28 01                 1742 	jr	Z, 00378$
+      0007E9 37                    1743 	scf
+      0007EA                       1744 00378$:
+      0007EA 30 11                 1745 	jr	NC, 00147$
+      0007EC                       1746 00146$:
+      0007EC 11 00 00              1747 	ld	de, #0x0000
+      0007EF F8 59                 1748 	ldhl	sp,	#89
+      0007F1 2A                    1749 	ld	a, (hl+)
+      0007F2 66                    1750 	ld	h, (hl)
+      0007F3 6F                    1751 	ld	l, a
+      0007F4 7B                    1752 	ld	a, e
+      0007F5 95                    1753 	sub	a, l
+      0007F6 5F                    1754 	ld	e, a
+      0007F7 7A                    1755 	ld	a, d
+      0007F8 9C                    1756 	sbc	a, h
+      0007F9 F8 5A                 1757 	ldhl	sp,	#90
+      0007FB 32                    1758 	ld	(hl-), a
+      0007FC 73                    1759 	ld	(hl), e
+      0007FD                       1760 00147$:
+                                   1761 ;c
+      0007FD F8 4B                 1762 	ldhl	sp,#75
+      0007FF 2A                    1763 	ld	a, (hl+)
+      000800 5F                    1764 	ld	e, a
+      000801 56                    1765 	ld	d, (hl)
+      000802 F8 59                 1766 	ldhl	sp,	#89
+      000804 2A                    1767 	ld	a, (hl+)
+      000805 66                    1768 	ld	h, (hl)
+      000806 6F                    1769 	ld	l, a
+      000807 19                    1770 	add	hl, de
+      000808 4D                    1771 	ld	c, l
+      000809 44                    1772 	ld	b, h
+      00080A F8 51                 1773 	ldhl	sp,	#81
+      00080C 79                    1774 	ld	a, c
+      00080D 22                    1775 	ld	(hl+), a
+      00080E 70                    1776 	ld	(hl), b
+                                   1777 ;src\lines.c:112: w = abs(x0-x1);
+      00080F F8 48                 1778 	ldhl	sp,	#72
+      000811 7E                    1779 	ld	a, (hl)
+      000812 F8 4F                 1780 	ldhl	sp,	#79
+      000814 4E                    1781 	ld	c, (hl)
+      000815 91                    1782 	sub	a, c
+      000816 F5                    1783 	push	af
+      000817 33                    1784 	inc	sp
+      000818 CDr00r00              1785 	call	_abs
+      00081B 33                    1786 	inc	sp
+      00081C 4B                    1787 	ld	c, e
+                                   1788 ;src\lines.c:113: h = abs(y0-y1);
+      00081D F8 4D                 1789 	ldhl	sp,	#77
+      00081F 7E                    1790 	ld	a, (hl)
+      000820 F8 51                 1791 	ldhl	sp,	#81
+      000822 46                    1792 	ld	b, (hl)
+      000823 90                    1793 	sub	a, b
+      000824 C5                    1794 	push	bc
+      000825 F5                    1795 	push	af
+      000826 33                    1796 	inc	sp
+      000827 CDr00r00              1797 	call	_abs
+      00082A 33                    1798 	inc	sp
+      00082B C1                    1799 	pop	bc
+      00082C F8 5D                 1800 	ldhl	sp,	#93
+      00082E 73                    1801 	ld	(hl), e
+                                   1802 ;src\lines.c:115: if (w>max_length) x1 = x0 + (x1-x0)*max_length/w;
+      00082F 59                    1803 	ld	e, c
+      000830 3E 28                 1804 	ld	a,#0x28
+      000832 57                    1805 	ld	d,a
+      000833 91                    1806 	sub	a, c
+      000834 CB 7B                 1807 	bit	7, e
+      000836 28 07                 1808 	jr	Z, 00379$
+      000838 CB 7A                 1809 	bit	7, d
+      00083A 20 08                 1810 	jr	NZ, 00380$
+      00083C BF                    1811 	cp	a, a
+      00083D 18 05                 1812 	jr	00380$
+      00083F                       1813 00379$:
+      00083F CB 7A                 1814 	bit	7, d
+      000841 28 01                 1815 	jr	Z, 00380$
+      000843 37                    1816 	scf
+      000844                       1817 00380$:
+      000844 30 38                 1818 	jr	NC, 00150$
+      000846 F8 4F                 1819 	ldhl	sp,#79
+      000848 2A                    1820 	ld	a, (hl+)
+      000849 5F                    1821 	ld	e, a
+      00084A 56                    1822 	ld	d, (hl)
+      00084B F8 48                 1823 	ldhl	sp,	#72
+      00084D 2A                    1824 	ld	a, (hl+)
+      00084E 66                    1825 	ld	h, (hl)
+      00084F 6F                    1826 	ld	l, a
+      000850 7B                    1827 	ld	a, e
+      000851 95                    1828 	sub	a, l
+      000852 5F                    1829 	ld	e, a
+      000853 7A                    1830 	ld	a, d
+      000854 9C                    1831 	sbc	a, h
+      000855 F8 4C                 1832 	ldhl	sp,	#76
+      000857 32                    1833 	ld	(hl-), a
+      000858 7B                    1834 	ld	a, e
+      000859 22                    1835 	ld	(hl+), a
+      00085A 2B                    1836 	dec	hl
+      00085B 2A                    1837 	ld	a, (hl+)
+      00085C 5F                    1838 	ld	e, a
+      00085D 56                    1839 	ld	d, (hl)
+      00085E 6B                    1840 	ld	l, e
+      00085F 62                    1841 	ld	h, d
+      000860 29                    1842 	add	hl, hl
+      000861 29                    1843 	add	hl, hl
+      000862 19                    1844 	add	hl, de
+      000863 29                    1845 	add	hl, hl
+      000864 29                    1846 	add	hl, hl
+      000865 29                    1847 	add	hl, hl
+      000866 79                    1848 	ld	a, c
+      000867 17                    1849 	rla
+      000868 9F                    1850 	sbc	a, a
+      000869 47                    1851 	ld	b, a
+      00086A C5                    1852 	push	bc
+      00086B E5                    1853 	push	hl
+      00086C CDr00r00              1854 	call	__divsint
+      00086F E8 04                 1855 	add	sp, #4
+                                   1856 ;c
+      000871 F8 48                 1857 	ldhl	sp,	#72
+      000873 2A                    1858 	ld	a, (hl+)
+      000874 66                    1859 	ld	h, (hl)
+      000875 6F                    1860 	ld	l, a
+      000876 19                    1861 	add	hl, de
+      000877 4D                    1862 	ld	c, l
+      000878 44                    1863 	ld	b, h
+      000879 F8 4F                 1864 	ldhl	sp,	#79
+      00087B 79                    1865 	ld	a, c
+      00087C 22                    1866 	ld	(hl+), a
+      00087D 70                    1867 	ld	(hl), b
+      00087E                       1868 00150$:
+                                   1869 ;src\lines.c:116: if (h>max_length) y1 = y0 + (y1-y0)*max_length/h;
+      00087E F8 5D                 1870 	ldhl	sp,	#93
+      000880 5E                    1871 	ld	e, (hl)
+      000881 3E 28                 1872 	ld	a,#0x28
+      000883 57                    1873 	ld	d,a
+      000884 96                    1874 	sub	a, (hl)
+      000885 CB 7B                 1875 	bit	7, e
+      000887 28 07                 1876 	jr	Z, 00381$
+      000889 CB 7A                 1877 	bit	7, d
+      00088B 20 08                 1878 	jr	NZ, 00382$
+      00088D BF                    1879 	cp	a, a
+      00088E 18 05                 1880 	jr	00382$
+      000890                       1881 00381$:
+      000890 CB 7A                 1882 	bit	7, d
+      000892 28 01                 1883 	jr	Z, 00382$
+      000894 37                    1884 	scf
+      000895                       1885 00382$:
+      000895 30 36                 1886 	jr	NC, 00152$
+      000897 F8 51                 1887 	ldhl	sp,#81
+      000899 2A                    1888 	ld	a, (hl+)
+      00089A 5F                    1889 	ld	e, a
+      00089B 56                    1890 	ld	d, (hl)
+      00089C F8 4D                 1891 	ldhl	sp,	#77
+      00089E 2A                    1892 	ld	a, (hl+)
+      00089F 66                    1893 	ld	h, (hl)
+      0008A0 6F                    1894 	ld	l, a
+      0008A1 7B                    1895 	ld	a, e
+      0008A2 95                    1896 	sub	a, l
+      0008A3 5F                    1897 	ld	e, a
+      0008A4 7A                    1898 	ld	a, d
+      0008A5 9C                    1899 	sbc	a, h
+      0008A6 47                    1900 	ld	b, a
+      0008A7 4B                    1901 	ld	c, e
+      0008A8 69                    1902 	ld	l, c
+      0008A9 60                    1903 	ld	h, b
+      0008AA 29                    1904 	add	hl, hl
+      0008AB 29                    1905 	add	hl, hl
+      0008AC 09                    1906 	add	hl, bc
+      0008AD 29                    1907 	add	hl, hl
+      0008AE 29                    1908 	add	hl, hl
+      0008AF 29                    1909 	add	hl, hl
+      0008B0 4D                    1910 	ld	c, l
+      0008B1 44                    1911 	ld	b, h
+      0008B2 F8 5D                 1912 	ldhl	sp,	#93
+      0008B4 7E                    1913 	ld	a, (hl)
+      0008B5 5F                    1914 	ld	e, a
+      0008B6 17                    1915 	rla
+      0008B7 9F                    1916 	sbc	a, a
+      0008B8 57                    1917 	ld	d, a
+      0008B9 D5                    1918 	push	de
+      0008BA C5                    1919 	push	bc
+      0008BB CDr00r00              1920 	call	__divsint
+      0008BE E8 04                 1921 	add	sp, #4
+                                   1922 ;c
+      0008C0 F8 4D                 1923 	ldhl	sp,	#77
+      0008C2 2A                    1924 	ld	a, (hl+)
+      0008C3 66                    1925 	ld	h, (hl)
+      0008C4 6F                    1926 	ld	l, a
+      0008C5 19                    1927 	add	hl, de
+      0008C6 4D                    1928 	ld	c, l
+      0008C7 44                    1929 	ld	b, h
+      0008C8 F8 51                 1930 	ldhl	sp,	#81
+      0008CA 79                    1931 	ld	a, c
+      0008CB 22                    1932 	ld	(hl+), a
+      0008CC 70                    1933 	ld	(hl), b
+      0008CD                       1934 00152$:
+                                   1935 ;src\lines.c:118: i = (i+1)%7;
+      0008CD F8 40                 1936 	ldhl	sp,	#64
+      0008CF 2A                    1937 	ld	a, (hl+)
+      0008D0 66                    1938 	ld	h, (hl)
+      0008D1 6F                    1939 	ld	l, a
+      0008D2 23                    1940 	inc	hl
+      0008D3 11 07 00              1941 	ld	de, #0x0007
+      0008D6 D5                    1942 	push	de
+      0008D7 E5                    1943 	push	hl
+      0008D8 CDr00r00              1944 	call	__modsint
+      0008DB E8 04                 1945 	add	sp, #4
+      0008DD F8 4A                 1946 	ldhl	sp,	#74
+      0008DF 73                    1947 	ld	(hl), e
+                                   1948 ;src\lines.c:64: short int x0 = x0s[i];
+      0008E0 7E                    1949 	ld	a, (hl)
+      0008E1 F8 40                 1950 	ldhl	sp,	#64
+      0008E3 77                    1951 	ld	(hl), a
+      0008E4 17                    1952 	rla
+      0008E5 9F                    1953 	sbc	a, a
+      0008E6 23                    1954 	inc	hl
+                                   1955 ;src\lines.c:119: x0s[i] = x0;
+      0008E7 32                    1956 	ld	(hl-), a
+      0008E8 2A                    1957 	ld	a, (hl+)
+      0008E9 5E                    1958 	ld	e, (hl)
+      0008EA F8 4B                 1959 	ldhl	sp,	#75
+      0008EC 22                    1960 	ld	(hl+), a
+      0008ED 73                    1961 	ld	(hl), e
+                                   1962 ;src\lines.c:64: short int x0 = x0s[i];
+      0008EE F8 40                 1963 	ldhl	sp,#64
+      0008F0 2A                    1964 	ld	a, (hl+)
+      0008F1 4F                    1965 	ld	c, a
+      0008F2 46                    1966 	ld	b, (hl)
+      0008F3 CB 21                 1967 	sla	c
+      0008F5 CB 10                 1968 	rl	b
+      0008F7 F8 38                 1969 	ldhl	sp,	#56
+      0008F9 2A                    1970 	ld	a, (hl+)
+      0008FA 66                    1971 	ld	h, (hl)
+      0008FB 6F                    1972 	ld	l, a
+      0008FC 09                    1973 	add	hl, bc
+      0008FD E5                    1974 	push	hl
+      0008FE 7D                    1975 	ld	a, l
+      0008FF F8 44                 1976 	ldhl	sp,	#68
+      000901 77                    1977 	ld	(hl), a
+      000902 E1                    1978 	pop	hl
+      000903 7C                    1979 	ld	a, h
+      000904 F8 43                 1980 	ldhl	sp,	#67
+                                   1981 ;src\lines.c:119: x0s[i] = x0;
+      000906 32                    1982 	ld	(hl-), a
+      000907 2A                    1983 	ld	a, (hl+)
+      000908 5F                    1984 	ld	e, a
+      000909 56                    1985 	ld	d, (hl)
+      00090A F8 48                 1986 	ldhl	sp,	#72
+      00090C 7E                    1987 	ld	a, (hl)
+      00090D 12                    1988 	ld	(de), a
+      00090E 13                    1989 	inc	de
+      00090F 23                    1990 	inc	hl
+      000910 7E                    1991 	ld	a, (hl)
+      000911 12                    1992 	ld	(de), a
+                                   1993 ;src\lines.c:65: short int y0 = y0s[i];
+      000912 F8 3A                 1994 	ldhl	sp,	#58
+      000914 2A                    1995 	ld	a, (hl+)
+      000915 66                    1996 	ld	h, (hl)
+      000916 6F                    1997 	ld	l, a
+      000917 09                    1998 	add	hl, bc
+      000918 E5                    1999 	push	hl
+      000919 7D                    2000 	ld	a, l
+      00091A F8 46                 2001 	ldhl	sp,	#70
+      00091C 77                    2002 	ld	(hl), a
+      00091D E1                    2003 	pop	hl
+      00091E 7C                    2004 	ld	a, h
+      00091F F8 45                 2005 	ldhl	sp,	#69
+                                   2006 ;src\lines.c:120: y0s[i] = y0;
+      000921 32                    2007 	ld	(hl-), a
+      000922 2A                    2008 	ld	a, (hl+)
+      000923 5F                    2009 	ld	e, a
+      000924 56                    2010 	ld	d, (hl)
+      000925 F8 4D                 2011 	ldhl	sp,	#77
+      000927 7E                    2012 	ld	a, (hl)
+      000928 12                    2013 	ld	(de), a
+      000929 13                    2014 	inc	de
+      00092A 23                    2015 	inc	hl
+      00092B 7E                    2016 	ld	a, (hl)
+      00092C 12                    2017 	ld	(de), a
+                                   2018 ;src\lines.c:66: short int x1 = x1s[i];
+      00092D F8 3C                 2019 	ldhl	sp,	#60
+      00092F 2A                    2020 	ld	a, (hl+)
+      000930 66                    2021 	ld	h, (hl)
+      000931 6F                    2022 	ld	l, a
+      000932 09                    2023 	add	hl, bc
+      000933 E5                    2024 	push	hl
+      000934 7D                    2025 	ld	a, l
+      000935 F8 48                 2026 	ldhl	sp,	#72
+      000937 77                    2027 	ld	(hl), a
+      000938 E1                    2028 	pop	hl
+      000939 7C                    2029 	ld	a, h
+      00093A F8 47                 2030 	ldhl	sp,	#71
+                                   2031 ;src\lines.c:121: x1s[i] = x1;
+      00093C 32                    2032 	ld	(hl-), a
+      00093D 2A                    2033 	ld	a, (hl+)
+      00093E 5F                    2034 	ld	e, a
+      00093F 56                    2035 	ld	d, (hl)
+      000940 F8 4F                 2036 	ldhl	sp,	#79
+      000942 7E                    2037 	ld	a, (hl)
+      000943 12                    2038 	ld	(de), a
+      000944 13                    2039 	inc	de
+      000945 23                    2040 	inc	hl
+      000946 7E                    2041 	ld	a, (hl)
+      000947 12                    2042 	ld	(de), a
+                                   2043 ;src\lines.c:67: short int y1 = y1s[i];
+      000948 F8 3E                 2044 	ldhl	sp,	#62
+      00094A 2A                    2045 	ld	a, (hl+)
+      00094B 66                    2046 	ld	h, (hl)
+      00094C 6F                    2047 	ld	l, a
+      00094D 09                    2048 	add	hl, bc
+      00094E E5                    2049 	push	hl
+      00094F 7D                    2050 	ld	a, l
+      000950 F8 4A                 2051 	ldhl	sp,	#74
+      000952 77                    2052 	ld	(hl), a
+      000953 E1                    2053 	pop	hl
+      000954 7C                    2054 	ld	a, h
+      000955 F8 49                 2055 	ldhl	sp,	#73
+                                   2056 ;src\lines.c:122: y1s[i] = y1;
+      000957 32                    2057 	ld	(hl-), a
+      000958 2A                    2058 	ld	a, (hl+)
+      000959 5F                    2059 	ld	e, a
+      00095A 56                    2060 	ld	d, (hl)
+      00095B F8 51                 2061 	ldhl	sp,	#81
+      00095D 7E                    2062 	ld	a, (hl)
+      00095E 12                    2063 	ld	(de), a
+      00095F 13                    2064 	inc	de
+      000960 23                    2065 	inc	hl
+      000961 7E                    2066 	ld	a, (hl)
+      000962 12                    2067 	ld	(de), a
+                                   2068 ;src\lines.c:124: for (INT8 j=i-6 ; j<=i ; ++j)
+      000963 F8 4A                 2069 	ldhl	sp,	#74
+      000965 7E                    2070 	ld	a, (hl)
+      000966 C6 FA                 2071 	add	a, #0xfa
+      000968 F8 5D                 2072 	ldhl	sp,	#93
+      00096A 77                    2073 	ld	(hl), a
+      00096B                       2074 00162$:
+      00096B F8 5D                 2075 	ldhl	sp,	#93
+      00096D 5E                    2076 	ld	e, (hl)
+      00096E F8 4A                 2077 	ldhl	sp,	#74
+      000970 56                    2078 	ld	d, (hl)
+      000971 7E                    2079 	ld	a, (hl)
+      000972 F8 5D                 2080 	ldhl	sp,	#93
+      000974 96                    2081 	sub	a, (hl)
+      000975 CB 7B                 2082 	bit	7, e
+      000977 28 07                 2083 	jr	Z, 00384$
+      000979 CB 7A                 2084 	bit	7, d
+      00097B 20 08                 2085 	jr	NZ, 00385$
+      00097D BF                    2086 	cp	a, a
+      00097E 18 05                 2087 	jr	00385$
+      000980                       2088 00384$:
+      000980 CB 7A                 2089 	bit	7, d
+      000982 28 01                 2090 	jr	Z, 00385$
+      000984 37                    2091 	scf
+      000985                       2092 00385$:
+      000985 DAr96r0A              2093 	jp	C, 00156$
+                                   2094 ;src\lines.c:126: INT8 col = 3-(((i-j)%7)*3/7);
+      000988 F8 5D                 2095 	ldhl	sp,	#93
+      00098A 7E                    2096 	ld	a, (hl)
+      00098B F8 4F                 2097 	ldhl	sp,	#79
+      00098D 77                    2098 	ld	(hl), a
+      00098E 17                    2099 	rla
+      00098F 9F                    2100 	sbc	a, a
+      000990 23                    2101 	inc	hl
+      000991 77                    2102 	ld	(hl), a
+      000992 F8 4B                 2103 	ldhl	sp,#75
+      000994 2A                    2104 	ld	a, (hl+)
+      000995 5F                    2105 	ld	e, a
+      000996 56                    2106 	ld	d, (hl)
+      000997 F8 4F                 2107 	ldhl	sp,	#79
+      000999 2A                    2108 	ld	a, (hl+)
+      00099A 66                    2109 	ld	h, (hl)
+      00099B 6F                    2110 	ld	l, a
+      00099C 7B                    2111 	ld	a, e
+      00099D 95                    2112 	sub	a, l
+      00099E 5F                    2113 	ld	e, a
+      00099F 7A                    2114 	ld	a, d
+      0009A0 9C                    2115 	sbc	a, h
+      0009A1 F8 52                 2116 	ldhl	sp,	#82
+      0009A3 32                    2117 	ld	(hl-), a
+      0009A4 73                    2118 	ld	(hl), e
+      0009A5 21 07 00              2119 	ld	hl, #0x0007
+      0009A8 E5                    2120 	push	hl
+      0009A9 F8 53                 2121 	ldhl	sp,	#83
+      0009AB 2A                    2122 	ld	a, (hl+)
+      0009AC 66                    2123 	ld	h, (hl)
+      0009AD 6F                    2124 	ld	l, a
+      0009AE E5                    2125 	push	hl
+      0009AF CDr00r00              2126 	call	__modsint
+      0009B2 E8 04                 2127 	add	sp, #4
+      0009B4 4B                    2128 	ld	c, e
+      0009B5 42                    2129 	ld	b, d
+      0009B6 69                    2130 	ld	l, c
+      0009B7 60                    2131 	ld	h, b
+      0009B8 29                    2132 	add	hl, hl
+      0009B9 09                    2133 	add	hl, bc
+      0009BA 11 07 00              2134 	ld	de, #0x0007
+      0009BD D5                    2135 	push	de
+      0009BE E5                    2136 	push	hl
+      0009BF CDr00r00              2137 	call	__divsint
+      0009C2 E8 04                 2138 	add	sp, #4
+      0009C4 3E 03                 2139 	ld	a, #0x03
+      0009C6 93                    2140 	sub	a, e
+      0009C7 47                    2141 	ld	b, a
+                                   2142 ;src\lines.c:127: INT8 id = mod(j, 7);
+      0009C8 C5                    2143 	push	bc
+      0009C9 3E 07                 2144 	ld	a, #0x07
+      0009CB F5                    2145 	push	af
+      0009CC 33                    2146 	inc	sp
+      0009CD F8 60                 2147 	ldhl	sp,	#96
+      0009CF 7E                    2148 	ld	a, (hl)
+      0009D0 F5                    2149 	push	af
+      0009D1 33                    2150 	inc	sp
+      0009D2 CDr00r00              2151 	call	_mod
+      0009D5 E8 02                 2152 	add	sp, #2
+      0009D7 C1                    2153 	pop	bc
+                                   2154 ;src\lines.c:128: color(col, 0, SOLID);
+      0009D8 D5                    2155 	push	de
+      0009D9 AF                    2156 	xor	a, a
+      0009DA F5                    2157 	push	af
+      0009DB 33                    2158 	inc	sp
+      0009DC AF                    2159 	xor	a, a
+      0009DD F5                    2160 	push	af
+      0009DE 33                    2161 	inc	sp
+      0009DF C5                    2162 	push	bc
+      0009E0 33                    2163 	inc	sp
+      0009E1 CDr00r00              2164 	call	_color
+      0009E4 E8 03                 2165 	add	sp, #3
+      0009E6 D1                    2166 	pop	de
+                                   2167 ;src\lines.c:129: if (y0s[id]>k && y1s[id] >k)
+      0009E7 7B                    2168 	ld	a, e
+      0009E8 17                    2169 	rla
+      0009E9 9F                    2170 	sbc	a, a
+      0009EA CB 23                 2171 	sla	e
+      0009EC 8F                    2172 	adc	a, a
+      0009ED F8 4D                 2173 	ldhl	sp,	#77
+      0009EF 73                    2174 	ld	(hl), e
+      0009F0 23                    2175 	inc	hl
+                                   2176 ;c
+      0009F1 32                    2177 	ld	(hl-), a
+      0009F2 2A                    2178 	ld	a, (hl+)
+      0009F3 5F                    2179 	ld	e, a
+      0009F4 56                    2180 	ld	d, (hl)
+      0009F5 F8 3A                 2181 	ldhl	sp,	#58
+      0009F7 2A                    2182 	ld	a, (hl+)
+      0009F8 66                    2183 	ld	h, (hl)
+      0009F9 6F                    2184 	ld	l, a
+      0009FA 19                    2185 	add	hl, de
+      0009FB 4D                    2186 	ld	c, l
+      0009FC 44                    2187 	ld	b, h
+      0009FD 59                    2188 	ld	e, c
+      0009FE 50                    2189 	ld	d, b
+      0009FF 1A                    2190 	ld	a, (de)
+      000A00 F8 4F                 2191 	ldhl	sp,	#79
+      000A02 22                    2192 	ld	(hl+), a
+      000A03 13                    2193 	inc	de
+      000A04 1A                    2194 	ld	a, (de)
+      000A05 32                    2195 	ld	(hl-), a
+      000A06 2A                    2196 	ld	a, (hl+)
+      000A07 4F                    2197 	ld	c, a
+      000A08 46                    2198 	ld	b, (hl)
+      000A09 F8 5B                 2199 	ldhl	sp,	#91
+      000A0B 7E                    2200 	ld	a, (hl)
+      000A0C 91                    2201 	sub	a, c
+      000A0D 23                    2202 	inc	hl
+      000A0E 7E                    2203 	ld	a, (hl)
+      000A0F 98                    2204 	sbc	a, b
+      000A10 56                    2205 	ld	d, (hl)
+      000A11 78                    2206 	ld	a, b
+      000A12 CB 7F                 2207 	bit	7,a
+      000A14 28 07                 2208 	jr	Z, 00387$
+      000A16 CB 7A                 2209 	bit	7, d
+      000A18 20 08                 2210 	jr	NZ, 00388$
+      000A1A BF                    2211 	cp	a, a
+      000A1B 18 05                 2212 	jr	00388$
+      000A1D                       2213 00387$:
+      000A1D CB 7A                 2214 	bit	7, d
+      000A1F 28 01                 2215 	jr	Z, 00388$
+      000A21 37                    2216 	scf
+      000A22                       2217 00388$:
+      000A22 30 6C                 2218 	jr	NC, 00163$
+                                   2219 ;c
+      000A24 F8 3E                 2220 	ldhl	sp,#62
+      000A26 2A                    2221 	ld	a, (hl+)
+      000A27 5F                    2222 	ld	e, a
+      000A28 56                    2223 	ld	d, (hl)
+      000A29 F8 4D                 2224 	ldhl	sp,	#77
+      000A2B 2A                    2225 	ld	a, (hl+)
+      000A2C 66                    2226 	ld	h, (hl)
+      000A2D 6F                    2227 	ld	l, a
+      000A2E 19                    2228 	add	hl, de
+      000A2F 2A                    2229 	ld	a, (hl+)
+      000A30 4F                    2230 	ld	c, a
+      000A31 46                    2231 	ld	b, (hl)
+      000A32 F8 51                 2232 	ldhl	sp,	#81
+      000A34 79                    2233 	ld	a, c
+      000A35 22                    2234 	ld	(hl+), a
+      000A36 70                    2235 	ld	(hl), b
+      000A37 F8 5B                 2236 	ldhl	sp,	#91
+      000A39 5D                    2237 	ld	e, l
+      000A3A 54                    2238 	ld	d, h
+      000A3B F8 51                 2239 	ldhl	sp,	#81
+      000A3D 1A                    2240 	ld	a, (de)
+      000A3E 96                    2241 	sub	a, (hl)
+      000A3F 23                    2242 	inc	hl
+      000A40 13                    2243 	inc	de
+      000A41 1A                    2244 	ld	a, (de)
+      000A42 9E                    2245 	sbc	a, (hl)
+      000A43 1A                    2246 	ld	a, (de)
+      000A44 57                    2247 	ld	d, a
+      000A45 CB 7E                 2248 	bit	7, (hl)
+      000A47 28 07                 2249 	jr	Z, 00389$
+      000A49 CB 7A                 2250 	bit	7, d
+      000A4B 20 08                 2251 	jr	NZ, 00390$
+      000A4D BF                    2252 	cp	a, a
+      000A4E 18 05                 2253 	jr	00390$
+      000A50                       2254 00389$:
+      000A50 CB 7A                 2255 	bit	7, d
+      000A52 28 01                 2256 	jr	Z, 00390$
+      000A54 37                    2257 	scf
+      000A55                       2258 00390$:
+      000A55 30 39                 2259 	jr	NC, 00163$
+                                   2260 ;src\lines.c:131: line(x0s[id], y0s[id], x1s[id], y1s[id]);
+      000A57 F8 51                 2261 	ldhl	sp,	#81
+      000A59 71                    2262 	ld	(hl), c
+                                   2263 ;c
+      000A5A F8 3C                 2264 	ldhl	sp,#60
+      000A5C 2A                    2265 	ld	a, (hl+)
+      000A5D 5F                    2266 	ld	e, a
+      000A5E 56                    2267 	ld	d, (hl)
+      000A5F F8 4D                 2268 	ldhl	sp,	#77
+      000A61 2A                    2269 	ld	a, (hl+)
+      000A62 66                    2270 	ld	h, (hl)
+      000A63 6F                    2271 	ld	l, a
+      000A64 19                    2272 	add	hl, de
+      000A65 4D                    2273 	ld	c, l
+      000A66 44                    2274 	ld	b, h
+      000A67 0A                    2275 	ld	a, (bc)
+      000A68 F8 52                 2276 	ldhl	sp,	#82
+      000A6A 77                    2277 	ld	(hl), a
+      000A6B F8 4F                 2278 	ldhl	sp,	#79
+      000A6D 4E                    2279 	ld	c, (hl)
+                                   2280 ;c
+      000A6E F8 38                 2281 	ldhl	sp,#56
+      000A70 2A                    2282 	ld	a, (hl+)
+      000A71 5F                    2283 	ld	e, a
+      000A72 56                    2284 	ld	d, (hl)
+      000A73 F8 4D                 2285 	ldhl	sp,	#77
+      000A75 2A                    2286 	ld	a, (hl+)
+      000A76 66                    2287 	ld	h, (hl)
+      000A77 6F                    2288 	ld	l, a
+      000A78 19                    2289 	add	hl, de
+      000A79 5D                    2290 	ld	e, l
+      000A7A 54                    2291 	ld	d, h
+      000A7B 1A                    2292 	ld	a, (de)
+      000A7C F8 51                 2293 	ldhl	sp,	#81
+      000A7E 66                    2294 	ld	h, (hl)
+      000A7F E5                    2295 	push	hl
+      000A80 33                    2296 	inc	sp
+      000A81 F8 53                 2297 	ldhl	sp,	#83
+      000A83 66                    2298 	ld	h, (hl)
+      000A84 E5                    2299 	push	hl
+      000A85 33                    2300 	inc	sp
+      000A86 61                    2301 	ld	h, c
+      000A87 E5                    2302 	push	hl
+      000A88 33                    2303 	inc	sp
+      000A89 F5                    2304 	push	af
+      000A8A 33                    2305 	inc	sp
+      000A8B CDr00r00              2306 	call	_line
+      000A8E E8 04                 2307 	add	sp, #4
+      000A90                       2308 00163$:
+                                   2309 ;src\lines.c:124: for (INT8 j=i-6 ; j<=i ; ++j)
+      000A90 F8 5D                 2310 	ldhl	sp,	#93
+      000A92 34                    2311 	inc	(hl)
+      000A93 C3r6Br09              2312 	jp	00162$
+      000A96                       2313 00156$:
+                                   2314 ;src\lines.c:135: color(BLACK, 0, SOLID);
+      000A96 AF                    2315 	xor	a, a
+      000A97 F5                    2316 	push	af
+      000A98 33                    2317 	inc	sp
+      000A99 AF                    2318 	xor	a, a
+      000A9A 57                    2319 	ld	d,a
+      000A9B 1E 03                 2320 	ld	e,#0x03
+      000A9D D5                    2321 	push	de
+      000A9E CDr00r00              2322 	call	_color
+      000AA1 E8 03                 2323 	add	sp, #3
+                                   2324 ;src\lines.c:136: line(0, k, 159, k);
+      000AA3 F8 5B                 2325 	ldhl	sp,	#91
+      000AA5 7E                    2326 	ld	a, (hl)
+      000AA6 F5                    2327 	push	af
+      000AA7 33                    2328 	inc	sp
+      000AA8 26 9F                 2329 	ld	h, #0x9f
+      000AAA E5                    2330 	push	hl
+      000AAB 33                    2331 	inc	sp
+      000AAC F5                    2332 	push	af
+      000AAD 33                    2333 	inc	sp
+      000AAE AF                    2334 	xor	a, a
+      000AAF F5                    2335 	push	af
+      000AB0 33                    2336 	inc	sp
+      000AB1 CDr00r00              2337 	call	_line
+      000AB4 E8 04                 2338 	add	sp, #4
+                                   2339 ;src\lines.c:137: line(0, k+1, 159, k+1);
+      000AB6 F8 5B                 2340 	ldhl	sp,	#91
+      000AB8 7E                    2341 	ld	a, (hl)
+      000AB9 3C                    2342 	inc	a
+      000ABA F5                    2343 	push	af
+      000ABB 33                    2344 	inc	sp
+      000ABC 26 9F                 2345 	ld	h, #0x9f
+      000ABE E5                    2346 	push	hl
+      000ABF 33                    2347 	inc	sp
+      000AC0 F5                    2348 	push	af
+      000AC1 33                    2349 	inc	sp
+      000AC2 AF                    2350 	xor	a, a
+      000AC3 F5                    2351 	push	af
+      000AC4 33                    2352 	inc	sp
+      000AC5 CDr00r00              2353 	call	_line
+      000AC8 E8 04                 2354 	add	sp, #4
+                                   2355 ;src\lines.c:98: for (int k=0 ; k<144 ; k += 2)
+                                   2356 ;c
+      000ACA F8 5B                 2357 	ldhl	sp,#91
+      000ACC 2A                    2358 	ld	a, (hl+)
+      000ACD 5F                    2359 	ld	e, a
+      000ACE 56                    2360 	ld	d, (hl)
+      000ACF 21 02 00              2361 	ld	hl, #0x0002
+      000AD2 19                    2362 	add	hl, de
+      000AD3 E5                    2363 	push	hl
+      000AD4 7D                    2364 	ld	a, l
+      000AD5 F8 5D                 2365 	ldhl	sp,	#93
+      000AD7 77                    2366 	ld	(hl), a
+      000AD8 E1                    2367 	pop	hl
+      000AD9 7C                    2368 	ld	a, h
+      000ADA F8 5C                 2369 	ldhl	sp,	#92
+      000ADC 77                    2370 	ld	(hl), a
+      000ADD C3r2Br06              2371 	jp	00165$
+      000AE0                       2372 00167$:
+                                   2373 ;src\lines.c:139: }
+      000AE0 E8 5E                 2374 	add	sp, #94
+      000AE2 C9                    2375 	ret
+                           000003  2376 ___bank_lines	=	0x0003
+                                   2377 	.area _CODE_3
+                                   2378 	.area _CABS (ABS)

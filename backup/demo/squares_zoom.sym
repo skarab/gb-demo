@@ -1,0 +1,59 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 1.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000000 L
+    _LCDC_REG                                                      ****** GX
+    _LY_REG                                                        ****** GX
+    _SCX_REG                                                       ****** GX
+    _SCY_REG                                                       ****** GX
+    _STAT_REG                                                      ****** GX
+  6 _Scene_SquaresZoom                                             003087 GR
+    ___bank_squares_zoom                                        =  000006 G
+    _add_LCD                                                       ****** GX
+    _add_VBL                                                       ****** GX
+    _disable_interrupts                                            ****** GX
+    _display_off                                                   ****** GX
+    _enable_interrupts                                             ****** GX
+  1 _s                                                             000004 GR
+  1 _scroll                                                        000000 GR
+    _set_bkg_data                                                  ****** GX
+    _set_bkg_tiles                                                 ****** GX
+    _set_interrupts                                                ****** GX
+    _set_palette                                                   ****** GX
+    _sintable                                                      ****** GX
+  1 _square_size                                                   000002 GR
+  6 _squares_zoom_lcd                                              00304D GR
+  6 _squares_zoom_precalc                                          001045 GR
+  6 _squares_zoom_tiledata                                         00019F GR
+  6 _squares_zoom_tiledata_count                                   00019D GR
+  6 _squares_zoom_tilemap0                                         000D81 GR
+  6 _squares_zoom_tilemap0_count                                   000D7F GR
+  6 _squares_zoom_tilemap1                                         000E83 GR
+  6 _squares_zoom_tilemap1_count                                   000E81 GR
+  6 _squares_zoom_tilemap2                                         000F85 GR
+  6 _squares_zoom_tilemap2_count                                   000F83 GR
+  6 _squares_zoom_vbl                                              000000 GR
+  1 _t                                                             000003 GR
+    _wait_vbl_done                                                 ****** GX
+  1 _zoom_scroll                                                   000001 GR
+    b_Scene_SquaresZoom                                         =  000006 G
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size      0   flags    0
+   1 _DATA                                      size      5   flags    0
+   2 _DABS                                      size      0   flags    8
+   3 _HOME                                      size      0   flags    0
+   4 _GSINIT                                    size     19   flags    0
+   5 _GSFINAL                                   size      0   flags    0
+   6 _CODE_6                                    size   3119   flags    0
+   7 _CABS                                      size      0   flags    8
+

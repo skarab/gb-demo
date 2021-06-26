@@ -1,0 +1,38 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 1.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000000 L
+    _LCDC_REG                                                      ****** GX
+  6 _Scene_Title                                                   000000 GR
+    ___bank_title                                               =  000003 G
+    _color                                                         ****** GX
+    _getpix                                                        ****** GX
+    _line                                                          ****** GX
+    _pause_counter                                                 ****** GX
+    _plot                                                          ****** GX
+    _plot_point                                                    ****** GX
+  6 _resources_title_raw                                           0001D9 GR
+  1 _resources_title_raw_len                                       000000 GR
+    _set_palette                                                   ****** GX
+    _wait_vbl_done                                                 ****** GX
+    b_Scene_Title                                               =  000003 G
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size      0   flags    0
+   1 _DATA                                      size      2   flags    0
+   2 _DABS                                      size      0   flags    8
+   3 _HOME                                      size      0   flags    0
+   4 _GSINIT                                    size      8   flags    0
+   5 _GSFINAL                                   size      0   flags    0
+   6 _CODE_3                                    size    FB7   flags    0
+   7 _CABS                                      size      0   flags    8
+

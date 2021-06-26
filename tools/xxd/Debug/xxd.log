@@ -1,0 +1,6 @@
+﻿  xxd.c
+D:\prog\gameboy\tools\xxd\xxd.c(135,25): warning C4273: 'strtol': inconsistent dll linkage
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\ucrt\stdlib.h(528,23): message : see previous definition of 'strtol'
+D:\prog\gameboy\tools\xxd\xxd.c(136,24): warning C4273: 'ftell': inconsistent dll linkage
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\ucrt\stdio.h(286,27): message : see previous definition of 'ftell'
+  xxd.vcxproj -> D:\prog\gameboy\tools\xxd\Debug\xxd.exe

@@ -1,0 +1,215 @@
+ROM0 bank #0:
+  SECTION: $0000-$003f ($0040 bytes) ["restarts"]
+  SECTION: $0040-$0040 ($0001 byte) ["Vblank interrupt"]
+  SECTION: $0048-$004b ($0004 bytes) ["LCD controller status interrupt"]
+  SECTION: $0050-$0050 ($0001 byte) ["Timer overflow interrupt"]
+  SECTION: $0058-$0058 ($0001 byte) ["Serial transfer completion interrupt"]
+  SECTION: $0060-$0060 ($0001 byte) ["P10-P13 signal low edge interrupt"]
+  SECTION: $0100-$0103 ($0004 bytes) ["init"]
+  SECTION: $0104-$0133 ($0030 bytes) ["nintendo_logo"]
+  SECTION: $0134-$0145 ($0012 bytes) ["romname"]
+  SECTION: $0150-$01c9 ($007a bytes) ["main"]
+           $0153 = isr_wrapper
+           $0164 = _init
+    SLACK: $3ef8 bytes
+
+ROMX bank #1:
+  SECTION: $4000-$4e6d ($0e6e bytes) ["Song Data"]
+           $4000 = song
+           $4015 = order_cnt
+           $4016 = order1
+           $4054 = order2
+           $4092 = order3
+           $40d0 = order4
+           $410e = P0
+           $41ce = P1
+           $428e = P2
+           $434e = P3
+           $440e = P21
+           $44ce = P22
+           $458e = P40
+           $464e = P43
+           $470e = P71
+           $47ce = P72
+           $488e = P80
+           $494e = P82
+           $4a0e = P90
+           $4ace = P101
+           $4b8e = P111
+           $4c4e = duty_instruments
+           $4c8a = wave_instruments
+           $4cc6 = noise_instruments
+           $4d3e = __hUGE_Routine_0
+           $4d3f = __hUGE_Routine_1
+           $4d40 = __hUGE_Routine_2
+           $4d41 = __hUGE_Routine_3
+           $4d42 = __hUGE_Routine_4
+           $4d43 = __hUGE_Routine_5
+           $4d44 = __hUGE_Routine_6
+           $4d45 = __hUGE_Routine_7
+           $4d46 = __hUGE_Routine_8
+           $4d47 = __hUGE_Routine_9
+           $4d48 = __hUGE_Routine_10
+           $4d49 = __hUGE_Routine_11
+           $4d4a = __hUGE_Routine_12
+           $4d4b = __hUGE_Routine_13
+           $4d4c = __hUGE_Routine_14
+           $4d4d = __hUGE_Routine_15
+           $4d4e = routines
+           $4d6e = waves
+  SECTION: $4e6e-$55fd ($0790 bytes) ["Sound Driver"]
+           $4e6e = _hUGE_init_banked
+           $4e72 = _hUGE_init
+           $4e74 = continue_init
+           $4e7d = _hUGE_mute_channel_banked
+           $4e81 = _hUGE_mute_channel
+           $4e83 = continue_mute
+           $4e8e = hUGE_mute_channel
+           $4e9b = hUGE_mute_channel.enable_cut
+           $4ea8 = hUGE_init
+           $4ed2 = _refresh_patterns
+           $4eed = _refresh_patterns.load_pattern
+           $4efd = _load_note_data
+           $4f0f = _lookup_note
+           $4f19 = _convert_note
+           $4f27 = _convert_ch4_note
+           $4f3e = _update_channel
+           $4f56 = _update_channel2
+           $4f64 = _update_channel3
+           $4f72 = _update_channel4
+           $4f82 = _playnote1
+           $4f9d = _playnote2
+           $4fb8 = _playnote3
+           $4fd9 = _playnote4
+           $4fed = _doeffect
+           $5002 = _doeffect.jump
+           $5032 = setup_channel_pointer
+           $5040 = fx_set_master_volume
+           $5045 = fx_call_routine
+           $5067 = fx_call_routine.call_hl
+           $5068 = fx_set_pan
+           $506d = fx_set_duty
+           $507c = fx_set_duty.chan1
+           $5086 = fx_vol_slide
+           $5092 = fx_vol_slide.cont
+           $50c4 = fx_vol_slide.cont1
+           $50cb = fx_vol_slide.cont2
+           $50df = _envelope_registers
+           $50e7 = fx_note_delay
+           $5100 = fx_note_delay.play_note
+           $511e = _play_note_routines
+           $512a = fx_set_speed
+           $5130 = fx_pos_jump
+           $513a = fx_pattern_break
+           $513f = fx_note_cut
+           $514c = fx_note_cut.cont
+           $5151 = note_cut
+           $5168 = fx_set_volume
+           $518a = set_chn_3_vol.two
+           $518e = set_chn_3_vol.one
+           $5192 = set_chn_3_vol.zero
+           $5193 = set_chn_3_vol.done
+           $5196 = set_chn_2_vol
+           $51a6 = set_chn_1_vol
+           $51b6 = set_chn_4_vol
+           $51c2 = fx_vibrato
+           $51da = fx_vibrato.go_up
+           $51e5 = fx_vibrato.finish_vibrato
+           $51eb = fx_arpeggio
+           $51f9 = fx_arpeggio.test_greater_than_two
+           $5208 = fx_arpeggio.arp_options
+           $520e = fx_arpeggio.reset_arp
+           $5211 = fx_arpeggio.set_arp2
+           $5216 = fx_arpeggio.set_arp1
+           $5217 = fx_arpeggio.finish_arp
+           $521a = fx_arpeggio.finish_skip_add
+           $5223 = fx_porta_up
+           $5239 = fx_porta_down
+           $524b = fx_toneporta
+           $525d = fx_toneporta.return_skip
+           $5267 = fx_toneporta.do_toneporta
+           $527c = fx_toneporta.high_byte_same
+           $5282 = fx_toneporta.add
+           $5294 = fx_toneporta.subtract
+           $52aa = fx_toneporta.set_exact
+           $52ac = fx_toneporta.done
+           $52bf = _setup_instrument_pointer_ch4
+           $52ca = _setup_instrument_pointer
+           $52d1 = _setup_instrument_pointer.finish
+           $52da = _hUGE_dosound_banked
+           $52da = _hUGE_dosound
+           $5319 = _hUGE_dosound.write_mask1
+           $531c = _hUGE_dosound.do_setvol1
+           $532f = _hUGE_dosound.after_note1
+           $5364 = _hUGE_dosound.write_mask2
+           $5367 = _hUGE_dosound.do_setvol2
+           $537a = _hUGE_dosound.after_note2
+           $5401 = _hUGE_dosound.no_wave_copy
+           $5402 = _hUGE_dosound.write_mask3
+           $5405 = _hUGE_dosound.do_setvol3
+           $5410 = _hUGE_dosound.after_note3
+           $5461 = _hUGE_dosound.write_mask4
+           $5464 = _hUGE_dosound.do_setvol4
+           $546f = _hUGE_dosound.after_note4
+           $5472 = _hUGE_dosound.process_effects
+           $548e = _hUGE_dosound.after_effect1
+           $54aa = _hUGE_dosound.after_effect2
+           $54c6 = _hUGE_dosound.after_effect3
+           $5511 = _hUGE_dosound.done_macro
+           $551a = process_tick
+           $551a = _hUGE_dosound.after_effect4
+           $552c = _newrow
+           $5549 = _newrow.no_break
+           $5554 = _neworder
+           $5561 = _update_current_order
+           $5568 = _noreset
+           $556e = note_table
+    SLACK: $2a02 bytes
+
+WRAM0 bank #0:
+  SECTION: $c000-$c045 ($0046 bytes) ["Playback variables"]
+           $c000 = order_cnt
+           $c001 = order1
+           $c003 = order2
+           $c005 = order3
+           $c007 = order4
+           $c009 = duty_instruments
+           $c00b = wave_instruments
+           $c00d = noise_instruments
+           $c00f = routines
+           $c011 = waves
+           $c013 = mute_channels
+           $c014 = pattern1
+           $c016 = pattern2
+           $c018 = pattern3
+           $c01a = pattern4
+           $c01c = ticks_per_row
+           $c01d = current_order
+           $c01e = next_order
+           $c01f = row_break
+           $c020 = temp_note_value
+           $c022 = row
+           $c023 = tick
+           $c024 = counter
+           $c025 = current_wave
+           $c026 = channel_period1
+           $c026 = channels
+           $c02a = channel_note1
+           $c02c = envelope1
+           $c02d = highmask1
+           $c02e = channel_period2
+           $c032 = channel_note2
+           $c034 = envelope2
+           $c035 = highmask2
+           $c036 = channel_period3
+           $c03a = channel_note3
+           $c03d = highmask3
+           $c03e = channel_period4
+           $c042 = channel_note4
+           $c045 = highmask4
+    SLACK: $0fba bytes
+
+HRAM bank #0:
+  SECTION: $ff84-$fffd ($007a bytes) ["Stack"]
+    SLACK: $0005 bytes
+

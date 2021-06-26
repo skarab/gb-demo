@@ -1,0 +1,12 @@
+@echo off
+@echo cleaning...
+del *.gb
+del *.map
+del *.rel
+del *.asm
+del *.o
+del *.sym
+del *.ihx
+del *.lst
+del *.noi
+del *.sav

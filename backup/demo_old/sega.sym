@@ -1,0 +1,59 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 1.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000000 L
+    _BGP_REG                                                       ****** GX
+    _LCDC_REG                                                      ****** GX
+    _NR50_REG                                                      ****** GX
+    _NR51_REG                                                      ****** GX
+    _NR52_REG                                                      ****** GX
+    _OBP0_REG                                                      ****** GX
+    _OBP1_REG                                                      ****** GX
+    _PalFadeCount                                                  ****** GX
+    _PalFadeWhite                                                  ****** GX
+    _PalScroll                                                     ****** GX
+    _PalScrollCount                                                ****** GX
+    _SCX_REG                                                       ****** GX
+    _SCY_REG                                                       ****** GX
+  6 _Scene_Sega                                                    000000 GR
+    _WX_REG                                                        ****** GX
+    _WY_REG                                                        ****** GX
+    ___bank_sega                                                =  000001 G
+    __moduint                                                      ****** GX
+    _disable_interrupts                                            ****** GX
+    _display_off                                                   ****** GX
+    _enable_interrupts                                             ****** GX
+    _pause_counter                                                 ****** GX
+    _play_sample                                                   ****** GX
+  6 _sega_raw                                                      000717 GR
+  1 _sega_raw_len                                                  000000 GR
+  6 _sega_tiledata                                                 00041B GR
+  6 _sega_tilemap                                                  0006EB GR
+    _set_bkg_data                                                  ****** GX
+    _set_bkg_tiles                                                 ****** GX
+    _set_palette                                                   ****** GX
+    _set_win_data                                                  ****** GX
+    _set_win_tiles                                                 ****** GX
+    _wait_vbl_done                                                 ****** GX
+    b_Scene_Sega                                                =  000001 G
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size      0   flags    0
+   1 _DATA                                      size      2   flags    0
+   2 _DABS                                      size      0   flags    8
+   3 _HOME                                      size      0   flags    0
+   4 _GSINIT                                    size      8   flags    0
+   5 _GSFINAL                                   size      0   flags    0
+   6 _CODE_1                                    size   2143   flags    0
+   7 _CABS                                      size      0   flags    8
+
