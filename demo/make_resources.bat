@@ -4,5 +4,6 @@ call "C:\Program Files (x86)\sox-14-4-2\sox.exe" D:\prog\gameboy\samples\sega\Se
 call ..\tools\xxd\Release\xxd.exe -i -w sega.raw resources\sega_wav.h
 del sega.raw
 
-call ..\tools\xxd\Release\xxd.exe -i -w -x resources\title.raw resources\title.h
-call ..\tools\xxd\Release\xxd.exe -i -w -x resources\cube_header.raw resources\cube_header.h
+call ..\tools\xxd\Release\xxd.exe -i -w -x ..\images\cube_header.raw resources\cube_header.h
+
+call ..\generator\Debug\generator.exe

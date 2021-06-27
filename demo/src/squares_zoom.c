@@ -89,11 +89,9 @@ void squares_zoom_lcd()
 
 void Scene_SquaresZoom() BANKED
 {
-	//precalc_table();
-	
 	disable_interrupts();
 	DISPLAY_OFF;
-	//mode(0);
+	LCDC_REG = 0xD1;
 	HIDE_WIN;
 	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
 	set_bkg_data(0, squares_zoom_tiledata_count, squares_zoom_tiledata);
@@ -107,30 +105,60 @@ void Scene_SquaresZoom() BANKED
 		add_LCD(squares_zoom_lcd);
 	}
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
+	DISPLAY_ON;
+	enable_interrupts();
+	
+	int time = 0;
+	while (1) //++time<400)
+	{	
+		wait_vbl_done();
+	}
+	
+	disable_interrupts();
+	CRITICAL {
+        remove_VBL(squares_zoom_vbl1);
+		remove_LCD(squares_zoom_lcd);
+		SCY_REG = SCX_REG = 0;
+	}
+	enable_interrupts();
+}
+
+void Scene_SquaresZoom2() BANKED
+{
+	mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
+	
+	disable_interrupts();
+	DISPLAY_OFF;
+	//mode(0);
+	//LCDC_REG = 0xD1;
+	//HIDE_WIN;
+	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
+	set_bkg_data(0, squares_zoom_tiledata_count, squares_zoom_tiledata);
+	set_bkg_tiles(0, 0, 32, 8, squares_zoom_tilemap0);
+	set_bkg_tiles(0, 8, 32, 8, squares_zoom_tilemap1);
+	set_bkg_tiles(0, 16, 32, 6, squares_zoom_tilemap2);
+	
+	CRITICAL {
+        STAT_REG = 0x18;
+		add_VBL(squares_zoom_vbl2);
+		add_LCD(squares_zoom_lcd);
+	}
+    set_interrupts(LCD_IFLAG | VBL_IFLAG);
 	
 	DISPLAY_ON;
 	enable_interrupts();
 	
-	int t = 0;
+	int time = 0;
+	while (++time<250)
+	{
+		wait_vbl_done();
+	}
 	
-	while (t<400)
-	{	
-		++t;
-		wait_vbl_done();		
-    }
-	
+	disable_interrupts();
 	CRITICAL {
         remove_VBL(squares_zoom_vbl2);
-		set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
-		add_VBL(squares_zoom_vbl2);
-    }	
-	
-	t = 0;
-	
-	while (1)
-	{
-		++t;
-		BGP_REG = PalScroll[++t%PalScrollCount];
-		wait_vbl_done();		
-    }
+		remove_LCD(squares_zoom_lcd);
+		SCY_REG = SCX_REG = 0;
+	}
+	enable_interrupts();
 }

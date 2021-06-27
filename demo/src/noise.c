@@ -3,9 +3,10 @@ const void __at(4) __bank_noise;
 
 #include "gameboy.h"
 
-//#include "../resources/fire_tiles.h"
-extern unsigned char fire_tiles_tiledata[];
-extern unsigned char fire_tiles_tilemap[];
+extern const unsigned int bitmap_fire_tiledata_count;
+extern const unsigned char bitmap_fire_tiledata[];
+extern const unsigned int bitmap_fire_tilemap0_count;
+extern const unsigned char bitmap_fire_tilemap0[];
 
 UINT8* noise_output[20*18];
 UINT8 noise_y = 0;
@@ -58,12 +59,14 @@ void Scene_Noise() BANKED
 {
 	UINT8 x, y;
 	
-	mode(M_TEXT_OUT);
-	
 	disable_interrupts();
+	//mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
+	//enable_interrupts();
+	
 	DISPLAY_OFF;
+	init_bkg(0);
 	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
-	set_bkg_data(0, 32, fire_tiles_tiledata);
+	set_bkg_data(0, 32, bitmap_fire_tiledata);
 	
 	UINT16 oy = 0;
 	for (y=0 ; y!=18 ; ++y)
@@ -74,7 +77,7 @@ void Scene_Noise() BANKED
 			
 			if (y==12 && x>=2 && x<18)
 			{
-				**(noise_output+oy+x) = 16+x-2;
+				**(noise_output+oy+x) = bitmap_fire_tilemap0[16+x-2];
 			}
 			else			
 			{
@@ -83,15 +86,15 @@ void Scene_Noise() BANKED
 		}
 		oy += 20;
 	}
+	DISPLAY_ON;
 	
+	//disable_interrupts();
 	CRITICAL {
         STAT_REG = 0x18;
 		add_VBL(noise_vbl);
 		add_LCD(noise_lcd);
     }
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	
-	DISPLAY_ON;
 	enable_interrupts();
 	
 	int sync = 0;
@@ -104,16 +107,12 @@ void Scene_Noise() BANKED
     }
 	
 	disable_interrupts();
-	DISPLAY_OFF;
-	
 	CRITICAL {
 		remove_LCD(noise_lcd);
 		remove_VBL(noise_vbl);
 		SCX_REG = 0;
 		STAT_REG = 0x44;
 	}
-	
 	set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	DISPLAY_ON;
 	enable_interrupts();
 }

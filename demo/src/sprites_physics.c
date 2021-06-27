@@ -4,25 +4,30 @@ const void __at(5) __bank_sprites_physics;
 #include "gameboy.h"
 #include "rand.h"
 
-//#include "../resources/axelay_sprites.h"
-extern const unsigned char axelay_sprites_tiledata[];
+#include "../resources/bitmap_sprites_physics_bkg.h"
+
+extern const unsigned char bitmap_sprites3d_tiledata[];
 
 void Scene_SpritesPhysics() BANKED
 {
 	UINT8 i;
 	
-	disable_interrupts();
+	mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
 	DISPLAY_OFF;
-	//mode(0);
-	HIDE_WIN;
+	LCDC_REG = 0xD1;
 	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
-	init_bkg(255);
+	set_bkg_data(0, bitmap_sprites_physics_bkg_tiledata_count, bitmap_sprites_physics_bkg_tiledata);
+	set_bkg_tiles(0, 0, 20, 12, bitmap_sprites_physics_bkg_tilemap0);
+	set_bkg_tiles(0, 12, 16, 1, bitmap_sprites_physics_bkg_tilemap0+20*12);
+	set_bkg_tiles(16, 12, 4, 1, bitmap_sprites_physics_bkg_tilemap1);
+	set_bkg_tiles(0, 13, 20, 5, bitmap_sprites_physics_bkg_tilemap1+4);
+	DISPLAY_ON;
 	
 	SPRITES_8x16;
 	for (i=0 ; i<8 ; ++i)
 	{
-		set_sprite_data(168+i*2, 1, axelay_sprites_tiledata+i*16);
-		set_sprite_data(168+i*2+1, 1, axelay_sprites_tiledata+i*16+16*8);
+		set_sprite_data(168+i*2, 1, bitmap_sprites3d_tiledata+i*16);
+		set_sprite_data(168+i*2+1, 1, bitmap_sprites3d_tiledata+i*16+16*8);
 	}
 	SHOW_SPRITES;
 	
@@ -61,14 +66,13 @@ void Scene_SpritesPhysics() BANKED
 		sprite_dz[i] = rand()/32;
 		if (sprite_dz[i]==0) sprite_dz[i] = 1;
 	}
-	
-	DISPLAY_ON;
-	enable_interrupts();
-	
+
 	int time = 0;
 	
-	while (1)
+	while (++time<220)
 	{
+		BGP_REG = PalScroll[(time>>1)%PalScrollCount];
+		
 		for (i=0 ; i<sprite_count ; ++i)
 		{
 			int x = sprite_x[i];
@@ -100,6 +104,9 @@ void Scene_SpritesPhysics() BANKED
 			{
 				set_sprite_tile(i, 168+size*2);
 				sprite_size[i] = size;
+				
+				if (size<4) set_sprite_prop(i, get_sprite_prop(i) & ~S_PALETTE);
+				else set_sprite_prop(i, get_sprite_prop(i) | S_PALETTE);
 			}
 		
 			move_sprite(i, px, py);
@@ -115,7 +122,10 @@ void Scene_SpritesPhysics() BANKED
 		wait_vbl_done();
     }
 	
-	//CRITICAL {
-    //    remove_VBL(blittest_vbl);
-    //}	
+	for (i=0 ; i<sprite_count ; ++i)
+	{
+		move_sprite(i, 0, 0);
+	}
+	
+	HIDE_SPRITES;
 }

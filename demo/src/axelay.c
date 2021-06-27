@@ -4,9 +4,9 @@ const void __at(5) __bank_axelay;
 #include "gameboy.h"
 #include "rand.h"
 
-#include "../resources/axelay_sky.h"
-#include "../resources/axelay_overlay.h"
-#include "../resources/axelay_sprites.h"
+#include "../resources/bitmap_axelay_sky.h"
+#include "../resources/bitmap_axelay_overlay.h"
+#include "../resources/bitmap_sprites3d.h"
 
 UINT8 axelay_scroll_x = 0;
 UINT8 axelay_scroll_y = 0;
@@ -102,37 +102,36 @@ void Scene_Axelay() BANKED
 {
 	UINT8 y;
 	
-	disable_interrupts();
 	DISPLAY_OFF;
-	//mode(0);
 	HIDE_WIN;
 	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
-	set_bkg_data(0, 128, axelay_sky_tiledata);
-	set_bkg_tiles(0, 0, 16, 8, axelay_sky_tilemap);
-	set_bkg_tiles(0, 8, 16, 8, axelay_sky_tilemap);
-	set_bkg_tiles(16, 0, 16, 8, axelay_sky_tilemap);
-	set_bkg_tiles(16, 8, 16, 8, axelay_sky_tilemap);
-	set_bkg_tiles(0, 16, 16, 8, axelay_sky_tilemap);
-	set_bkg_tiles(0, 24, 16, 8, axelay_sky_tilemap);
-	set_bkg_tiles(16, 16, 16, 8, axelay_sky_tilemap);
-	set_bkg_tiles(16, 24, 16, 8, axelay_sky_tilemap);
+	set_bkg_data(0, bitmap_axelay_sky_tiledata_count, bitmap_axelay_sky_tiledata);
+	set_bkg_tiles(0, 0, 16, 8, bitmap_axelay_sky_tilemap0);
+	set_bkg_tiles(0, 8, 16, 8, bitmap_axelay_sky_tilemap0);
+	set_bkg_tiles(16, 0, 16, 8, bitmap_axelay_sky_tilemap0);
+	set_bkg_tiles(16, 8, 16, 8, bitmap_axelay_sky_tilemap0);
+	set_bkg_tiles(0, 16, 16, 8, bitmap_axelay_sky_tilemap0);
+	set_bkg_tiles(0, 24, 16, 8, bitmap_axelay_sky_tilemap0);
+	set_bkg_tiles(16, 16, 16, 8, bitmap_axelay_sky_tilemap0);
+	set_bkg_tiles(16, 24, 16, 8, bitmap_axelay_sky_tilemap0);
 	
-	set_win_data(128, 40, axelay_overlay_tiledata);
-	for (y=0 ; y<40 ; ++y)
+	set_win_data(bitmap_axelay_sky_tiledata_count, bitmap_axelay_overlay_tiledata_count, bitmap_axelay_overlay_tiledata);
+	for (y=0 ; y<bitmap_axelay_overlay_tiledata_count ; ++y)
 	{
-		UINT8 tile_id = y+128;
+		UINT8 tile_id = bitmap_axelay_overlay_tilemap0[y]+bitmap_axelay_sky_tiledata_count;
 		set_win_tiles(y%20, y/20, 1, 1, &tile_id);
 	}
 	
 	move_win(7, 144);
 	SHOW_BKG;
 	SHOW_WIN;
-
+	DISPLAY_ON;
+	
 	SPRITES_8x16;
 	for (y=0 ; y<8 ; ++y)
 	{
-		set_sprite_data(168+y*2, 1, axelay_sprites_tiledata+y*16);
-		set_sprite_data(168+y*2+1, 1, axelay_sprites_tiledata+y*16+16*8);
+		set_sprite_data(168+y*2, 1, bitmap_sprites3d_tiledata+y*16);
+		set_sprite_data(168+y*2+1, 1, bitmap_sprites3d_tiledata+y*16+16*8);
 	}
 	SHOW_SPRITES;
 	
@@ -155,14 +154,13 @@ void Scene_Axelay() BANKED
 		}	
 	}
 	
+	disable_interrupts();
 	CRITICAL {
         STAT_REG = 0x18;
 		add_VBL(axelay_vbl);
 		add_LCD(axelay_lcd);
 	}
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	
-	DISPLAY_ON;
 	enable_interrupts();
 	
 	int time = 0;
@@ -187,16 +185,13 @@ void Scene_Axelay() BANKED
     }
 	
 	disable_interrupts();
-	DISPLAY_OFF;
 	
 	CRITICAL {
-		remove_LCD(axelay_vbl);
-		remove_VBL(axelay_lcd);
-		SCX_REG = 0;
-		STAT_REG = 0x44;
+		remove_LCD(axelay_lcd);
+		remove_VBL(axelay_vbl);
 	}
 	
-	set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	DISPLAY_ON;
+	SCX_REG = SCY_REG = 0;
+	
 	enable_interrupts();
 }

@@ -2,16 +2,18 @@
 const void __at(1) __bank_sega;
 
 #include "gameboy.h"
-#include "../resources/sega.h"
+#include "../resources/bitmap_sega.h"
 #include "../resources/sega_wav.h"
 	
 void Scene_Sega() BANKED
 {
 	disable_interrupts();
-	DISPLAY_OFF;
-	LCDC_REG = 0x67;
-	BGP_REG = OBP0_REG = OBP1_REG = 0xE4U;
-
+	//DISPLAY_OFF;
+	//LCDC_REG = 0xD1;
+	//BGP_REG = OBP0_REG = OBP1_REG = 0xE4U;
+	set_palette(PalFadeWhite[PalFadeCount-1]);
+	SHOW_WIN;
+	
     move_bkg(0, 0);
 	scroll_bkg(0, 0);
 	
@@ -26,11 +28,10 @@ void Scene_Sega() BANKED
 		set_bkg_tiles(i, j, 1, 1, black_tilemap);
 	}
 	
-	set_win_data(0, 44, sega_tiledata);
-	set_win_tiles(0, 0, 11, 4, sega_tilemap);
+	set_win_data(0, bitmap_sega_tiledata_count, bitmap_sega_tiledata);
+	set_win_tiles(0, 0, 11, 4, bitmap_sega_tilemap0);
 	move_win(44, 52);
-	
-	DISPLAY_ON;
+	//DISPLAY_ON;
 	enable_interrupts();
 	
 	int i = 0;
@@ -54,11 +55,12 @@ void Scene_Sega() BANKED
 	}
 
 	// clean play_sample garbage
-	const unsigned char toto[] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	const unsigned char empty_sample[] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0	};
-	play_sample(toto, 1);
+	play_sample(empty_sample, 1);
 	
 	disable_interrupts();
+	HIDE_WIN;
 	NR52_REG = 0x80;
     NR51_REG = 0xFF;
     NR50_REG = 0x77;

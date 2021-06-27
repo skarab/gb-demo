@@ -1,17 +1,11 @@
-#pragma bank 6
-const void __at(6) __bank_squares_race;
+#pragma bank 7
+const void __at(7) __bank_squares_race;
 
 #include "gameboy.h"
+#include "../resources/squares_race.h"
+#include "../resources/squares_race_precalc.h"
 
-extern const unsigned int squares_zoom_tiledata_count;
-extern const unsigned char squares_zoom_tiledata[];
-extern const unsigned int squares_zoom_tilemap0_count;
-extern const unsigned char squares_zoom_tilemap0[];
-extern const unsigned int squares_zoom_tilemap1_count;
-extern const unsigned char squares_zoom_tilemap1[];
-extern const unsigned int squares_zoom_tilemap2_count;
-extern const unsigned char squares_zoom_tilemap2[];
-
+/*
 #define race_loop 40
 #define race_divide 12
 #define race_i_mul 12/8
@@ -47,6 +41,7 @@ void squares_race_precalc()
 		}
 	}
 }
+*/
 
 UINT8 race_anim = 0;
 
@@ -54,7 +49,7 @@ void squares_race_vbl()
 {
 	++race_anim;
 	if (race_anim>=race_loop)
-		race_anim = 8;
+		race_anim = 0;
 }
 
 void squares_race_lcd()
@@ -88,17 +83,16 @@ void squares_race_lcd()
 
 void Scene_SquaresRace() BANKED
 {
-	squares_race_precalc();
-	
 	disable_interrupts();
 	DISPLAY_OFF;
-	//mode(0);
+	LCDC_REG = 0xD1;
 	HIDE_WIN;
+	init_bkg(255);
 	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
-	set_bkg_data(0, squares_zoom_tiledata_count, squares_zoom_tiledata);
-	set_bkg_tiles(0, 0, 32, 8, squares_zoom_tilemap0);
-	set_bkg_tiles(0, 8, 32, 8, squares_zoom_tilemap1);
-	set_bkg_tiles(0, 16, 32, 6, squares_zoom_tilemap2);
+	set_bkg_data(0, squares_race_tiledata_count, squares_race_tiledata);
+	set_bkg_tiles(0, 0, 32, 8, squares_race_tilemap0);
+	set_bkg_tiles(0, 8, 32, 8, squares_race_tilemap1);
+	set_bkg_tiles(0, 16, 32, 6, squares_race_tilemap2);
 	
 	CRITICAL {
         STAT_REG = 0x18;
@@ -106,17 +100,20 @@ void Scene_SquaresRace() BANKED
 		add_LCD(squares_race_lcd);
 	}
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	
 	DISPLAY_ON;
 	enable_interrupts();
 	
-	while (1)
+	int t = 0;
+	while (t<500)
 	{	
+		++t;
 		wait_vbl_done();		
     }
-	/*
+	
+	disable_interrupts();
 	CRITICAL {
         remove_VBL(squares_race_vbl);
 		remove_LCD(squares_race_lcd);
-	}*/
+	}
+	enable_interrupts();
 }

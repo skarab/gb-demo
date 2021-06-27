@@ -3,7 +3,7 @@ const void __at(4) __bank_fire;
 
 #include "gameboy.h"
 #include "rand.h"
-#include "../resources/fire_tiles.h"
+#include "../resources/bitmap_fire.h"
 
 const INT8 fire_scanline_offsets_tbl[] = {0, 1, 2, 3, 3, 2, 1, 0, 0, -1, -2, -3, -3, -2, -1, 0};
 const INT8 * fire_scanline_offsets = fire_scanline_offsets_tbl;
@@ -30,10 +30,12 @@ void Scene_Fire() BANKED
 	UINT8 fire_buffer[20*18];
 	UINT8 x, y;
 
-	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
-	set_bkg_data(0, 48, fire_tiles_tiledata);
-	
+	disable_interrupts();
 	DISPLAY_OFF;
+	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
+	set_bkg_data(0, bitmap_fire_tiledata_count, bitmap_fire_tiledata);
+	set_bkg_data(255, 1, bitmap_fire_tiledata);
+	
 	UINT16 oy = 0;
 	for (y=0 ; y<18 ; ++y)
 	{
@@ -44,7 +46,7 @@ void Scene_Fire() BANKED
 			
 			if (y==2 && x>=2 && x<18)
 			{
-				**(fire_output+oy+x) = 32+x-2;
+				**(fire_output+oy+x) = bitmap_fire_tilemap0[32+x-2];
 			}
 			else
 			{
@@ -54,6 +56,7 @@ void Scene_Fire() BANKED
 		oy += 20;
 	}	
 	DISPLAY_ON;
+	enable_interrupts();
 	
 	int sync = 0;
 	
@@ -91,7 +94,7 @@ void Scene_Fire() BANKED
 		++sync;
 		fire_wind = fire_scanline_offsets_tbl[(sync%32)*3/5]*60;
 		
-		if (sync>100)
+		if (sync>60)
 			break;
 	}
 }

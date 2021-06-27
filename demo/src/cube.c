@@ -4,7 +4,7 @@ const void __at(4) __bank_cube;
 #include "gameboy.h"
 #include <gb/drawing.h>
 
-#include "../resources/cube.h"
+#include "../data/cube.h"
 #include "../resources/cube_header.h"
 
 const unsigned int palettes[] = { PALETTE(CWHITE, CBLACK, CWHITE, CWHITE), PALETTE(CWHITE, CWHITE, CBLACK, CWHITE), PALETTE(CWHITE, CWHITE, CWHITE, CBLACK) };
@@ -136,7 +136,7 @@ void Scene_CubePhysics() BANKED
 			if (y*2==logo_y)
 			for (UINT8 x=0 ; x<40 ; ++x)
 			{
-				UINT8 p = resources_cube_header_raw[y*40+x];
+				UINT8 p = ___images_cube_header_raw[y*40+x];
 				plot(x * 4, y, (p & 3), SOLID);
 				plot(x * 4 + 1, y, (p >> 2) & 3, SOLID);
 				plot(x * 4 + 2, y, (p >> 4) & 3, SOLID);
@@ -224,6 +224,7 @@ void Scene_CubePhysics() BANKED
 	}
 	
 	disable_interrupts();
+	mode(0);
 	CRITICAL {
 		remove_VBL(motion_blur_vbl);
 	}
