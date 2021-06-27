@@ -6,7 +6,27 @@
 #include <iostream>
 using namespace std;
 
-void PackToTiles(const vector<vector<unsigned char>>& data, vector<unsigned int>& tiles_ids, vector<vector<unsigned char>>& tiles_data)
+const unsigned char sintable[256] = {
+	128,133,139,144,150,155,160,166,
+	171,176,181,186,191,196,201,205,
+	209,214,218,222,225,229,232,235,
+	238,241,243,245,247,249,251,252,
+	253,254,255,255,255,255,255,254,
+	253,252,251,249,247,245,243,241,
+	238,235,232,229,225,222,218,214,
+	209,205,201,196,191,186,181,176,
+	171,166,160,155,150,144,139,133,
+	128,122,116,111,105,100,95,89,
+	84,79,74,69,64,59,54,50,
+	46,41,37,33,30,26,23,20,
+	17,14,12,10,8,6,4,3,
+	2,1,0,0,0,0,0,1,
+	2,3,4,6,8,10,12,14,
+	17,20,23,26,30,33,37,41,
+	46,50,54,59,64,69,74,79,
+	84,89,95,100,105,111,116,122 };
+
+void PackToTiles(const vector<vector<unsigned char>>& data, vector<unsigned int>& tiles_ids, vector<vector<unsigned char>>& tiles_data, bool pack)
 {
 	// Create tiles
 	vector<vector<unsigned char>> tiles;
@@ -46,23 +66,26 @@ void PackToTiles(const vector<vector<unsigned char>>& data, vector<unsigned int>
 	{
 		bool exist = false;
 
-		for (unsigned int i = 0; i < tiles_data.size(); ++i)
+		if (pack)
 		{
-			bool equal = true;
-			for (unsigned int j = 0; j < tiles_data[i].size(); ++j)
+			for (unsigned int i = 0; i < tiles_data.size(); ++i)
 			{
-				if (tiles[id][j] != tiles_data[i][j])
+				bool equal = true;
+				for (unsigned int j = 0; j < tiles_data[i].size(); ++j)
 				{
-					equal = false;
+					if (tiles[id][j] != tiles_data[i][j])
+					{
+						equal = false;
+						break;
+					}
+				}
+
+				if (equal)
+				{
+					exist = true;
+					tiles_ids[id] = i;
 					break;
 				}
-			}
-
-			if (equal)
-			{
-				exist = true;
-				tiles_ids[id] = i;
-				break;
 			}
 		}
 
@@ -123,7 +146,60 @@ void ExportTiles(const vector<unsigned int>& tiles_ids, const vector<vector<unsi
 	output << file_data;
 }
 
-void ExportPrecalculatedAnim(string name)
+void ExportSquaresZoom(string name)
+{
+	vector<vector<unsigned char>> data;
+
+	for (int y = 0; y < 170; ++y) // 160+4+.. (remove artifacts)
+	{
+		int square_size = 16 + y / 4;
+		vector<unsigned char> line;
+		line.reserve(32 * 8);
+		for (int x = 0; x < 32 * 8; ++x)
+		{
+			unsigned char color = ((x / square_size) % 2) * 2;
+			if (color == 0)
+			{
+				color = (((x + square_size / 8) / square_size) % 2) * 3;
+
+				if (color == 0)
+				{
+					int fx = (x + x * (y / 4)) / (1 + (y / 6) * 16);
+					int col = (abs(fx + (y & 1)) / 10) % 3;
+
+					if (y > 80 && x >= 9 * 22)
+						col = (y & 1) + 2;
+					else if (y > 80 && x >= 8 * 22)
+						col = 2;
+					else if (y > 80 && x >= 7 * 22)
+						col = (y & 1) + 1;
+
+					color = col;
+				}
+
+			}
+			else
+			{
+				color = 3;
+
+				int fx = (x + x * (y / 16)) / (1 + (y / 6) * 16);
+				int col = (abs(fx + (y & 1)) / 10) % 3;
+
+				color = 3 - col / 2;
+			}
+
+			line.push_back(color);
+		}
+		data.push_back(line);
+	}
+
+	vector<unsigned int> tiles_ids;
+	vector<vector<unsigned char>> tiles_data;
+	PackToTiles(data, tiles_ids, tiles_data, true);
+	ExportTiles(tiles_ids, tiles_data, name);
+}
+
+void ExportSquaresZoomPrecalc(string name)
 {
 	string file_path = "../demo/resources/" + name + ".h";
 	string file_data;
@@ -164,57 +240,158 @@ void ExportPrecalculatedAnim(string name)
 	output << file_data;
 }
 
-int main()
+void ExportSquaresRacePrecalc(string name)
+{
+	string file_path = "../demo/resources/" + name + ".h";
+	string file_data;
+
+	const unsigned char race_loop = 64;
+	const unsigned char race_divide = 12;
+#define race_i_mul 12/8
+	unsigned char squares_precalc_x[72][race_loop];
+	unsigned char squares_precalc_y[72][race_loop];
+
+	for (unsigned char i = 0; i < race_loop; ++i)
+	{
+		unsigned char old_size = ((i * race_i_mul) * (i * race_i_mul)) / race_divide;
+		unsigned char s = ((i * race_i_mul) / race_divide) & 1;
+
+		for (unsigned char j = 0; j < 72; ++j)
+		{
+			unsigned char square_size = j * 2 / 3 + 16;
+			unsigned char p = (j + (i * race_i_mul)) / race_divide;
+			unsigned char psquare_size = p * p;
+
+			if (psquare_size != old_size)
+			{
+				old_size = psquare_size;
+				s = !s;
+			}
+
+			unsigned char add = 0;
+			if (s != 0) add = square_size;
+
+			unsigned char sin = j * sintable[((i - 16) * 3) % 256] / 64;
+
+			squares_precalc_x[j][i] = (add + j + sin) % (square_size * 2);
+			squares_precalc_y[j][i] = (square_size - 16) * 4;
+		}
+	}
+
+	file_data += "#define race_loop " + to_string(race_loop - 16) + "\n";
+	file_data += "#define race_divide " + to_string(race_divide) + "\n";
+	file_data += "#define race_i_mul 12/8\n";
+	file_data += "const UINT8 squares_precalc_x[][" + to_string(race_loop - 16) + "] = {\n";
+
+	for (unsigned char j = 0; j < 72; ++j)
+	{
+		file_data += "    { ";
+
+		for (unsigned char i = 16; i < race_loop; ++i)
+		{
+			file_data += to_string(squares_precalc_x[j][i]);
+			if (i < race_loop - 1)
+				file_data += ", ";
+		}
+
+		file_data += " }";
+		if (j < 71)
+			file_data += ",";
+		file_data += "\n";
+	}
+	file_data += "\n};";
+
+	file_data += "const UINT8 squares_precalc_y[][" + to_string(race_loop - 16) + "] = {\n";
+
+	for (unsigned char j = 0; j < 72; ++j)
+	{
+		file_data += "    { ";
+
+		for (unsigned char i = 16; i < race_loop; ++i)
+		{
+			file_data += to_string(squares_precalc_y[j][i]);
+			if (i < race_loop - 1)
+				file_data += ", ";
+		}
+
+		file_data += " }";
+		if (j < 71)
+			file_data += ",";
+		file_data += "\n";
+	}
+	file_data += "\n};";
+
+	ofstream output(file_path);
+	output << file_data;
+}
+
+void ExportBitmap(string name, bool pack = true)
 {
 	vector<vector<unsigned char>> data;
+	string src = "../images/" + name + ".bmp";
+	string dst = "bitmap_" + name;
 
-	for (int y = 0; y < 170; ++y) // 160+4+.. (remove artifacts)
+	printf((src + "\n").c_str());
+
+	FILE* file;
+	fopen_s(&file, src.c_str(), "rb");
+	fseek(file, 18, SEEK_SET);
+	int w, h;
+	fread(&w, 4, 1, file);
+	fread(&h, 4, 1, file);
+
+	fseek(file, 0x000A, SEEK_SET);
+	int offset;
+	fread(&offset, 4, 1, file);
+	fseek(file, offset, SEEK_SET);
+
+	data.resize(h);
+	for (int y = h - 1; y >= 0; --y)
 	{
-		int square_size = 16 + y / 4;
-		vector<unsigned char> line;
-		line.reserve(32 * 8);
-		for (int x = 0; x < 32 * 8; ++x)
+		data[y].resize(w);
+		for (int x = 0; x < w / 2; ++x)
 		{
-			unsigned char color = ((x / square_size) % 2) * 2;
-			if (color == 0)
+			unsigned char pixel;
+			fread(&pixel, 1, 1, file);
+
+			unsigned char left = pixel >> 4;
+			unsigned char right = pixel & 15;
+
+			if (left > 3 || right > 3)
 			{
-				color = (((x + square_size / 8) / square_size) % 2) * 3;
-
-				if (color == 0)
-				{
-					int fx = (x + x * (y / 4)) / (1 + (y / 6) * 16);
-					int col = (abs(fx + (y & 1)) / 10) % 3;
-					
-					if (y > 80 && x >= 9 * 22)
-						col = (y&1)+2;
-					else if (y > 80 && x >= 8 * 22)
-						col = 2;
-					else if (y > 80 && x >= 7 * 22)
-						col = (y & 1) + 1;
-
-					color = col;
-				}
-
+				printf("INVALID BITMAP !!!\n");
+				break;
 			}
-			else
-			{
-				color = 3;
-
-				int fx = (x + x * (y / 16)) / (1 + (y / 6) * 16);
-				int col = (abs(fx + (y & 1)) / 10) % 3;
-
-				color = 3-col/2;
-			}
-
-			line.push_back(color);
+			data[y][x * 2 + 0] = 3-left;
+			data[y][x * 2 + 1] = 3-right;
 		}
-		data.push_back(line);
 	}
+
+	fclose(file);
 
 	vector<unsigned int> tiles_ids;
 	vector<vector<unsigned char>> tiles_data;
-	PackToTiles(data, tiles_ids, tiles_data);
+	PackToTiles(data, tiles_ids, tiles_data, pack);
+	ExportTiles(tiles_ids, tiles_data, dst);
+}
 
-	ExportTiles(tiles_ids, tiles_data, "squares_zoom");
-	ExportPrecalculatedAnim("squares_zoom_precalc");
+int main()
+{
+	printf("Exporting data...\n");
+
+	ExportSquaresZoom("squares_zoom");
+	ExportSquaresZoomPrecalc("squares_zoom_precalc");
+	ExportSquaresZoom("squares_race");
+	ExportSquaresRacePrecalc("squares_race_precalc");
+
+	printf("Exporting bitmaps...\n");
+
+	ExportBitmap("sega");
+	ExportBitmap("fire");
+	ExportBitmap("sprites3d", false);
+	ExportBitmap("axelay_sky");
+	ExportBitmap("axelay_overlay");
+	ExportBitmap("sprites_physics_bkg");
+
+	printf("done.\n");
 }
