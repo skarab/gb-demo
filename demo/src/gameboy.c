@@ -77,3 +77,12 @@ INT8 mod(INT8 a, INT8 b)
     return r < 0 ? r + b : r;
 }
 
+void draw_fullscreen_bitmap(UINT8 tiledata_count, UINT8* tiledata, UINT8* tilemap0, UINT8* tilemap1)
+{
+	set_bkg_data(0, tiledata_count, tiledata);
+	set_bkg_tiles(0, 0, 20, 12, tilemap0);
+	set_bkg_tiles(0, 12, 16, 1, tilemap0+20*12);
+	set_bkg_tiles(16, 12, 4, 1, tilemap1);
+	set_bkg_tiles(0, 13, 20, 5, tilemap1+4);
+}
+

@@ -18,9 +18,9 @@ void Scene_Sega() BANKED
 	scroll_bkg(0, 0);
 	
 	const unsigned char black_tile[] = { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 };
-	const unsigned char black_tilemap[] = { 44 };
-	set_win_data(44, 1, black_tile);
-	set_bkg_data(44, 1, black_tile);
+	const unsigned char black_tilemap[] = { 70 };
+	set_win_data(70, 1, black_tile);
+	set_bkg_data(70, 1, black_tile);
 	for (int j=0 ; j<18 ; ++j)
 	for (int i=0 ; i<20 ; ++i)
 	{
@@ -29,8 +29,8 @@ void Scene_Sega() BANKED
 	}
 	
 	set_win_data(0, bitmap_sega_tiledata_count, bitmap_sega_tiledata);
-	set_win_tiles(0, 0, 11, 4, bitmap_sega_tilemap0);
-	move_win(44, 52);
+	set_win_tiles(0, 0, 17, 4, bitmap_sega_tilemap0);
+	move_win(20, 52);
 	//DISPLAY_ON;
 	enable_interrupts();
 	

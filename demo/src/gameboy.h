@@ -27,3 +27,5 @@ INT8 abs(INT8 a);
 INT8 mod(INT8 a, INT8 b);
 
 extern const UINT8 sintable[];
+
+void draw_fullscreen_bitmap(UINT8 tiledata_count, UINT8* tiledata, UINT8* tilemap0, UINT8* tilemap1);

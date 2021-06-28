@@ -392,6 +392,8 @@ int main()
 	ExportBitmap("axelay_sky");
 	ExportBitmap("axelay_overlay");
 	ExportBitmap("sprites_physics_bkg");
+	ExportBitmap("rain_bkg");
+	ExportBitmap("rain_sprites", false);
 
 	printf("done.\n");
 }

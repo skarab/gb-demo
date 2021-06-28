@@ -3,7 +3,6 @@ const void __at(5) __bank_sprites_physics;
 
 #include "gameboy.h"
 #include "rand.h"
-
 #include "../resources/bitmap_sprites_physics_bkg.h"
 
 extern const unsigned char bitmap_sprites3d_tiledata[];
@@ -16,11 +15,7 @@ void Scene_SpritesPhysics() BANKED
 	DISPLAY_OFF;
 	LCDC_REG = 0xD1;
 	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
-	set_bkg_data(0, bitmap_sprites_physics_bkg_tiledata_count, bitmap_sprites_physics_bkg_tiledata);
-	set_bkg_tiles(0, 0, 20, 12, bitmap_sprites_physics_bkg_tilemap0);
-	set_bkg_tiles(0, 12, 16, 1, bitmap_sprites_physics_bkg_tilemap0+20*12);
-	set_bkg_tiles(16, 12, 4, 1, bitmap_sprites_physics_bkg_tilemap1);
-	set_bkg_tiles(0, 13, 20, 5, bitmap_sprites_physics_bkg_tilemap1+4);
+	draw_fullscreen_bitmap(bitmap_sprites_physics_bkg_tiledata_count, bitmap_sprites_physics_bkg_tiledata, bitmap_sprites_physics_bkg_tilemap0, bitmap_sprites_physics_bkg_tilemap1);
 	DISPLAY_ON;
 	
 	SPRITES_8x16;
