@@ -1,6 +1,5 @@
 #include <gb/gb.h>
 #include <gb/sample.h>
-#include "hUGEDriver.h"
 
 #define CWHITE  0U
 #define CSILVER 1U
@@ -21,7 +20,7 @@ void set_default_palette();
 #define PAUSE(c) for (pause_counter=0 ; pause_counter<c ; ++pause_counter) wait_vbl_done()
 extern unsigned int pause_counter;
 
-void play_music(const hUGESong_t * module, UINT8 module_bank);
+void play_music();
 
 INT8 abs(INT8 a);
 INT8 mod(INT8 a, INT8 b);

@@ -1,5 +1,5 @@
-#pragma bank 7
-const void __at(7) __bank_squares_race;
+#pragma bank 24
+const void __at(24) __bank_squares_race;
 
 #include "gameboy.h"
 #include "../resources/squares_race.h"
@@ -114,6 +114,7 @@ void Scene_SquaresRace() BANKED
 	CRITICAL {
         remove_VBL(squares_race_vbl);
 		remove_LCD(squares_race_lcd);
+		SCY_REG = 0;
 	}
 	enable_interrupts();
 }

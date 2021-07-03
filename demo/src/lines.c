@@ -1,5 +1,5 @@
-#pragma bank 3
-const void __at(3) __bank_lines;
+#pragma bank 21
+const void __at(21) __bank_lines;
 
 #include "gameboy.h"
 #include <gb/drawing.h>

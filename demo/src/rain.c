@@ -1,5 +1,5 @@
-#pragma bank 7
-const void __at(7) __bank_squares_rain;
+#pragma bank 25
+const void __at(25) __bank_squares_rain;
 
 #include "gameboy.h"
 #include "rand.h"
@@ -63,7 +63,7 @@ void update_sprites()
 		}
 		else
 		{
-			++rain_sprite_y[i];
+			rain_sprite_y[i] += 2;
 		
 			if (rain_sprite_y[i]>=80)
 			{
@@ -82,9 +82,8 @@ void update_sprites()
 					rain_sprite_x[i] = ((UINT8)rand())%160;
 					rain_sprite_y[i] = 0;
 					set_sprite_tile(i, bitmap_rain_bkg_tiledata_count+(i%4)*2+1);
-					move_sprite(i, rain_sprite_x[i], rain_sprite_y[i]);
 				}
-				if (rain_addx!=0) // || i%2==0)
+				//if (rain_addx!=0) // || i%2==0)
 				{
 					++rain_sprite_x[i];
 					
@@ -132,7 +131,7 @@ void Scene_Rain() BANKED
 		add_VBL(rain_vbl);
 		//add_LCD(rain_lcd);
 	}
-    /*set_interrupts(LCD_IFLAG | VBL_IFLAG);*/
+    set_interrupts(/*LCD_IFLAG |*/ VBL_IFLAG);
 	enable_interrupts();
 	DISPLAY_ON;
 	
@@ -149,7 +148,9 @@ void Scene_Rain() BANKED
 	UINT8 fade = 0;
 	UINT8 speed = 1;
 	
-	while (1)
+	int time = 0;
+	
+	while (++time<400)
 	{
 		update_sprites();
 		//wait_vbl_done();
@@ -175,5 +176,10 @@ void Scene_Rain() BANKED
 				speed = ((UINT8)rand())%3+1;
 			}
 		}
+	}
+	
+	CRITICAL {
+        remove_VBL(rain_vbl);
+	    //remove_LCD(rain_lcd);
 	}
 }

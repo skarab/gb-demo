@@ -1,5 +1,5 @@
-#pragma bank 1
-const void __at(1) __bank_sega;
+#pragma bank 20
+const void __at(20) __bank_sega;
 
 #include "gameboy.h"
 #include "../resources/bitmap_sega.h"

@@ -1,10 +1,9 @@
 #include "gameboy.h"
 
-extern const void __bank_sega;
+extern const void __bank_erase;
 void Scene_Erase(int slow) BANKED;
+extern const void __bank_sega;
 void Scene_Sega() BANKED;
-extern const void __bank_part1_music;
-extern const hUGESong_t part1_music;
 extern const void __bank_lines;
 void Scene_Lines() BANKED;
 extern const void __bank_cube;
@@ -20,6 +19,7 @@ void Scene_SquaresZoom() BANKED;
 void Scene_SquaresZoom2() BANKED;
 extern const void __bank_squares_race;
 void Scene_SquaresRace() BANKED;
+extern const void __bank_squares_rain;
 void Scene_Rain() BANKED;
 
 void main()
@@ -33,8 +33,9 @@ void main()
 	Scene_Erase(1);
 	Scene_Sega();
 	
-	play_music(&part1_music, (UINT8)&__bank_part1_music);
-	/*SWITCH_ROM_MBC1((UINT8)&__bank_lines);
+	play_music();
+	
+	SWITCH_ROM_MBC1((UINT8)&__bank_lines);
 	Scene_Lines();
 	SWITCH_ROM_MBC1((UINT8)&__bank_squares_zoom);
 	Scene_SquaresZoom2();
@@ -48,10 +49,11 @@ void main()
 	SWITCH_ROM_MBC1((UINT8)&__bank_axelay);
 	Scene_SpritesPhysics();
 	Scene_Erase(0);
-	Scene_Axelay();*/
+	Scene_Axelay();
 	SWITCH_ROM_MBC1((UINT8)&__bank_squares_race);
-	//Scene_SquaresRace();
+	Scene_SquaresRace();
+	SWITCH_ROM_MBC1((UINT8)&__bank_squares_rain);
 	Scene_Rain();
-	//SWITCH_ROM_MBC1((UINT8)&__bank_squares_zoom);
-	//Scene_SquaresZoom();
+	SWITCH_ROM_MBC1((UINT8)&__bank_squares_zoom);
+	Scene_SquaresZoom();
 }

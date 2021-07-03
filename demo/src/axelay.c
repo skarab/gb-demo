@@ -1,5 +1,5 @@
-#pragma bank 5
-const void __at(5) __bank_axelay;
+#pragma bank 22
+const void __at(22) __bank_axelay;
 
 #include "gameboy.h"
 #include "rand.h"
@@ -22,7 +22,7 @@ UINT8 sprite_id = 0;
 UINT8 create = 0;
 UINT8 enable_sprites = 0;
 
-void axelay_vbl()
+void axelay_vbl() BANKED
 {
 	++axelay_scroll_x;
 	axelay_scroll_y -= 2;
@@ -77,7 +77,7 @@ void axelay_vbl()
 }
 
 UINT8 axelay_mod = 0;
-void axelay_lcd()
+void axelay_lcd() BANKED
 {
 	UINT8 y = LY_REG;
 	
@@ -104,7 +104,7 @@ void Scene_Axelay() BANKED
 	
 	DISPLAY_OFF;
 	HIDE_WIN;
-	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
+	BGP_REG = PALETTE(CWHITE, CSILVER, CGRAY, CBLACK);
 	set_bkg_data(0, bitmap_axelay_sky_tiledata_count, bitmap_axelay_sky_tiledata);
 	set_bkg_tiles(0, 0, 16, 8, bitmap_axelay_sky_tilemap0);
 	set_bkg_tiles(0, 8, 16, 8, bitmap_axelay_sky_tilemap0);

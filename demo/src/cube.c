@@ -1,4 +1,4 @@
-#pragma bank 4
+#pragma bank 21
 const void __at(4) __bank_cube;
 
 #include "gameboy.h"

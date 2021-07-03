@@ -1,5 +1,5 @@
-#pragma bank 4
-const void __at(4) __bank_noise;
+#pragma bank 21
+const void __at(21) __bank_noise;
 
 #include "gameboy.h"
 

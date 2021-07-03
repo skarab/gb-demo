@@ -38,32 +38,27 @@ inline void set_default_palette()
 
 unsigned int pause_counter;
 
-
-UINT8 current_music_bank;
+void VGMPlayerInit();
+void VGMPlayerUpdate();
 
 void vbl_music()
 {
-    static UINT8 __save;
+	static UINT8 __save;
 	__save = _current_bank;
-	SWITCH_ROM_MBC1(current_music_bank);
-	hUGE_dosound();
+	VGMPlayerUpdate();
 	SWITCH_ROM_MBC1(__save);
 }
 
-void play_music(const hUGESong_t * music, UINT8 music_bank)
+void play_music()
 {
-	static int vbl_done = 0;
+	disable_interrupts();
 	__critical {
-		SWITCH_ROM_MBC1(music_bank);
-	    hUGE_init(music);
-		current_music_bank = music_bank;
-		
-		if (vbl_done==0)
-		{
-			add_VBL(vbl_music);
-			vbl_done = 1;
-		}
-    }
+		VGMPlayerInit();
+		STAT_REG = 0x18;
+		add_VBL(vbl_music);
+	}
+	set_interrupts(VBL_IFLAG);
+	enable_interrupts();
 }
 
 INT8 abs(INT8 a)

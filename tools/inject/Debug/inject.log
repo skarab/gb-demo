@@ -1,0 +1,3 @@
+﻿  inject.cpp
+D:\prog\gameboy\tools\inject\inject.cpp(7,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  inject.vcxproj -> D:\prog\gameboy\tools\inject\Debug\inject.exe

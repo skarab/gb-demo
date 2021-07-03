@@ -1,5 +1,5 @@
-#pragma bank 4
-const void __at(4) __bank_fire;
+#pragma bank 21
+const void __at(21) __bank_fire;
 
 #include "gameboy.h"
 #include "rand.h"

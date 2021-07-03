@@ -1,0 +1,4 @@
+﻿  bin2s.cpp
+D:\prog\gameboy\tools\bin2s\bin2s.cpp(55,8): warning C4101: 'header_file': unreferenced local variable
+D:\prog\gameboy\tools\bin2s\bin2s.cpp(67,6): warning C4101: 'c': unreferenced local variable
+  bin2s.vcxproj -> D:\prog\gameboy\tools\bin2s\Debug\bin2s.exe

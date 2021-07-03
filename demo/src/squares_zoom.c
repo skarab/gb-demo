@@ -1,5 +1,5 @@
-#pragma bank 6
-const void __at(6) __bank_squares_zoom;
+#pragma bank 23
+const void __at(23) __bank_squares_zoom;
 
 #include "gameboy.h"
 

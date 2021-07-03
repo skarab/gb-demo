@@ -1,5 +1,5 @@
-#pragma bank 5
-const void __at(5) __bank_sprites_physics;
+#pragma bank 22
+const void __at(22) __bank_sprites_physics;
 
 #include "gameboy.h"
 #include "rand.h"
