@@ -19,23 +19,28 @@ void rain_vbl()
 	++rain_scroll;
 }
 
+UINT8 olds = 0;
 void rain_lcd()
 {
 	UINT8 y = LY_REG;
 	if (y>=72)
 	{
-		SCX_REG = (sintable[(rain_scroll+y<<1)%128] / ((60-(y-72)))<<1);
+		UINT8 scroll = (sintable[(rain_scroll+y<<1)%128] / ((60-(y-72)))<<1);
+		scroll = (scroll+olds*2)/3;
+		olds = scroll;
+		SCX_REG = scroll;
 	}
 	else
 	{
 		SCX_REG = 0;
+		olds = 0;
 	}
 }
 
 void update_sprites()
 {
 	rain_addx = ~rain_addx;
-	rain_splash = (rain_splash+1)%12;
+	rain_splash = (rain_splash+1)%6;
 	
 	for (UINT8 i=0 ; i<rain_sprite_count ; ++i)
 	{
@@ -53,6 +58,7 @@ void update_sprites()
 				}
 				else
 				{
+					rain_lcd();
 					rain_sprite_x[i] = rand()%160;
 					rain_sprite_y[i] = 0;
 					set_sprite_tile(i, bitmap_rain_bkg_tiledata_count+(i%4)*2+1);
@@ -63,7 +69,9 @@ void update_sprites()
 		}
 		else
 		{
-			rain_sprite_y[i] += 2;
+			UINT8 s = i%2+2;
+			
+			rain_sprite_y[i] += s;
 		
 			if (rain_sprite_y[i]>=80)
 			{
@@ -85,7 +93,15 @@ void update_sprites()
 				}
 				//if (rain_addx!=0) // || i%2==0)
 				{
-					++rain_sprite_x[i];
+					if (s==1 && rain_addx!=0) ++rain_sprite_x[i];
+					else if (s==2) ++rain_sprite_x[i];
+					else if (s==3)
+					{
+						if (rain_addx!=0) ++rain_sprite_x[i];
+						else rain_sprite_x[i] += 2;
+					}
+					
+					//++rain_sprite_x[i];
 					
 					if (rain_sprite_x[i]>=160)
 					{
@@ -104,19 +120,26 @@ void update_sprites()
 
 void Scene_Rain() BANKED
 {
-	UINT8 i;
+	UINT8 i, j;
 	
 	disable_interrupts();
 	DISPLAY_OFF;
 	LCDC_REG = 0xD1;
-	init_bkg(0x84);
 	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
 	draw_fullscreen_bitmap(bitmap_rain_bkg_tiledata_count, bitmap_rain_bkg_tiledata, bitmap_rain_bkg_tilemap0, bitmap_rain_bkg_tilemap1);
 	
 	UINT8 clear = 0;
-	for (UINT8 j = 0 ; j<2 ; ++j)
+	for (j = 0 ; j<2 ; ++j)
 	for (i = 0 ; i<32 ; ++i)
 		set_bkg_tiles(i, j, 1, 1, &clear);
+	
+	for (j = 0 ; j<18 ; ++j)
+	{
+		get_bkg_tiles(19, j, 1, 1, &clear);
+
+		for (i = 20 ; i<32 ; ++i)
+			set_bkg_tiles(i, j, 1, 1, &clear);
+	}
 	
 	SPRITES_8x16;
 	for (i=0 ; i<8 ; ++i)
