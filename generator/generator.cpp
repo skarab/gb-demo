@@ -388,12 +388,14 @@ int main()
 
 	ExportBitmap("sega");
 	ExportBitmap("fire");
+	ExportBitmap("fire_sprites", false);
 	ExportBitmap("sprites3d", false);
 	ExportBitmap("axelay_sky");
 	ExportBitmap("axelay_overlay");
 	ExportBitmap("sprites_physics_bkg");
 	ExportBitmap("rain_bkg");
 	ExportBitmap("rain_sprites", false);
-
+	ExportBitmap("squares_bkg");
+	
 	printf("done.\n");
 }

@@ -90,17 +90,23 @@ void Scene_SquaresRace() BANKED
 	init_bkg(255);
 	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
 	set_bkg_data(0, squares_race_tiledata_count, squares_race_tiledata);
+	vbl_music();
 	set_bkg_tiles(0, 0, 32, 8, squares_race_tilemap0);
+	vbl_music();
 	set_bkg_tiles(0, 8, 32, 8, squares_race_tilemap1);
+	vbl_music();
 	set_bkg_tiles(0, 16, 32, 6, squares_race_tilemap2);
+	vbl_music();
 	
+	DISPLAY_ON;
+	
+	//disable_interrupts();
 	CRITICAL {
         STAT_REG = 0x18;
 		add_VBL(squares_race_vbl);
 		add_LCD(squares_race_lcd);
 	}
-    set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	DISPLAY_ON;
+    set_interrupts(TIM_IFLAG | LCD_IFLAG | VBL_IFLAG);
 	enable_interrupts();
 	
 	int t = 0;

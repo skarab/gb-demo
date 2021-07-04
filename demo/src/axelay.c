@@ -109,11 +109,13 @@ void Scene_Axelay() BANKED
 	set_bkg_tiles(0, 0, 16, 8, bitmap_axelay_sky_tilemap0);
 	set_bkg_tiles(0, 8, 16, 8, bitmap_axelay_sky_tilemap0);
 	set_bkg_tiles(16, 0, 16, 8, bitmap_axelay_sky_tilemap0);
+	vbl_music();
 	set_bkg_tiles(16, 8, 16, 8, bitmap_axelay_sky_tilemap0);
 	set_bkg_tiles(0, 16, 16, 8, bitmap_axelay_sky_tilemap0);
 	set_bkg_tiles(0, 24, 16, 8, bitmap_axelay_sky_tilemap0);
 	set_bkg_tiles(16, 16, 16, 8, bitmap_axelay_sky_tilemap0);
 	set_bkg_tiles(16, 24, 16, 8, bitmap_axelay_sky_tilemap0);
+	vbl_music();
 	
 	set_win_data(bitmap_axelay_sky_tiledata_count, bitmap_axelay_overlay_tiledata_count, bitmap_axelay_overlay_tiledata);
 	for (y=0 ; y<bitmap_axelay_overlay_tiledata_count ; ++y)
@@ -121,6 +123,7 @@ void Scene_Axelay() BANKED
 		UINT8 tile_id = bitmap_axelay_overlay_tilemap0[y]+bitmap_axelay_sky_tiledata_count;
 		set_win_tiles(y%20, y/20, 1, 1, &tile_id);
 	}
+	vbl_music();
 	
 	move_win(7, 144);
 	SHOW_BKG;
@@ -160,7 +163,7 @@ void Scene_Axelay() BANKED
 		add_VBL(axelay_vbl);
 		add_LCD(axelay_lcd);
 	}
-    set_interrupts(LCD_IFLAG | VBL_IFLAG);
+    set_interrupts(TIM_IFLAG | LCD_IFLAG | VBL_IFLAG);
 	enable_interrupts();
 	
 	int time = 0;

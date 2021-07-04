@@ -83,6 +83,7 @@ void Scene_Noise() BANKED
 			{
 				**(noise_output+oy+x) = 4;
 			}
+			vbl_music();
 		}
 		oy += 20;
 	}
@@ -94,7 +95,7 @@ void Scene_Noise() BANKED
 		add_VBL(noise_vbl);
 		add_LCD(noise_lcd);
     }
-    set_interrupts(LCD_IFLAG | VBL_IFLAG);
+    set_interrupts(TIM_IFLAG | LCD_IFLAG | VBL_IFLAG);
 	enable_interrupts();
 	
 	int sync = 0;

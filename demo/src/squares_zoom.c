@@ -5,6 +5,7 @@ const void __at(23) __bank_squares_zoom;
 
 #include "../resources/squares_zoom.h"
 #include "../resources/squares_zoom_precalc.h"
+#include "../resources/bitmap_squares_bkg.h"
 
 UINT8 squares_scroll = 0;
 UINT8 squares_zoom_scroll = 0;
@@ -95,17 +96,22 @@ void Scene_SquaresZoom() BANKED
 	HIDE_WIN;
 	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
 	set_bkg_data(0, squares_zoom_tiledata_count, squares_zoom_tiledata);
+	vbl_music();
 	set_bkg_tiles(0, 0, 32, 8, squares_zoom_tilemap0);
+	vbl_music();
 	set_bkg_tiles(0, 8, 32, 8, squares_zoom_tilemap1);
+	vbl_music();
 	set_bkg_tiles(0, 16, 32, 6, squares_zoom_tilemap2);
+	vbl_music();
+	
+	DISPLAY_ON;
 	
 	CRITICAL {
         STAT_REG = 0x18;
 		add_VBL(squares_zoom_vbl1);
 		add_LCD(squares_zoom_lcd);
 	}
-    set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	DISPLAY_ON;
+    set_interrupts(TIM_IFLAG | LCD_IFLAG | VBL_IFLAG);
 	enable_interrupts();
 	
 	int time = 0;
@@ -134,24 +140,54 @@ void Scene_SquaresZoom2() BANKED
 	//HIDE_WIN;
 	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
 	set_bkg_data(0, squares_zoom_tiledata_count, squares_zoom_tiledata);
+	vbl_music();
 	set_bkg_tiles(0, 0, 32, 8, squares_zoom_tilemap0);
+	vbl_music();
 	set_bkg_tiles(0, 8, 32, 8, squares_zoom_tilemap1);
+	vbl_music();
 	set_bkg_tiles(0, 16, 32, 6, squares_zoom_tilemap2);
+	vbl_music();
+	
+	set_win_data(squares_zoom_tiledata_count, bitmap_squares_bkg_tiledata_count, bitmap_squares_bkg_tiledata);
+	for (UINT8 y=0 ; y<bitmap_squares_bkg_tilemap0_count ; ++y)
+	{
+		UINT8 tile_id = bitmap_squares_bkg_tilemap0[y]+squares_zoom_tiledata_count;
+		set_win_tiles(y%20, y/20, 1, 1, &tile_id);
+		vbl_music();
+	}
+	vbl_music();
+	
+	move_win(7, 98);
+	SHOW_BKG;
+	SHOW_WIN;
+	
+	DISPLAY_ON;
 	
 	CRITICAL {
         STAT_REG = 0x18;
 		add_VBL(squares_zoom_vbl2);
 		add_LCD(squares_zoom_lcd);
 	}
-    set_interrupts(LCD_IFLAG | VBL_IFLAG);
+    set_interrupts(TIM_IFLAG | LCD_IFLAG | VBL_IFLAG);
 	
-	DISPLAY_ON;
 	enable_interrupts();
 	
+	UINT8 win_x = 255;
+	UINT8 win_y = 82;
 	int time = 0;
-	while (++time<250)
+	while (++time<700)
 	{
 		wait_vbl_done();
+		
+		UINT8 sin = sintable[squares_s];
+		win_x -= 2;
+		if (win_x<60) win_y += 2;
+		if (win_x==1 || sin<128)
+		{
+			win_x = 255;
+			win_y = 82;
+		}
+		move_win(win_x, win_y);
 	}
 	
 	disable_interrupts();

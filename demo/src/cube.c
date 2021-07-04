@@ -3,6 +3,7 @@ const void __at(4) __bank_cube;
 
 #include "gameboy.h"
 #include <gb/drawing.h>
+#include "rand.h"
 
 #include "../data/cube.h"
 #include "../resources/cube_header.h"
@@ -21,6 +22,9 @@ void Scene_Cube() BANKED
 	
 	LCDC_REG = 0xD1;
 	BGP_REG = PALETTE(CBLACK, CBLACK, CBLACK, CBLACK);
+	
+	SPRITES_8x8;
+	SHOW_SPRITES;
 	
 	while (1)
 	{
@@ -44,7 +48,17 @@ void Scene_Cube() BANKED
 		}
 		
 		++draw_color;
-		if (draw_color & 4) draw_color = 1;
+		if (draw_color & 4)
+		{
+			draw_color = 1;
+		}
+
+		for (UINT8 i=0 ; i<10 ; ++i)
+		{
+			set_sprite_tile(i, 0x7C+((UINT8)rand())%4);
+			move_sprite(i, ((UINT8)rand())%152, ((UINT8)rand())%136);
+		}
+
 		if (offset == resources_cube_data_size) offset = 0;
 		
 		++sync;
@@ -123,6 +137,9 @@ void Scene_CubePhysics() BANKED
 	}
 	enable_interrupts();
 	
+	SPRITES_8x8;
+	SHOW_SPRITES;
+	
 	vmemset((void*)0x8000, 0, 1920);
 		
 	while (1)
@@ -145,12 +162,12 @@ void Scene_CubePhysics() BANKED
 			++logo_y;
 		}		
 		
-		if (sync>300)
+		if (sync>250)
 		{
 			motion_blur_enabled = 1;
 		}
 		
-		if (sync>360)
+		if (sync>310)
 		{
 			break;
 		}
@@ -220,7 +237,16 @@ void Scene_CubePhysics() BANKED
 		}
 		
 		++draw_color;
-		if (draw_color & 4) draw_color = 1;
+		if (draw_color & 4)
+		{
+			draw_color = 1;
+		}
+		
+		for (UINT8 i=0 ; i<10 ; ++i)
+		{
+			set_sprite_tile(i, (UINT8)rand());
+			move_sprite(i, ((UINT8)rand())%152, ((UINT8)rand())%136);
+		}
 	}
 	
 	disable_interrupts();
@@ -229,4 +255,6 @@ void Scene_CubePhysics() BANKED
 		remove_VBL(motion_blur_vbl);
 	}
 	enable_interrupts();
+	
+	HIDE_SPRITES;
 }

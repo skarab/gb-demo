@@ -56,8 +56,9 @@ void play_music()
 		VGMPlayerInit();
 		STAT_REG = 0x18;
 		add_VBL(vbl_music);
+		add_TIM(vbl_music);
 	}
-	set_interrupts(VBL_IFLAG);
+	set_interrupts(TIM_IFLAG | VBL_IFLAG);
 	enable_interrupts();
 }
 

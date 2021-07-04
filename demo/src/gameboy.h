@@ -21,6 +21,7 @@ void set_default_palette();
 extern unsigned int pause_counter;
 
 void play_music();
+void vbl_music();
 
 INT8 abs(INT8 a);
 INT8 mod(INT8 a, INT8 b);

@@ -126,12 +126,16 @@ void Scene_Rain() BANKED
 	DISPLAY_OFF;
 	LCDC_REG = 0xD1;
 	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
+	vbl_music();
 	draw_fullscreen_bitmap(bitmap_rain_bkg_tiledata_count, bitmap_rain_bkg_tiledata, bitmap_rain_bkg_tilemap0, bitmap_rain_bkg_tilemap1);
+	vbl_music();
 	
 	UINT8 clear = 0;
 	for (j = 0 ; j<2 ; ++j)
 	for (i = 0 ; i<32 ; ++i)
 		set_bkg_tiles(i, j, 1, 1, &clear);
+	
+	vbl_music();
 	
 	for (j = 0 ; j<18 ; ++j)
 	{
@@ -140,6 +144,8 @@ void Scene_Rain() BANKED
 		for (i = 20 ; i<32 ; ++i)
 			set_bkg_tiles(i, j, 1, 1, &clear);
 	}
+	
+	vbl_music();
 	
 	SPRITES_8x16;
 	for (i=0 ; i<8 ; ++i)
@@ -154,7 +160,7 @@ void Scene_Rain() BANKED
 		add_VBL(rain_vbl);
 		//add_LCD(rain_lcd);
 	}
-    set_interrupts(/*LCD_IFLAG |*/ VBL_IFLAG);
+    set_interrupts(/*LCD_IFLAG |*/ TIM_IFLAG | VBL_IFLAG);
 	enable_interrupts();
 	DISPLAY_ON;
 	

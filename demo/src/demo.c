@@ -28,7 +28,7 @@ void main()
     NR52_REG = 0x80;
     NR51_REG = 0xFF;
     NR50_REG = 0x77;
-	/*
+	
 	SWITCH_ROM_MBC1((UINT8)&__bank_sega);
 	Scene_Erase(1);
 	Scene_Sega();
@@ -51,7 +51,7 @@ void main()
 	Scene_Erase(0);
 	Scene_Axelay();
 	SWITCH_ROM_MBC1((UINT8)&__bank_squares_race);
-	Scene_SquaresRace();*/
+	Scene_SquaresRace();
 	SWITCH_ROM_MBC1((UINT8)&__bank_squares_rain);
 	Scene_Rain();
 	SWITCH_ROM_MBC1((UINT8)&__bank_squares_zoom);
