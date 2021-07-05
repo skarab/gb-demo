@@ -15,7 +15,7 @@ UINT8 fire_sprite_x[fire_sprite_count];
 UINT8 fire_sprite_y[fire_sprite_count];
 UINT8 fire_sprite_a[fire_sprite_count];
 
-void fire_lcd()
+void fire_lcd() BANKED
 {
 	UINT8 y = LY_REG;
 	INT8 offset = (fire_scanline_offsets[y & (UBYTE)7]+1)*2;
@@ -30,7 +30,7 @@ void fire_lcd()
 	}
 }
 
-void fire_update_sprites()
+void fire_update_sprites() BANKED
 {
 	for (UINT8 i=0 ; i<fire_sprite_count ; ++i)
 	{
@@ -69,10 +69,15 @@ void Scene_Fire() BANKED
 	UINT8 fire_buffer[20*18];
 	UINT8 x, y;
 	
+	disable_interrupts();
 	DISPLAY_OFF;
+	vbl_music();
 	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
+	vbl_music();
 	set_bkg_data(0, bitmap_fire_tiledata_count, bitmap_fire_tiledata);
+	vbl_music();
 	set_bkg_data(255, 1, bitmap_fire_tiledata);
+	vbl_music();
 	
 	UINT16 oy = 0;
 	for (y=0 ; y<18 ; ++y)
@@ -90,8 +95,6 @@ void Scene_Fire() BANKED
 			{
 				**(fire_output+oy+x) = 0;
 			}
-			
-			vbl_music();
 		}
 		oy += 20;
 	}
@@ -99,8 +102,9 @@ void Scene_Fire() BANKED
 	SPRITES_8x8;
 	set_sprite_data(80, 3, bitmap_fire_sprites_tiledata);
 	SHOW_SPRITES;
-	
+	vbl_music();
 	DISPLAY_ON;
+	enable_interrupts();
 	
 	for (UINT8 i=0 ; i<fire_sprite_count ; ++i)
 	{

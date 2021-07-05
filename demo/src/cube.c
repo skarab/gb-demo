@@ -21,6 +21,7 @@ void Scene_Cube() BANKED
 	unsigned int sync = 0;
 	
 	LCDC_REG = 0xD1;
+	SCY_REG = SCX_REG = 0;
 	BGP_REG = PALETTE(CBLACK, CBLACK, CBLACK, CBLACK);
 	
 	SPRITES_8x8;
@@ -62,7 +63,7 @@ void Scene_Cube() BANKED
 		if (offset == resources_cube_data_size) offset = 0;
 		
 		++sync;
-		if (sync==174)
+		if (sync==134)
 			break;
 	}
 }
@@ -70,7 +71,7 @@ void Scene_Cube() BANKED
 UINT8 motion_blur_enabled = 0;
 UINT8 vbl_y = 0;
 
-void motion_blur_vbl()
+void motion_blur_vbl() BANKED
 {
 	if (motion_blur_enabled)
 	{
@@ -146,7 +147,7 @@ void Scene_CubePhysics() BANKED
 	{
 		++sync;
 		
-		if (sync>100 && logo_y<80)
+		if (sync>80 && logo_y<80)
 		{
 			UINT8 y = logo_y/2;
 			
@@ -162,12 +163,12 @@ void Scene_CubePhysics() BANKED
 			++logo_y;
 		}		
 		
-		if (sync>250)
+		if (sync>190)
 		{
 			motion_blur_enabled = 1;
 		}
 		
-		if (sync>310)
+		if (sync>260)
 		{
 			break;
 		}

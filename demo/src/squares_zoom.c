@@ -13,7 +13,7 @@ UINT8 squares_size = 0;
 UINT8 squares_t = 0;
 UINT8 squares_s = 0;
 
-void squares_zoom_vbl1()
+void squares_zoom_vbl1() BANKED
 {
 	++squares_t;
 	if (squares_t&4) ++squares_s;
@@ -40,9 +40,9 @@ void squares_zoom_vbl1()
 		squares_scroll = 0;
 }
 
-void squares_zoom_vbl2()
+void squares_zoom_vbl2() BANKED
 {
-	++squares_t;
+	squares_t+=2;
 	if (squares_t&4) ++squares_s;
 	
 	UINT8 sin = sintable[squares_s];
@@ -81,7 +81,7 @@ void precalc_table()
 	}
 }*/
 
-void squares_zoom_lcd()
+void squares_zoom_lcd() BANKED
 {
 	UINT8 y = LY_REG;
 	SCY_REG = (squares_size<<2)-y;
@@ -111,7 +111,7 @@ void Scene_SquaresZoom() BANKED
 		add_VBL(squares_zoom_vbl1);
 		add_LCD(squares_zoom_lcd);
 	}
-    set_interrupts(TIM_IFLAG | LCD_IFLAG | VBL_IFLAG);
+    set_interrupts(LCD_IFLAG | VBL_IFLAG);
 	enable_interrupts();
 	
 	int time = 0;
@@ -168,14 +168,14 @@ void Scene_SquaresZoom2() BANKED
 		add_VBL(squares_zoom_vbl2);
 		add_LCD(squares_zoom_lcd);
 	}
-    set_interrupts(TIM_IFLAG | LCD_IFLAG | VBL_IFLAG);
+    set_interrupts(LCD_IFLAG | VBL_IFLAG);
 	
 	enable_interrupts();
 	
 	UINT8 win_x = 255;
 	UINT8 win_y = 82;
 	int time = 0;
-	while (++time<700)
+	while (++time<400)
 	{
 		wait_vbl_done();
 		

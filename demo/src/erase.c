@@ -9,7 +9,7 @@ UINT8 slots[slots_max_count*5];
 UINT8 tile_x = 0;
 UINT8 tile_y = 0;
 
-void init_slots()
+void init_slots() BANKED
 {
 	for (UINT8 i=0 ; i<slots_max_count ; ++i)
 	{
@@ -22,7 +22,7 @@ void init_slots()
 	tile_y = 0;
 }
 
-UINT8 get_next_tile(UINT8* x, UINT8* y, UINT8* id)
+UINT8 get_next_tile(UINT8* x, UINT8* y, UINT8* id) BANKED
 {
 	while (1)
 	{
@@ -52,7 +52,7 @@ UINT8 get_next_tile(UINT8* x, UINT8* y, UINT8* id)
 }
 
 // x, y, id, previousId, speed
-UINT8 update_slots()
+UINT8 update_slots() BANKED
 {
 	UINT8 usedSlots = 0;
 	

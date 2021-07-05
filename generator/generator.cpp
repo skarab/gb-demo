@@ -325,6 +325,52 @@ void ExportSquaresRacePrecalc(string name)
 	output << file_data;
 }
 
+void ExportVBarrels(string name)
+{
+	vector<vector<unsigned char>> data;
+
+	for (int y = 0; y < 170; ++y) // 160+4+.. (remove artifacts)
+	{
+		int offset = y / 4;
+		vector<unsigned char> line;
+		line.reserve(20 * 8);
+		for (int x = 0; x < 20 * 8; ++x)
+		{
+			unsigned char color = 0;
+			
+			if (x >= 30 && x < 70)
+			{
+				color = 2;
+				if (x >= 30 + (offset / 2 + 5) % 21)
+					color = 3;
+			}
+
+			int p = 20 + sin(3.14156f * (y/4) / 40.0f) * 110.0f;
+			if (x >= p && x < p+40)
+			{
+				color = 1;
+				if (x >= p + offset)
+					color = 2;
+			}
+
+			if (x >= 110 && x < 130)
+			{
+				color = 2;
+				if (x >= 110 + (offset/2 + 10)%21)
+					color = 3;
+			}
+
+			line.push_back(color);
+		}
+		data.push_back(line);
+	}
+
+	vector<unsigned int> tiles_ids;
+	vector<vector<unsigned char>> tiles_data;
+	PackToTiles(data, tiles_ids, tiles_data, true);
+	ExportTiles(tiles_ids, tiles_data, name);
+}
+
 void ExportBitmap(string name, bool pack = true)
 {
 	vector<vector<unsigned char>> data;
@@ -383,6 +429,7 @@ int main()
 	ExportSquaresZoomPrecalc("squares_zoom_precalc");
 	ExportSquaresZoom("squares_race");
 	ExportSquaresRacePrecalc("squares_race_precalc");
+	ExportVBarrels("vbarrels");
 
 	printf("Exporting bitmaps...\n");
 
@@ -396,6 +443,7 @@ int main()
 	ExportBitmap("rain_bkg");
 	ExportBitmap("rain_sprites", false);
 	ExportBitmap("squares_bkg");
-	
+	ExportBitmap("vbarrels_wnd");
+
 	printf("done.\n");
 }

@@ -2,29 +2,30 @@
 del *.gb
 call make_resources.bat
 @echo building asm files...
-..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt27 -c -o vgmplayer.o src\vgmplayer.s
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o vgmplayer.o src\vgmplayer.s
 @echo building c files...
-..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt27 -c -o gameboy.o src\gameboy.c
-..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt27 -c -o demo.o src\demo.c
-..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt27 -c -o erase.o src\erase.c
-..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt27 -c -o sega.o src\sega.c
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o gameboy.o src\gameboy.c
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o demo.o src\demo.c
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o erase.o src\erase.c
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o sega.o src\sega.c
 @echo building c files...
-..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt27 -c -o lines.o src\lines.c
-..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt27 -c -o cube.o src\cube.c
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o lines.o src\lines.c
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o cube.o src\cube.c
 @echo building c files...
-..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt27 -c -o noise.o src\noise.c
-..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt27 -c -o fire.o src\fire.c
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o noise.o src\noise.c
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o fire.o src\fire.c
 @echo building c files...
-..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt27 -c -o axelay.o src\axelay.c
-..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt27 -c -o sprites_physics.o src\sprites_physics.c
-..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt27 -c -o squares_zoom.o src\squares_zoom.c
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o axelay.o src\axelay.c
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o sprites_physics.o src\sprites_physics.c
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o squares_zoom.o src\squares_zoom.c
 @echo building c files...
-..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt27 -c -o squares_race.o src\squares_race.c
-..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt27 -c -o rain.o src\rain.c
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o squares_race.o src\squares_race.c
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o rain.o src\rain.c
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o vbarrels.o src\vbarrels.c
 @echo building banks...
-..\gbdk\bin\bankpack -ext=.rel -v -yt19 vgmplayer.o gameboy.o demo.o erase.o sega.o lines.o cube.o noise.o fire.o axelay.o sprites_physics.o squares_zoom.o squares_race.o rain.o
+..\gbdk\bin\bankpack -ext=.rel -v -yt19 vgmplayer.o gameboy.o demo.o erase.o sega.o lines.o cube.o noise.o fire.o axelay.o sprites_physics.o squares_zoom.o squares_race.o rain.o vbarrels.o
 @echo linking...
-..\gbdk\bin\lcc -Wl-yo32 -Wl-ya1 -Wa-l -Wl-m -Wl-j -Wl-yt27 -o demo.gb vgmplayer.rel gameboy.rel demo.rel erase.rel sega.rel lines.rel cube.rel noise.rel fire.rel axelay.rel sprites_physics.rel squares_zoom.rel squares_race.rel rain.rel
+..\gbdk\bin\lcc -Wl-yo256 -Wl-ya1 -Wa-l -Wl-m -Wl-j -Wl-yt26 -o demo.gb vgmplayer.rel gameboy.rel demo.rel erase.rel sega.rel lines.rel cube.rel noise.rel fire.rel axelay.rel sprites_physics.rel squares_zoom.rel squares_race.rel rain.rel vbarrels.rel
 @echo inject music...
 ..\tools\inject\Debug\inject.exe tmp\music demo.gb
 @echo fix checksum...

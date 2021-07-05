@@ -16,14 +16,14 @@ UINT8 noise_scanline = 0;
 const UBYTE noise_scanline_offsets_tbl[] = {0, 1, 2, 3, 3, 2, 1, 0, 0, 1, 2, 3, 3, 2, 1, 0};
 const UBYTE* noise_scanline_offsets = noise_scanline_offsets_tbl;
 
-void noise_vbl()
+void noise_vbl() BANKED
 {
 	noise_pos = noise_output+(20*2+2);
 	noise_y = 0;
 	noise_scanline = 0;
 }
 
-void noise_lcd()
+void noise_lcd() BANKED
 {
 	SCX_REG = (noise_scanline_offsets[noise_scanline & (UBYTE)7]+1)*2;
 	
@@ -65,8 +65,11 @@ void Scene_Noise() BANKED
 	
 	DISPLAY_OFF;
 	init_bkg(0);
+	vbl_music();
 	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
+	vbl_music();
 	set_bkg_data(0, 32, bitmap_fire_tiledata);
+	vbl_music();
 	
 	UINT16 oy = 0;
 	for (y=0 ; y!=18 ; ++y)
@@ -83,7 +86,6 @@ void Scene_Noise() BANKED
 			{
 				**(noise_output+oy+x) = 4;
 			}
-			vbl_music();
 		}
 		oy += 20;
 	}
@@ -95,7 +97,7 @@ void Scene_Noise() BANKED
 		add_VBL(noise_vbl);
 		add_LCD(noise_lcd);
     }
-    set_interrupts(TIM_IFLAG | LCD_IFLAG | VBL_IFLAG);
+    set_interrupts(LCD_IFLAG | VBL_IFLAG);
 	enable_interrupts();
 	
 	int sync = 0;

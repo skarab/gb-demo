@@ -46,7 +46,7 @@ void vbl_music()
 	static UINT8 __save;
 	__save = _current_bank;
 	VGMPlayerUpdate();
-	SWITCH_ROM_MBC1(__save);
+	SWITCH_ROM_MBC5(__save);
 }
 
 void play_music()
@@ -56,9 +56,8 @@ void play_music()
 		VGMPlayerInit();
 		STAT_REG = 0x18;
 		add_VBL(vbl_music);
-		add_TIM(vbl_music);
 	}
-	set_interrupts(TIM_IFLAG | VBL_IFLAG);
+	set_interrupts(VBL_IFLAG);
 	enable_interrupts();
 }
 

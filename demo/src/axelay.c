@@ -163,7 +163,7 @@ void Scene_Axelay() BANKED
 		add_VBL(axelay_vbl);
 		add_LCD(axelay_lcd);
 	}
-    set_interrupts(TIM_IFLAG | LCD_IFLAG | VBL_IFLAG);
+    set_interrupts(LCD_IFLAG | VBL_IFLAG);
 	enable_interrupts();
 	
 	int time = 0;

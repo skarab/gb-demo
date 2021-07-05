@@ -14,13 +14,13 @@ UINT8 rain_sprite_a[rain_sprite_count];
 UINT8 rain_addx = 0;
 UINT8 rain_splash = 0;
 	
-void rain_vbl()
+void rain_vbl() BANKED
 {
 	++rain_scroll;
 }
 
 UINT8 olds = 0;
-void rain_lcd()
+void rain_lcd() BANKED
 {
 	UINT8 y = LY_REG;
 	if (y>=72)
@@ -37,7 +37,7 @@ void rain_lcd()
 	}
 }
 
-void update_sprites()
+void update_sprites() BANKED
 {
 	rain_addx = ~rain_addx;
 	rain_splash = (rain_splash+1)%6;
@@ -160,7 +160,7 @@ void Scene_Rain() BANKED
 		add_VBL(rain_vbl);
 		//add_LCD(rain_lcd);
 	}
-    set_interrupts(/*LCD_IFLAG |*/ TIM_IFLAG | VBL_IFLAG);
+    set_interrupts(/*LCD_IFLAG |*/ VBL_IFLAG);
 	enable_interrupts();
 	DISPLAY_ON;
 	

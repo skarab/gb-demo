@@ -45,14 +45,14 @@ void squares_race_precalc()
 
 UINT8 race_anim = 0;
 
-void squares_race_vbl()
+void squares_race_vbl() BANKED
 {
 	++race_anim;
 	if (race_anim>=race_loop)
 		race_anim = 0;
 }
 
-void squares_race_lcd()
+void squares_race_lcd() BANKED
 {
 	UINT8 y = LY_REG;
 	
@@ -106,7 +106,7 @@ void Scene_SquaresRace() BANKED
 		add_VBL(squares_race_vbl);
 		add_LCD(squares_race_lcd);
 	}
-    set_interrupts(TIM_IFLAG | LCD_IFLAG | VBL_IFLAG);
+    set_interrupts(LCD_IFLAG | VBL_IFLAG);
 	enable_interrupts();
 	
 	int t = 0;
