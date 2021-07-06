@@ -444,6 +444,7 @@ int main()
 	ExportBitmap("rain_sprites", false);
 	ExportBitmap("squares_bkg");
 	ExportBitmap("vbarrels_wnd");
+	ExportBitmap("race_bkg");
 
 	printf("done.\n");
 }

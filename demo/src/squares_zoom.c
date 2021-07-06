@@ -57,7 +57,10 @@ void squares_zoom_vbl2() BANKED
 		if (squares_size>1+(128-sin)/128)
 			squares_size -= 1+(128-sin)/128;
 		else
+		{
 			squares_size = 0;
+			squares_s += 2;
+		}
 	}
 	
 	squares_zoom_scroll = (16+squares_size)*4; //%(16+square_size);
@@ -140,12 +143,10 @@ void Scene_SquaresZoom2() BANKED
 	//HIDE_WIN;
 	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
 	set_bkg_data(0, squares_zoom_tiledata_count, squares_zoom_tiledata);
-	vbl_music();
 	set_bkg_tiles(0, 0, 32, 8, squares_zoom_tilemap0);
-	vbl_music();
 	set_bkg_tiles(0, 8, 32, 8, squares_zoom_tilemap1);
-	vbl_music();
 	set_bkg_tiles(0, 16, 32, 6, squares_zoom_tilemap2);
+	
 	vbl_music();
 	
 	set_win_data(squares_zoom_tiledata_count, bitmap_squares_bkg_tiledata_count, bitmap_squares_bkg_tiledata);
@@ -153,7 +154,6 @@ void Scene_SquaresZoom2() BANKED
 	{
 		UINT8 tile_id = bitmap_squares_bkg_tilemap0[y]+squares_zoom_tiledata_count;
 		set_win_tiles(y%20, y/20, 1, 1, &tile_id);
-		vbl_music();
 	}
 	vbl_music();
 	
@@ -175,14 +175,14 @@ void Scene_SquaresZoom2() BANKED
 	UINT8 win_x = 255;
 	UINT8 win_y = 82;
 	int time = 0;
-	while (++time<400)
+	while (++time<650)
 	{
 		wait_vbl_done();
 		
 		UINT8 sin = sintable[squares_s];
-		win_x -= 2;
-		if (win_x<60) win_y += 2;
-		if (win_x==1 || sin<128)
+		win_x -= 3;
+		if (win_x<60) win_y += 3;
+		if (sin<150)
 		{
 			win_x = 255;
 			win_y = 82;
@@ -191,6 +191,7 @@ void Scene_SquaresZoom2() BANKED
 	}
 	
 	disable_interrupts();
+	HIDE_WIN;
 	CRITICAL {
         remove_VBL(squares_zoom_vbl2);
 		remove_LCD(squares_zoom_lcd);

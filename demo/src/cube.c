@@ -63,7 +63,7 @@ void Scene_Cube() BANKED
 		if (offset == resources_cube_data_size) offset = 0;
 		
 		++sync;
-		if (sync==134)
+		if (sync==114)
 			break;
 	}
 }

@@ -76,6 +76,7 @@ void axelay_vbl() BANKED
 	}
 }
 
+UINT8 axelay_scroll_x_mul = 0;
 UINT8 axelay_mod = 0;
 void axelay_lcd() BANKED
 {
@@ -83,7 +84,7 @@ void axelay_lcd() BANKED
 	
 	if (y<144-axelay_offset)
 	{
-		SCX_REG = axelay_scroll_x+sintable[y+axelay_scroll_x&127];
+		SCX_REG = axelay_scroll_x+sintable[y+axelay_scroll_x&127]*axelay_scroll_x_mul;
 		SCY_REG = axelay_scroll_y+axelay_lines[y+axelay_offset];
 	}
 	else
@@ -178,12 +179,15 @@ void Scene_Axelay() BANKED
 			move_win(7, 144-axelay_offset);
 		}
 		
+		if (time==250)
+			axelay_scroll_x_mul = 1;
+		
 		if (time>300)
 			enable_sprites = 1;
 	
 		wait_vbl_done();	
 
-		if (time>500)
+		if (time>570)
 			break;
     }
 	

@@ -44,14 +44,14 @@ void Scene_Lines() BANKED
 		{
 			set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
 		}
-		else if (sync==155)
+		else if (sync==158)
 		{
 			dx0 = -6;
 			dy0 = 5;
 			dx1 = 3;
 			dy1 = -4;
 		}
-		else if (sync==270)
+		else if (sync==266)
 		{
 			break;
 		}

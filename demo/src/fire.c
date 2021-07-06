@@ -14,7 +14,8 @@ UINT8 fire_wind = 0;
 UINT8 fire_sprite_x[fire_sprite_count];
 UINT8 fire_sprite_y[fire_sprite_count];
 UINT8 fire_sprite_a[fire_sprite_count];
-
+int fire_sync = 0;
+	
 void fire_lcd() BANKED
 {
 	UINT8 y = LY_REG;
@@ -37,7 +38,7 @@ void fire_update_sprites() BANKED
 		fire_sprite_y[i] -= 2;
 		fire_sprite_x[i] += rand()%2;
 		
-		if (fire_wind<10)
+		if (fire_wind<10 && fire_sync>4)
 			fire_sprite_x[i] -= 2;
 		
 		UINT8 c = (144-fire_sprite_y[i])/32;
@@ -115,8 +116,6 @@ void Scene_Fire() BANKED
 		move_sprite(i, fire_sprite_x[i], fire_sprite_y[i]);
 	}
 	
-	int sync = 0;
-	
 	while (1)
 	{
 		fire_scanline_offsets = &fire_scanline_offsets_tbl[(UBYTE)(sys_time >> 2) & 0x07u];
@@ -151,11 +150,10 @@ void Scene_Fire() BANKED
 			fire_update_sprites();
 		}
 		
+		++fire_sync;
+		fire_wind = fire_scanline_offsets_tbl[(fire_sync%32)*3/5]*60;
 		
-		++sync;
-		fire_wind = fire_scanline_offsets_tbl[(sync%32)*3/5]*60;
-		
-		if (sync>30)
+		if (fire_sync>35)
 			break;
 	}
 	

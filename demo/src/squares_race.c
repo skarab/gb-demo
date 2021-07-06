@@ -4,6 +4,7 @@ const void __at(24) __bank_squares_race;
 #include "gameboy.h"
 #include "../resources/squares_race.h"
 #include "../resources/squares_race_precalc.h"
+#include "../resources/bitmap_race_bkg.h"
 
 /*
 #define race_loop 40
@@ -44,12 +45,17 @@ void squares_race_precalc()
 */
 
 UINT8 race_anim = 0;
+UINT8 race_scroll_bkg_x = 0;
 
 void squares_race_vbl() BANKED
 {
 	++race_anim;
 	if (race_anim>=race_loop)
 		race_anim = 0;
+	if (race_anim<race_loop/2) --race_scroll_bkg_x;
+	else ++race_scroll_bkg_x;
+	
+	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CSILVER));
 }
 
 void squares_race_lcd() BANKED
@@ -65,10 +71,16 @@ void squares_race_lcd() BANKED
 		SCX_REG = sx;
 		SCY_REG = sy;
 	}
-	else if (y<80)
+	else if (y<58)
 	{
 		SCY_REG = -y-10;
 		SCX_REG = 0;
+		set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
+	}
+	else if (y<80)
+	{
+		SCX_REG = race_scroll_bkg_x;
+		SCY_REG = (176-58);
 	}
 	else
 	{
@@ -97,7 +109,12 @@ void Scene_SquaresRace() BANKED
 	vbl_music();
 	set_bkg_tiles(0, 16, 32, 6, squares_race_tilemap2);
 	vbl_music();
-	
+	set_bkg_data(squares_race_tiledata_count, bitmap_race_bkg_tiledata_count, bitmap_race_bkg_tiledata);
+	for (UINT8 x=0 ; x<bitmap_race_bkg_tilemap0_count ; ++x)
+	{
+		UINT8 tile_id = bitmap_race_bkg_tilemap0[x]+squares_race_tiledata_count;
+		set_bkg_tiles(x%32, x/32+22, 1, 1, &tile_id);
+	}
 	DISPLAY_ON;
 	
 	//disable_interrupts();
@@ -110,7 +127,7 @@ void Scene_SquaresRace() BANKED
 	enable_interrupts();
 	
 	int t = 0;
-	while (t<500)
+	while (t<600)
 	{	
 		++t;
 		wait_vbl_done();		
