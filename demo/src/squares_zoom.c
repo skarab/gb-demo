@@ -16,7 +16,7 @@ UINT8 squares_s = 0;
 void squares_zoom_vbl1() BANKED
 {
 	++squares_t;
-	if (squares_t&4) ++squares_s;
+	if (squares_t&2) ++squares_s;
 	
 	UINT8 sin = sintable[squares_s];
 	if (sin>=128)
@@ -59,7 +59,7 @@ void squares_zoom_vbl2() BANKED
 		else
 		{
 			squares_size = 0;
-			squares_s += 2;
+			squares_s += 3;
 		}
 	}
 	
@@ -85,6 +85,13 @@ void precalc_table()
 }*/
 
 void squares_zoom_lcd() BANKED
+{
+	UINT8 y = LY_REG;
+	SCY_REG = (squares_size<<2)-y;
+	SCX_REG = squares_zoom_precalc[y+squares_scroll][squares_size]+squares_scroll+squares_zoom_scroll;
+}
+
+void squares_zoom_lcd2() BANKED
 {
 	UINT8 y = LY_REG;
 	SCY_REG = (squares_size<<2)-y;
@@ -141,7 +148,8 @@ void Scene_SquaresZoom2() BANKED
 	//mode(0);
 	//LCDC_REG = 0xD1;
 	//HIDE_WIN;
-	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
+	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
+	//set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
 	set_bkg_data(0, squares_zoom_tiledata_count, squares_zoom_tiledata);
 	set_bkg_tiles(0, 0, 32, 8, squares_zoom_tilemap0);
 	set_bkg_tiles(0, 8, 32, 8, squares_zoom_tilemap1);
@@ -166,7 +174,7 @@ void Scene_SquaresZoom2() BANKED
 	CRITICAL {
         STAT_REG = 0x18;
 		add_VBL(squares_zoom_vbl2);
-		add_LCD(squares_zoom_lcd);
+		add_LCD(squares_zoom_lcd2);
 	}
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
 	
@@ -194,7 +202,7 @@ void Scene_SquaresZoom2() BANKED
 	HIDE_WIN;
 	CRITICAL {
         remove_VBL(squares_zoom_vbl2);
-		remove_LCD(squares_zoom_lcd);
+		remove_LCD(squares_zoom_lcd2);
 		SCY_REG = SCX_REG = 0;
 	}
 	enable_interrupts();

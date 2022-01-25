@@ -64,7 +64,7 @@ void Scene_SpritesPhysics() BANKED
 
 	int time = 0;
 	
-	while (++time<220)
+	while (++time<250)
 	{
 		BGP_REG = PalScroll[(time>>1)%PalScrollCount];
 		

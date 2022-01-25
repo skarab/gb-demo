@@ -216,7 +216,7 @@ void Scene_CubePhysics() BANKED
 			offset += 4;
 		}
 
-		if (sync>180)
+		if (sync>165)
 		{
 			for (UINT8 r=0 ; r<3 ; ++r)
 			{
@@ -243,10 +243,17 @@ void Scene_CubePhysics() BANKED
 			draw_color = 1;
 		}
 		
-		for (UINT8 i=0 ; i<10 ; ++i)
+		if (sync<100)
 		{
-			set_sprite_tile(i, (UINT8)rand());
-			move_sprite(i, ((UINT8)rand())%152, ((UINT8)rand())%136);
+			for (UINT8 i=0 ; i<10 ; ++i)
+			{
+				set_sprite_tile(i, (UINT8)rand());
+				move_sprite(i, ((UINT8)rand())%152, ((UINT8)rand())%136);
+			}
+		}
+		else if (sync==100)
+		{
+			HIDE_SPRITES;
 		}
 	}
 	
@@ -256,6 +263,4 @@ void Scene_CubePhysics() BANKED
 		remove_VBL(motion_blur_vbl);
 	}
 	enable_interrupts();
-	
-	HIDE_SPRITES;
 }
