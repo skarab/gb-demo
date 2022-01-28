@@ -17,4 +17,4 @@ some effects to try:
 
 
 Tech:
-Find the best way to remove bank switching audio glitch when switching/loading scenes.
+-Find the best way to remove bank switching audio glitch when switching/loading scenes.
