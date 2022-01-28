@@ -1,4 +1,4 @@
-;DMGBVGM player ported to GBDK by Alexandre Chambriat aka Skarab
+;DMGBVGM player ported to GBDK
 ;src: https://github.com/Pegmode/-DeflemaskGBVGM-
 
 ;SoundStatus			0xCE00	0xCE00 ;play,stop,pause state
