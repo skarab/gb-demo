@@ -7,6 +7,8 @@ const void __at(24) __bank_squares_race;
 #include "../resources/bitmap_race_bkg.h"
 
 /*
+THIS MOVED TO THE GENERATOR
+
 #define race_loop 40
 #define race_divide 12
 #define race_i_mul 12/8

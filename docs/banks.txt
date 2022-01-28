@@ -1,0 +1,29 @@
+>reserved for music: bank 1 to 19
+**may be extended later**
+
+>followed by code/data:
+(some effects use same sprites, other are just packed to fill banks)
+
+bank 20:
+-erase
+-sega
+
+bank 21:
+-cube
+-fire
+-lines
+-noise
+
+bank 22:
+-axelay
+-sprites_physics
+
+bank 23:
+-squares_zoom
+
+bank 24:
+-squares_race
+
+bank 25:
+-vbarrels
+-rain
