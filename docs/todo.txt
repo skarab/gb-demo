@@ -4,6 +4,7 @@
 - try things
 
 * a text scroller (maybe will be on this: ck_gb_aliengirl.gif)
+* more transition effects (like erase.c, just explode tiles or something), maybe fade in-out too..
 
 some effects to try:
 -tunnel
