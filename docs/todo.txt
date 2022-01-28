@@ -1,0 +1,18 @@
+* Critikill "glitch effect": ck_gb_playtime2_glitch.gif & ck_gb_playtime1_glitch.gif
+- make sure those pictures are ok in rom
+- create the "scanline masked picture version"
+- try things
+
+* a text scroller (maybe will be on this: ck_gb_aliengirl.gif)
+
+some effects to try:
+-tunnel
+-3d things using sprites on vertex
+-more palette scroll effects, if Critikill make good picts
+-panorama scrolling?
+-maybe port the horizontal barrel effect (https://www.youtube.com/watch?v=mDcmiFa3K0M)
+-...
+
+
+Tech:
+Find the best way to remove bank switching audio glitch when switching/loading scenes.
