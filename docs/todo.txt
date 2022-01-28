@@ -3,6 +3,7 @@
 - create the "scanline masked picture version"
 - try things
 
+* some bitmap on the "3 planes looking effect" but trying to keep the "3 planes look", maybe sprites too?
 * a text scroller (maybe will be on this: ck_gb_aliengirl.gif)
 * more transition effects (like erase.c, just explode tiles or something), maybe fade in-out too..
 
