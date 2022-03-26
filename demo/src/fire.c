@@ -157,4 +157,8 @@ void Scene_Fire() BANKED
 	}
 	
 	HIDE_SPRITES;
+	
+	CRITICAL {
+       SCX_REG = SCY_REG = 0;
+	}
 }
