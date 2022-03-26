@@ -187,16 +187,16 @@ void Scene_Axelay() BANKED
 		
 		wait_vbl_done();	
 
-		if (time>570)
+		if (time>560)
 			break;
     }
 	
+	HIDE_SPRITES;
+	HIDE_WIN;
+
 	CRITICAL {
 		remove_LCD(axelay_lcd);
 		remove_VBL(axelay_vbl);
 		SCX_REG = SCY_REG = 0;
 	}
-	
-	HIDE_SPRITES;
-	HIDE_WIN;
 }

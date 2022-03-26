@@ -166,8 +166,6 @@ void Scene_SquaresZoom2() BANKED
 	int time = 0;
 	while (++time<650)
 	{
-		wait_vbl_done();
-		
 		UINT8 sin = sintable[squares_s];
 		win_x -= 3;
 		if (win_x<60) win_y += 3;
@@ -177,6 +175,7 @@ void Scene_SquaresZoom2() BANKED
 			win_y = 82;
 		}
 		move_win(win_x, win_y);
+		wait_vbl_done();
 	}
 	
 	CRITICAL {

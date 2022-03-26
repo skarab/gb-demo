@@ -152,7 +152,7 @@ void Scene_Fire() BANKED
 		++fire_sync;
 		fire_wind = fire_scanline_offsets_tbl[(fire_sync%32)*3/5]*60;
 		
-		if (fire_sync>28)
+		if (fire_sync>25)
 			break;
 	}
 	
