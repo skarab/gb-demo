@@ -1,0 +1,2 @@
+This is the fire effect using the tile blitter,
+added some particles / sprites on it, simulating random wind.

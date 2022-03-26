@@ -29,8 +29,8 @@ void Scene_Sega() BANKED
 	}
 	
 	set_win_data(0, bitmap_sega_tiledata_count, bitmap_sega_tiledata);
-	set_win_tiles(0, 0, 17, 4, bitmap_sega_tilemap0);
-	move_win(20, 52);
+	set_win_tiles(0, 0, 11, 4, bitmap_sega_tilemap0); // rebels: 17, 4
+	move_win(44, 52); // rebels: 20, 52
 	//DISPLAY_ON;
 	enable_interrupts();
 	

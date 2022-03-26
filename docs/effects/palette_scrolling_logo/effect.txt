@@ -1,0 +1,7 @@
+Basic idea is porting the sega effect at the beginning of this demo :
+https://www.youtube.com/watch?v=RWTKa7uGTGI&list=PLIct9jpKE55ceWGwV682QErJRMiuAgltq&index=18
+
+Since its only 4 colors I didn't managed to make the same animation.
+Maybe its doable by filling multiple times the inner lines...
+
+I may add the same "distorted scanlines" effect on top.

@@ -1,0 +1,4 @@
+This is an attempt at creating a low-res blitter using tiles,
+in fire.bmp bottom tiles create a "pixel (tile) color"...
+This is cool and I used it for the fire effect,
+this one is just some random noice, could try to get something cool out of it.

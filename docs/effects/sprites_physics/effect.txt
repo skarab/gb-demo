@@ -1,0 +1,3 @@
+3D bouncing sprites, using palette animation.
+Furthest sprites use the shadow mode (palette "invert").
+May add small picture on the window plane.

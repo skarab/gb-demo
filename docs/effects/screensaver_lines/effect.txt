@@ -1,0 +1,2 @@
+Simple bouncing lines effect, possible to add some small picture on it.
+There is no palette scroll on this one.

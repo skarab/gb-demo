@@ -1,0 +1,1 @@
+The nintendo logo is loaded on screen by the gameboy, i just apply the "random vertical tiles scrolling" effect.
