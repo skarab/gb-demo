@@ -7,6 +7,8 @@ const void __at(20) __bank_sega;
 	
 void Scene_Sega() BANKED
 {
+	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_sega); }
+	
 	disable_interrupts();
 	//DISPLAY_OFF;
 	//LCDC_REG = 0xD1;

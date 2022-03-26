@@ -100,21 +100,14 @@ void squares_zoom_lcd2() BANKED
 
 void Scene_SquaresZoom() BANKED
 {
-	disable_interrupts();
 	DISPLAY_OFF;
-	LCDC_REG = 0xD1;
-	HIDE_WIN;
-	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
+	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_squares_zoom); }
+
+	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
 	set_bkg_data(0, squares_zoom_tiledata_count, squares_zoom_tiledata);
-	vbl_music();
 	set_bkg_tiles(0, 0, 32, 8, squares_zoom_tilemap0);
-	vbl_music();
 	set_bkg_tiles(0, 8, 32, 8, squares_zoom_tilemap1);
-	vbl_music();
 	set_bkg_tiles(0, 16, 32, 6, squares_zoom_tilemap2);
-	vbl_music();
-	
-	DISPLAY_ON;
 	
 	CRITICAL {
         STAT_REG = 0x18;
@@ -122,7 +115,9 @@ void Scene_SquaresZoom() BANKED
 		add_LCD(squares_zoom_lcd);
 	}
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	enable_interrupts();
+	
+	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
+	DISPLAY_ON;
 	
 	int time = 0;
 	while (1) //++time<400)
@@ -130,32 +125,22 @@ void Scene_SquaresZoom() BANKED
 		wait_vbl_done();
 	}
 	
-	disable_interrupts();
 	CRITICAL {
-        remove_VBL(squares_zoom_vbl1);
-		remove_LCD(squares_zoom_lcd);
+        remove_LCD(squares_zoom_lcd);
+		remove_VBL(squares_zoom_vbl1);
 		SCY_REG = SCX_REG = 0;
 	}
-	enable_interrupts();
 }
-
+			  
 void Scene_SquaresZoom2() BANKED
 {
-	mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
+	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_squares_zoom); }
 	
-	disable_interrupts();
-	DISPLAY_OFF;
-	//mode(0);
-	//LCDC_REG = 0xD1;
-	//HIDE_WIN;
-	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
-	//set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
+	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
 	set_bkg_data(0, squares_zoom_tiledata_count, squares_zoom_tiledata);
 	set_bkg_tiles(0, 0, 32, 8, squares_zoom_tilemap0);
 	set_bkg_tiles(0, 8, 32, 8, squares_zoom_tilemap1);
 	set_bkg_tiles(0, 16, 32, 6, squares_zoom_tilemap2);
-	
-	vbl_music();
 	
 	set_win_data(squares_zoom_tiledata_count, bitmap_squares_bkg_tiledata_count, bitmap_squares_bkg_tiledata);
 	for (UINT8 y=0 ; y<bitmap_squares_bkg_tilemap0_count ; ++y)
@@ -163,13 +148,10 @@ void Scene_SquaresZoom2() BANKED
 		UINT8 tile_id = bitmap_squares_bkg_tilemap0[y]+squares_zoom_tiledata_count;
 		set_win_tiles(y%20, y/20, 1, 1, &tile_id);
 	}
-	vbl_music();
 	
 	move_win(7, 98);
 	SHOW_BKG;
 	SHOW_WIN;
-	
-	DISPLAY_ON;
 	
 	CRITICAL {
         STAT_REG = 0x18;
@@ -177,8 +159,7 @@ void Scene_SquaresZoom2() BANKED
 		add_LCD(squares_zoom_lcd2);
 	}
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	
-	enable_interrupts();
+	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
 	
 	UINT8 win_x = 255;
 	UINT8 win_y = 82;
@@ -198,12 +179,11 @@ void Scene_SquaresZoom2() BANKED
 		move_win(win_x, win_y);
 	}
 	
-	disable_interrupts();
-	HIDE_WIN;
 	CRITICAL {
         remove_VBL(squares_zoom_vbl2);
 		remove_LCD(squares_zoom_lcd2);
 		SCY_REG = SCX_REG = 0;
 	}
-	enable_interrupts();
+	
+	HIDE_WIN;
 }

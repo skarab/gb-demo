@@ -103,20 +103,20 @@ void Scene_Axelay() BANKED
 {
 	UINT8 y;
 	
-	DISPLAY_OFF;
+	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_axelay); }
+	
+	BGP_REG = PALETTE(CWHITE, CWHITE, CWHITE, CWHITE);
+	
 	HIDE_WIN;
-	BGP_REG = PALETTE(CWHITE, CSILVER, CGRAY, CBLACK);
 	set_bkg_data(0, bitmap_axelay_sky_tiledata_count, bitmap_axelay_sky_tiledata);
 	set_bkg_tiles(0, 0, 16, 8, bitmap_axelay_sky_tilemap0);
 	set_bkg_tiles(0, 8, 16, 8, bitmap_axelay_sky_tilemap0);
 	set_bkg_tiles(16, 0, 16, 8, bitmap_axelay_sky_tilemap0);
-	vbl_music();
 	set_bkg_tiles(16, 8, 16, 8, bitmap_axelay_sky_tilemap0);
 	set_bkg_tiles(0, 16, 16, 8, bitmap_axelay_sky_tilemap0);
 	set_bkg_tiles(0, 24, 16, 8, bitmap_axelay_sky_tilemap0);
 	set_bkg_tiles(16, 16, 16, 8, bitmap_axelay_sky_tilemap0);
 	set_bkg_tiles(16, 24, 16, 8, bitmap_axelay_sky_tilemap0);
-	vbl_music();
 	
 	set_win_data(bitmap_axelay_sky_tiledata_count, bitmap_axelay_overlay_tiledata_count, bitmap_axelay_overlay_tiledata);
 	for (y=0 ; y<bitmap_axelay_overlay_tiledata_count ; ++y)
@@ -124,12 +124,10 @@ void Scene_Axelay() BANKED
 		UINT8 tile_id = bitmap_axelay_overlay_tilemap0[y]+bitmap_axelay_sky_tiledata_count;
 		set_win_tiles(y%20, y/20, 1, 1, &tile_id);
 	}
-	vbl_music();
 	
 	move_win(7, 144);
 	SHOW_BKG;
 	SHOW_WIN;
-	DISPLAY_ON;
 	
 	SPRITES_8x16;
 	for (y=0 ; y<8 ; ++y)
@@ -137,7 +135,6 @@ void Scene_Axelay() BANKED
 		set_sprite_data(168+y*2, 1, bitmap_sprites3d_tiledata+y*16);
 		set_sprite_data(168+y*2+1, 1, bitmap_sprites3d_tiledata+y*16+16*8);
 	}
-	SHOW_SPRITES;
 	
 	for (y=0 ; y<sprite_count ; ++y)
 	{
@@ -158,14 +155,14 @@ void Scene_Axelay() BANKED
 		}	
 	}
 	
-	disable_interrupts();
 	CRITICAL {
         STAT_REG = 0x18;
 		add_VBL(axelay_vbl);
 		add_LCD(axelay_lcd);
 	}
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	enable_interrupts();
+	
+	BGP_REG = PALETTE(CWHITE, CSILVER, CGRAY, CBLACK);
 	
 	int time = 0;
 	
@@ -182,23 +179,24 @@ void Scene_Axelay() BANKED
 		if (time==250)
 			axelay_scroll_x_mul = 1;
 		
-		if (time>300)
+		if (time>300 && enable_sprites==0)
+		{
+			SHOW_SPRITES;
 			enable_sprites = 1;
-	
+		}
+		
 		wait_vbl_done();	
 
 		if (time>570)
 			break;
     }
 	
-	disable_interrupts();
-	
 	CRITICAL {
 		remove_LCD(axelay_lcd);
 		remove_VBL(axelay_vbl);
+		SCX_REG = SCY_REG = 0;
 	}
 	
-	SCX_REG = SCY_REG = 0;
-	
-	enable_interrupts();
+	HIDE_SPRITES;
+	HIDE_WIN;
 }

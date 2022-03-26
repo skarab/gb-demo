@@ -30,34 +30,28 @@ void main()
     NR52_REG = 0x80;
     NR51_REG = 0xFF;
     NR50_REG = 0x77;
+	HIDE_SPRITES;
+	HIDE_WIN;
 	
-	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_sega); }
 	Scene_Erase(1);
 	Scene_Sega();
 	
 	play_music();
 	
-	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_lines); }
-	Scene_Lines();
-	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_squares_zoom); }
-	Scene_SquaresZoom2();
-	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_cube); }
-	Scene_Noise();
-	Scene_Erase(0);
+	//Scene_Noise(); // < bugged but i'll modify this shit.
+	//Scene_Erase(0);
 	Scene_Fire();
 	Scene_Erase(1);
-	Scene_Cube();
-	Scene_CubePhysics();
-	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_axelay); }
 	Scene_SpritesPhysics();
 	Scene_Erase(0);
-	Scene_Axelay();
-	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_squares_race); }
 	Scene_SquaresRace();
-	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_vbarrels); }
+	Scene_Lines();
+	Scene_Cube();
+	Scene_CubePhysics();
+	Scene_Erase(0);
+	Scene_Axelay();
+	Scene_SquaresZoom2();
 	Scene_VBarrels();
-	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_squares_rain); }
 	Scene_Rain();
-	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_squares_zoom); }
 	Scene_SquaresZoom();
 }

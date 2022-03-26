@@ -1,5 +1,5 @@
 #pragma bank 21
-const void __at(4) __bank_cube;
+const void __at(21) __bank_cube;
 
 #include "gameboy.h"
 #include <gb/drawing.h>
@@ -19,6 +19,8 @@ void Scene_Cube() BANKED
 	const INT8 cube_y = 144 / 2;
 	unsigned int offset = 0;
 	unsigned int sync = 0;
+	
+	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_cube); }
 	
 	LCDC_REG = 0xD1;
 	SCY_REG = SCX_REG = 0;
@@ -106,6 +108,8 @@ const UINT8 room_lines_count = 5; //8;
 
 void Scene_CubePhysics() BANKED
 {
+	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_cube); }
+	
 	LCDC_REG = 0xD1;
 	
 	set_default_palette();
@@ -263,4 +267,13 @@ void Scene_CubePhysics() BANKED
 		remove_VBL(motion_blur_vbl);
 	}
 	enable_interrupts();
+	
+	for (UINT8 i=0 ; i<10 ; ++i)
+	{
+		move_sprite(i, 0, 0);
+	}
+	HIDE_SPRITES;
+	
+	mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
+	LCDC_REG = 0xD1;
 }

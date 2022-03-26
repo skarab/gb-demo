@@ -6,6 +6,8 @@ const void __at(21) __bank_lines;
 
 void Scene_Lines() BANKED
 {
+	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_lines); }
+	
 	LCDC_REG = 0xD1;
 	
 	set_default_palette();
@@ -51,7 +53,7 @@ void Scene_Lines() BANKED
 			dx1 = 3;
 			dy1 = -4;
 		}
-		else if (sync==266)
+		else if (sync==300)
 		{
 			break;
 		}
@@ -147,4 +149,12 @@ void Scene_Lines() BANKED
 		line(0, k, 159, k);
 		line(0, k+1, 159, k+1);
 	}
+	
+	//mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
+	disable_interrupts();
+	mode(0);
+	enable_interrupts();
+	
+	mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
+	LCDC_REG = 0xD1;
 }

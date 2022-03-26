@@ -247,7 +247,7 @@ void ExportSquaresRacePrecalc(string name)
 
 	const unsigned char race_loop = 64;
 	const unsigned char race_divide = 12;
-#define race_i_mul 12/8
+	#define race_i_mul 12/8
 	unsigned char squares_precalc_x[72][race_loop];
 	unsigned char squares_precalc_y[72][race_loop];
 

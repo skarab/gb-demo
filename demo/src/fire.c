@@ -70,16 +70,16 @@ void Scene_Fire() BANKED
 	UINT8 fire_buffer[20*18];
 	UINT8 x, y;
 	
-	disable_interrupts();
-	DISPLAY_OFF;
-	vbl_music();
-	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
-	vbl_music();
-	set_bkg_data(0, bitmap_fire_tiledata_count, bitmap_fire_tiledata);
-	vbl_music();
-	set_bkg_data(255, 1, bitmap_fire_tiledata);
-	vbl_music();
+	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_fire); }
 	
+	BGP_REG = PALETTE(CBLACK, CBLACK, CBLACK, CBLACK);
+	
+	init_bkg(0);
+	set_bkg_data(0, bitmap_fire_tiledata_count, bitmap_fire_tiledata);
+	set_bkg_data(255, 1, bitmap_fire_tiledata);
+	
+	// It seems we cant access safely adresses & things when display is ON, this may troubleshoot the music...
+	DISPLAY_OFF;
 	UINT16 oy = 0;
 	for (y=0 ; y<18 ; ++y)
 	{
@@ -99,13 +99,10 @@ void Scene_Fire() BANKED
 		}
 		oy += 20;
 	}
+	DISPLAY_ON;
 	
 	SPRITES_8x8;
 	set_sprite_data(80, 3, bitmap_fire_sprites_tiledata);
-	SHOW_SPRITES;
-	vbl_music();
-	DISPLAY_ON;
-	enable_interrupts();
 	
 	for (UINT8 i=0 ; i<fire_sprite_count ; ++i)
 	{
@@ -115,6 +112,8 @@ void Scene_Fire() BANKED
 		set_sprite_tile(i, 80);
 		move_sprite(i, fire_sprite_x[i], fire_sprite_y[i]);
 	}
+	SHOW_SPRITES;
+	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
 	
 	while (1)
 	{
@@ -153,7 +152,7 @@ void Scene_Fire() BANKED
 		++fire_sync;
 		fire_wind = fire_scanline_offsets_tbl[(fire_sync%32)*3/5]*60;
 		
-		if (fire_sync>35)
+		if (fire_sync>28)
 			break;
 	}
 	

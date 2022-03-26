@@ -14,7 +14,3 @@ some effects to try:
 -panorama scrolling?
 -maybe port the horizontal barrel effect (https://www.youtube.com/watch?v=mDcmiFa3K0M)
 -...
-
-
-Tech:
--Find the best way to remove bank switching audio glitch when switching/loading scenes.

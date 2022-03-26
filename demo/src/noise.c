@@ -25,7 +25,7 @@ void noise_vbl() BANKED
 
 void noise_lcd() BANKED
 {
-	SCX_REG = (noise_scanline_offsets[noise_scanline & (UBYTE)7]+1)*2;
+	SCX_REG = (noise_scanline_offsets[noise_scanline & (UBYTE)4]+1)*2;
 	
 	for (UINT8 i=noise_scanline ; i<=LY_REG ; ++i)
 	{
@@ -59,18 +59,15 @@ void Scene_Noise() BANKED
 {
 	UINT8 x, y;
 	
-	disable_interrupts();
-	//mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
-	//enable_interrupts();
+	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_noise); }
 	
-	DISPLAY_OFF;
+	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
 	init_bkg(0);
-	vbl_music();
-	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
-	vbl_music();
-	set_bkg_data(0, 32, bitmap_fire_tiledata);
-	vbl_music();
 	
+	set_bkg_data(0, 32, bitmap_fire_tiledata);
+	
+	// It seems we cant access safely adresses & things when display is ON, this may troubleshoot the music...
+	DISPLAY_OFF;
 	UINT16 oy = 0;
 	for (y=0 ; y!=18 ; ++y)
 	{
@@ -89,16 +86,18 @@ void Scene_Noise() BANKED
 		}
 		oy += 20;
 	}
-	DISPLAY_ON;
 	
-	//disable_interrupts();
+	noise_scanline_offsets = &noise_scanline_offsets_tbl[0];
+	
 	CRITICAL {
         STAT_REG = 0x18;
 		add_VBL(noise_vbl);
 		add_LCD(noise_lcd);
     }
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	enable_interrupts();
+	DISPLAY_ON;
+	
+	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
 	
 	int sync = 0;
 	
@@ -106,10 +105,9 @@ void Scene_Noise() BANKED
 	{
 		noise = (noise+1)%16;
 		noise_scanline_offsets = &noise_scanline_offsets_tbl[(UBYTE)(sys_time >> 2) & 0x07u];
-		//wait_vbl_done(); 		
+		wait_vbl_done(); 		
     }
 	
-	disable_interrupts();
 	CRITICAL {
 		remove_LCD(noise_lcd);
 		remove_VBL(noise_vbl);
@@ -117,5 +115,4 @@ void Scene_Noise() BANKED
 		STAT_REG = 0x44;
 	}
 	set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	enable_interrupts();
 }

@@ -11,12 +11,10 @@ void Scene_SpritesPhysics() BANKED
 {
 	UINT8 i;
 	
-	mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
-	DISPLAY_OFF;
-	LCDC_REG = 0xD1;
-	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
+	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_sprites_physics); }
+	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
+	
 	draw_fullscreen_bitmap(bitmap_sprites_physics_bkg_tiledata_count, bitmap_sprites_physics_bkg_tiledata, bitmap_sprites_physics_bkg_tilemap0, bitmap_sprites_physics_bkg_tilemap1);
-	DISPLAY_ON;
 	
 	SPRITES_8x16;
 	for (i=0 ; i<8 ; ++i)
@@ -62,6 +60,8 @@ void Scene_SpritesPhysics() BANKED
 		if (sprite_dz[i]==0) sprite_dz[i] = 1;
 	}
 
+	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
+	
 	int time = 0;
 	
 	while (++time<250)

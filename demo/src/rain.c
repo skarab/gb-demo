@@ -1,5 +1,5 @@
 #pragma bank 25
-const void __at(25) __bank_squares_rain;
+const void __at(25) __bank_rain;
 
 #include "gameboy.h"
 #include "rand.h"
@@ -122,20 +122,17 @@ void Scene_Rain() BANKED
 {
 	UINT8 i, j;
 	
-	disable_interrupts();
-	DISPLAY_OFF;
-	LCDC_REG = 0xD1;
-	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
-	vbl_music();
+	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_rain); }
+	
+	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
 	draw_fullscreen_bitmap(bitmap_rain_bkg_tiledata_count, bitmap_rain_bkg_tiledata, bitmap_rain_bkg_tilemap0, bitmap_rain_bkg_tilemap1);
-	vbl_music();
 	
 	UINT8 clear = 0;
 	for (j = 0 ; j<2 ; ++j)
 	for (i = 0 ; i<32 ; ++i)
+	{
 		set_bkg_tiles(i, j, 1, 1, &clear);
-	
-	vbl_music();
+	}
 	
 	for (j = 0 ; j<18 ; ++j)
 	{
@@ -144,8 +141,6 @@ void Scene_Rain() BANKED
 		for (i = 20 ; i<32 ; ++i)
 			set_bkg_tiles(i, j, 1, 1, &clear);
 	}
-	
-	vbl_music();
 	
 	SPRITES_8x16;
 	for (i=0 ; i<8 ; ++i)
@@ -161,8 +156,6 @@ void Scene_Rain() BANKED
 		//add_LCD(rain_lcd);
 	}
     set_interrupts(/*LCD_IFLAG |*/ VBL_IFLAG);
-	enable_interrupts();
-	DISPLAY_ON;
 	
 	for (i=0 ; i<rain_sprite_count ; ++i)
 	{
@@ -173,6 +166,8 @@ void Scene_Rain() BANKED
 		set_sprite_prop(i, get_sprite_prop(i) & ~S_PALETTE);
 		move_sprite(i, rain_sprite_x[i], rain_sprite_y[i]);
 	}
+	
+	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
 	
 	UINT8 fade = 0;
 	UINT8 speed = 1;
@@ -208,7 +203,9 @@ void Scene_Rain() BANKED
 	}
 	
 	CRITICAL {
-        remove_VBL(rain_vbl);
-	    //remove_LCD(rain_lcd);
+        //remove_LCD(rain_lcd);
+	    remove_VBL(rain_vbl);
 	}
+	
+	HIDE_SPRITES;
 }

@@ -38,37 +38,24 @@ void vbarrels_lcd() BANKED
 
 void Scene_VBarrels() BANKED
 {
-	disable_interrupts();
-	DISPLAY_OFF;
-	LCDC_REG = 0xD1;
-	HIDE_WIN;
+	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_vbarrels); }
+	
+	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
 	init_bkg(0);
-	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
 	set_bkg_data(0, vbarrels_tiledata_count, vbarrels_tiledata);
-	vbl_music();
 	set_bkg_tiles(0, 0, 20, 12, vbarrels_tilemap0);
-	vbl_music();
 	set_bkg_tiles(0, 12, 16, 1, vbarrels_tilemap0+20*12);
-	vbl_music();
 	set_bkg_tiles(16, 12, 4, 1, vbarrels_tilemap1);
-	vbl_music();
 	set_bkg_tiles(0, 13, 20, 9, vbarrels_tilemap1+4);
-	vbl_music();
 	
 	set_win_data(vbarrels_tiledata_count, bitmap_vbarrels_wnd_tiledata_count, bitmap_vbarrels_wnd_tiledata);
 	for (UINT8 y=0 ; y<bitmap_vbarrels_wnd_tiledata_count ; ++y)
 	{
 		UINT8 tile_id = bitmap_vbarrels_wnd_tilemap0[y]+vbarrels_tiledata_count;
 		set_win_tiles(y%20, y/20, 1, 1, &tile_id);
-	vbl_music();
 	}
-	vbl_music();
 	
 	move_win(7, 112);
-	SHOW_BKG;
-	SHOW_WIN;
-	
-	DISPLAY_ON;
 	
 	CRITICAL {
         STAT_REG = 0x18;
@@ -76,18 +63,20 @@ void Scene_VBarrels() BANKED
 		add_LCD(vbarrels_lcd);
 	}
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	enable_interrupts();
+	
+	SHOW_WIN;
+	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
 	
 	while (vbarrels_global_time<800)
 	{	
 		wait_vbl_done();
 	}
 	
-	disable_interrupts();
 	CRITICAL {
-        remove_VBL(vbarrels_vbl);
-		remove_LCD(vbarrels_lcd);
+    	remove_LCD(vbarrels_lcd);
+	    remove_VBL(vbarrels_vbl);
 		SCY_REG = SCX_REG = 0;
 	}
-	enable_interrupts();
+	
+	HIDE_WIN;
 }
