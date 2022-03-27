@@ -108,6 +108,8 @@ void Scene_SquaresRace() BANKED
 		set_bkg_tiles(x%32, x/32+22, 1, 1, &tile_id);
 	}
 	
+	squares_race_vbl();
+	
 	CRITICAL {
         STAT_REG = 0x18;
 		add_VBL(squares_race_vbl);
@@ -122,12 +124,11 @@ void Scene_SquaresRace() BANKED
 		//wait_vbl_done();		
     }
 	
-	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
 	CRITICAL {
         remove_LCD(squares_race_lcd);
-		set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
 		remove_VBL(squares_race_vbl);
-		set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
 		SCX_REG = SCY_REG = 0;
 	}
+	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
+	init_bkg(0);
 }

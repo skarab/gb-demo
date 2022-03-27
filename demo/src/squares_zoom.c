@@ -109,6 +109,8 @@ void Scene_SquaresZoom() BANKED
 	set_bkg_tiles(0, 8, 32, 8, squares_zoom_tilemap1);
 	set_bkg_tiles(0, 16, 32, 6, squares_zoom_tilemap2);
 	
+	squares_zoom_vbl1();
+	
 	CRITICAL {
         STAT_REG = 0x18;
 		add_VBL(squares_zoom_vbl1);
@@ -120,10 +122,12 @@ void Scene_SquaresZoom() BANKED
 	DISPLAY_ON;
 	
 	int time = 0;
-	while (1) //++time<400)
+	while (++time<800)
 	{	
 		wait_vbl_done();
 	}
+	
+	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
 	
 	CRITICAL {
         remove_LCD(squares_zoom_lcd);
@@ -153,6 +157,8 @@ void Scene_SquaresZoom2() BANKED
 	SHOW_BKG;
 	SHOW_WIN;
 	
+	squares_zoom_vbl2();
+	
 	CRITICAL {
         STAT_REG = 0x18;
 		add_VBL(squares_zoom_vbl2);
@@ -178,11 +184,13 @@ void Scene_SquaresZoom2() BANKED
 		wait_vbl_done();
 	}
 	
+	HIDE_WIN;
+
+	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
+	
 	CRITICAL {
         remove_VBL(squares_zoom_vbl2);
 		remove_LCD(squares_zoom_lcd2);
 		SCY_REG = SCX_REG = 0;
 	}
-	
-	HIDE_WIN;
 }

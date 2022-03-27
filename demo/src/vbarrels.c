@@ -57,6 +57,8 @@ void Scene_VBarrels() BANKED
 	
 	move_win(7, 112);
 	
+	vbarrels_vbl();
+	
 	CRITICAL {
         STAT_REG = 0x18;
 		add_VBL(vbarrels_vbl);

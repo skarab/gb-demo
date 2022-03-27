@@ -29,8 +29,6 @@ void main()
 	
 	play_music();
 	
-	//Scene_Noise(); // < bugged but i'll modify this shit.
-	Scene_Erase(0);
 	Scene_Fire();
 	Scene_Erase(1);
 	Scene_SpritesPhysics();
@@ -45,4 +43,6 @@ void main()
 	Scene_VBarrels();
 	Scene_Rain();
 	Scene_SquaresZoom();
+	Scene_Noise();
+	Scene_Erase(0);
 }

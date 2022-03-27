@@ -150,6 +150,8 @@ void Scene_Rain() BANKED
 	}
 	SHOW_SPRITES;
 	
+	rain_vbl();
+	
 	CRITICAL {
         STAT_REG = 0x18;
 		add_VBL(rain_vbl);

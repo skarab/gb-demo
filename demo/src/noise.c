@@ -25,7 +25,7 @@ void noise_vbl() BANKED
 
 void noise_lcd() BANKED
 {
-	SCX_REG = (noise_scanline_offsets[noise_scanline & (UBYTE)4]+1)*2;
+	SCX_REG = (noise_scanline_offsets[noise_scanline & (UBYTE)7]+1)*2;
 	
 	for (UINT8 i=noise_scanline ; i<=LY_REG ; ++i)
 	{
@@ -62,9 +62,9 @@ void Scene_Noise() BANKED
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_noise); }
 	
 	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
-	init_bkg(0);
 	
 	set_bkg_data(0, 32, bitmap_fire_tiledata);
+	init_bkg(0);
 	
 	// It seems we cant access safely adresses & things when display is ON, this may troubleshoot the music...
 	DISPLAY_OFF;
@@ -88,6 +88,9 @@ void Scene_Noise() BANKED
 	}
 	
 	noise_scanline_offsets = &noise_scanline_offsets_tbl[0];
+	DISPLAY_ON;
+	
+	noise_vbl();
 	
 	CRITICAL {
         STAT_REG = 0x18;
@@ -95,7 +98,6 @@ void Scene_Noise() BANKED
 		add_LCD(noise_lcd);
     }
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	DISPLAY_ON;
 	
 	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
 	

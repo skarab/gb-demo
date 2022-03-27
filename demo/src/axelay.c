@@ -84,7 +84,7 @@ void axelay_lcd() BANKED
 	
 	if (y<144-axelay_offset)
 	{
-		SCX_REG = axelay_scroll_x+sintable[y+axelay_scroll_x&127]*axelay_scroll_x_mul;
+		SCX_REG = axelay_scroll_x+sintable[(y+axelay_scroll_x)&127]*axelay_scroll_x_mul;
 		SCY_REG = axelay_scroll_y+axelay_lines[y+axelay_offset];
 	}
 	else
@@ -154,6 +154,8 @@ void Scene_Axelay() BANKED
 			axelay_lines[y] = sintable[144-y]/10;
 		}	
 	}
+	
+	axelay_vbl();
 	
 	CRITICAL {
         STAT_REG = 0x18;
