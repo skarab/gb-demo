@@ -8,7 +8,7 @@ const void __at(27) __bank_logo;
 int logo_anim = 0;
 const int logo_anim_slowdown = 2;
 int logo_time = 0;
-const int logo_scene_time = 200;
+const int logo_scene_time = 200; // This is used to return outside of "main thread", else it hangs and I really can't figure out why.
 
 void logo_vbl() BANKED
 {

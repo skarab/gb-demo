@@ -7,7 +7,7 @@ const void __at(25) __bank_vbarrels;
 #include "../resources/bitmap_vbarrels_wnd.h"
 
 UINT8 vbarrels_time = 0;
-int vbarrels_global_time = 0;
+int vbarrels_global_time = 0; // This is used to return outside of "main thread", else it hangs and I really can't figure out why.
 
 void vbarrels_vbl() BANKED
 {
