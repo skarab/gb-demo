@@ -49,13 +49,15 @@ void Scene_VBarrels() BANKED
 	set_bkg_tiles(0, 13, 20, 9, vbarrels_tilemap1+4);
 	
 	set_win_data(vbarrels_tiledata_count, bitmap_vbarrels_wnd_tiledata_count, bitmap_vbarrels_wnd_tiledata);
-	for (UINT8 y=0 ; y<bitmap_vbarrels_wnd_tiledata_count ; ++y)
+	for (UINT8 y=0 ; y<bitmap_vbarrels_wnd_tilemap0_count ; ++y)
 	{
 		UINT8 tile_id = bitmap_vbarrels_wnd_tilemap0[y]+vbarrels_tiledata_count;
 		set_win_tiles(y%20, y/20, 1, 1, &tile_id);
 	}
 	
 	move_win(7, 112);
+	SHOW_WIN;
+	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
 	
 	vbarrels_vbl();
 	
@@ -65,9 +67,6 @@ void Scene_VBarrels() BANKED
 		add_LCD(vbarrels_lcd);
 	}
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	
-	SHOW_WIN;
-	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
 	
 	while (vbarrels_global_time<800)
 	{	

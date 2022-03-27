@@ -26,7 +26,7 @@ const unsigned char sintable[256] = {
 	46,50,54,59,64,69,74,79,
 	84,89,95,100,105,111,116,122 };
 
-void PackToTiles(const vector<vector<unsigned char>>& data, vector<unsigned int>& tiles_ids, vector<vector<unsigned char>>& tiles_data, bool pack)
+void PackToTiles(const vector<vector<unsigned char>>& data, vector<unsigned int>& tiles_ids, vector<vector<unsigned char>>& tiles_data, bool pack, int max_tiles_count = 255, int acceptable_error = 0)
 {
 	// Create tiles
 	vector<vector<unsigned char>> tiles;
@@ -61,40 +61,52 @@ void PackToTiles(const vector<vector<unsigned char>>& data, vector<unsigned int>
 	}
 
 	// Build tilemap
+	bool alreadyWarned = false;
 	tiles_ids.resize(width * height);
 	for (unsigned int id = 0; id < tiles.size(); ++id)
 	{
 		bool exist = false;
+		int bestTileId = 0;
+		int pixelNotEqualCount = 255;
 
 		if (pack)
 		{
 			for (unsigned int i = 0; i < tiles_data.size(); ++i)
 			{
-				bool equal = true;
+				int notEqualCount = 0;
 				for (unsigned int j = 0; j < tiles_data[i].size(); ++j)
 				{
 					if (tiles[id][j] != tiles_data[i][j])
 					{
-						equal = false;
-						break;
+						++notEqualCount;
 					}
 				}
 
-				if (equal)
+				if (notEqualCount < pixelNotEqualCount)
 				{
-					exist = true;
-					tiles_ids[id] = i;
-					break;
+					pixelNotEqualCount = notEqualCount;
+					bestTileId = i;
 				}
+			}
+
+			if (pixelNotEqualCount <= acceptable_error)
+			{
+				tiles_ids[id] = bestTileId;
+				exist = true;
 			}
 		}
 
 		if (!exist)
 		{
-			if (tiles_data.size() == 256)
+			if (tiles_data.size() == max_tiles_count)
 			{
-				cout << "TO MUCH TILES !";
-				tiles_ids[id] = 255;
+				if (!alreadyWarned)
+				{
+					cout << "TO MUCH TILES !\n";
+					alreadyWarned = true;
+				}
+
+				tiles_ids[id] = bestTileId;
 			}
 			else
 			{
@@ -345,7 +357,7 @@ void ExportVBarrels(string name)
 					color = 3;
 			}
 
-			int p = 20 + sin(3.14156f * (y/4) / 40.0f) * 110.0f;
+			int p = (int)(20 + sin(3.14156f * (y/4) / 40.0f) * 110.0f);
 			if (x >= p && x < p+40)
 			{
 				color = 1;
@@ -371,7 +383,7 @@ void ExportVBarrels(string name)
 	ExportTiles(tiles_ids, tiles_data, name);
 }
 
-void ExportBitmap(string name, bool pack = true)
+void ExportBitmap(string name, bool pack = true, int max_tiles_count = 255, int acceptable_error = 0)
 {
 	vector<vector<unsigned char>> data;
 	string src = "../images/" + name + ".bmp";
@@ -417,7 +429,7 @@ void ExportBitmap(string name, bool pack = true)
 
 	vector<unsigned int> tiles_ids;
 	vector<vector<unsigned char>> tiles_data;
-	PackToTiles(data, tiles_ids, tiles_data, pack);
+	PackToTiles(data, tiles_ids, tiles_data, pack, max_tiles_count, acceptable_error);
 	ExportTiles(tiles_ids, tiles_data, dst);
 }
 
@@ -445,6 +457,13 @@ int main()
 	ExportBitmap("squares_bkg");
 	ExportBitmap("vbarrels_wnd");
 	ExportBitmap("race_bkg");
+	ExportBitmap("kiss", true, 205, 2);
+	ExportBitmap("kiss_window");
+	ExportBitmap("funky_girl", true, 207, 2);
+	ExportBitmap("funky_girl_window");
+	ExportBitmap("alien_girl");
+	ExportBitmap("senses", true, 255, 0);
+	ExportBitmap("logo");
 
 	printf("done.\n");
 }

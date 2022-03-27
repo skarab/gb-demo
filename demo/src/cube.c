@@ -68,6 +68,16 @@ void Scene_Cube() BANKED
 		if (sync==114)
 			break;
 	}
+	
+	HIDE_SPRITES;
+	
+	//mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
+	disable_interrupts();
+	mode(0);
+	enable_interrupts();
+	
+	mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
+	LCDC_REG = 0xD1;
 }
 	
 UINT8 motion_blur_enabled = 0;
@@ -136,11 +146,13 @@ void Scene_CubePhysics() BANKED
 	UINT8 logo_y = 0;
 	UINT8 room_line_id = 0;
 	
-	disable_interrupts();
 	CRITICAL {
 		add_VBL(motion_blur_vbl);
 	}
-	enable_interrupts();
+	set_interrupts(VBL_IFLAG);
+	
+	LCDC_REG = 0xD1;
+	SCY_REG = SCX_REG = 0;
 	
 	SPRITES_8x8;
 	SHOW_SPRITES;

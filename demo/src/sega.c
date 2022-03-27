@@ -10,9 +10,6 @@ void Scene_Sega() BANKED
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_sega); }
 	
 	disable_interrupts();
-	//DISPLAY_OFF;
-	//LCDC_REG = 0xD1;
-	//BGP_REG = OBP0_REG = OBP1_REG = 0xE4U;
 	set_palette(PalFadeWhite[PalFadeCount-1]);
 	SHOW_WIN;
 	
@@ -33,7 +30,6 @@ void Scene_Sega() BANKED
 	set_win_data(0, bitmap_sega_tiledata_count, bitmap_sega_tiledata);
 	set_win_tiles(0, 0, 11, 4, bitmap_sega_tilemap0); // rebels: 17, 4
 	move_win(44, 52); // rebels: 20, 52
-	//DISPLAY_ON;
 	enable_interrupts();
 	
 	int i = 0;

@@ -1,16 +1,10 @@
-* Critikill "glitch effect": ck_gb_playtime2_glitch.gif & ck_gb_playtime1_glitch.gif
-- make sure those pictures are ok in rom
-- create the "scanline masked picture version"
-- try things
-
 * some bitmap on the "3 planes looking effect" but trying to keep the "3 planes look", maybe sprites too?
 * a text scroller (maybe will be on this: ck_gb_aliengirl.gif)
-* more transition effects (like erase.c, just explode tiles or something), maybe fade in-out too..
+* more transition effects (like erase.c, but without animation), fade in-out too.. etc..
 
 some effects to try:
 -tunnel
--3d things using sprites on vertex
--more palette scroll effects, if Critikill make good picts
+-3d things using sprites on unity exported vertice anim
 -panorama scrolling?
--maybe port the horizontal barrel effect (https://www.youtube.com/watch?v=mDcmiFa3K0M)
--...
+-port the horizontal barrel effect (https://www.youtube.com/watch?v=mDcmiFa3K0M)
+

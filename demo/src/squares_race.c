@@ -64,11 +64,11 @@ void squares_race_lcd() BANKED
 {
 	UINT8 y = LY_REG;
 	
-	if (y>=30 && y<58)
+	if (y>=30 && y<60)
 	{
-		SCY_REG = -y-10;
-		SCX_REG = 0;
-		BGP_REG = PALETTE(CWHITE, CSILVER, CGRAY, CBLACK);
+		//SCY_REG = -y-10;
+		//SCX_REG = 0;
+		BGP_REG = PALETTE(CWHITE, CWHITE, CWHITE, CWHITE);
 	}
 	else if (y>=80)
 	{
@@ -86,7 +86,8 @@ void squares_race_lcd() BANKED
 	}
 	else
 	{
-		SCX_REG = race_scroll_bkg_x;
+		BGP_REG = PALETTE(CWHITE, CSILVER, CGRAY, CBLACK);
+		SCX_REG = race_scroll_bkg_x + 12;
 		SCY_REG = (176-58);
 	}
 }

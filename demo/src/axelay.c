@@ -119,7 +119,7 @@ void Scene_Axelay() BANKED
 	set_bkg_tiles(16, 24, 16, 8, bitmap_axelay_sky_tilemap0);
 	
 	set_win_data(bitmap_axelay_sky_tiledata_count, bitmap_axelay_overlay_tiledata_count, bitmap_axelay_overlay_tiledata);
-	for (y=0 ; y<bitmap_axelay_overlay_tiledata_count ; ++y)
+	for (y=0 ; y<bitmap_axelay_overlay_tilemap0_count ; ++y)
 	{
 		UINT8 tile_id = bitmap_axelay_overlay_tilemap0[y]+bitmap_axelay_sky_tiledata_count;
 		set_win_tiles(y%20, y/20, 1, 1, &tile_id);
