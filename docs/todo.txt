@@ -3,8 +3,9 @@
 * more transition effects (like erase.c, but without animation), fade in-out too.. etc..
 
 some effects to try:
--tunnel
+-starfield
 -3d things using sprites on unity exported vertice anim
 -panorama scrolling?
 -port the horizontal barrel effect (https://www.youtube.com/watch?v=mDcmiFa3K0M)
+-tunnel
 
