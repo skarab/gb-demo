@@ -57,18 +57,18 @@ void squares_race_vbl() BANKED
 	if (race_anim<race_loop/2) --race_scroll_bkg_x;
 	else ++race_scroll_bkg_x;
 	
-	BGP_REG = PALETTE(CWHITE, CWHITE, CWHITE, CSILVER);
+	BGP_REG = PALETTE(CSILVER, CGRAY, CBLACK, CBLACK);
 }
 
 void squares_race_lcd() BANKED
 {
 	UINT8 y = LY_REG;
 	
-	if (y>=30 && y<60)
+	if (y>=50 && y<60)
 	{
 		//SCY_REG = -y-10;
 		//SCX_REG = 0;
-		BGP_REG = PALETTE(CWHITE, CWHITE, CWHITE, CWHITE);
+		BGP_REG = PALETTE(CBLACK, CBLACK, CBLACK, CBLACK);
 	}
 	else if (y>=80)
 	{
@@ -77,9 +77,9 @@ void squares_race_lcd() BANKED
 		SCX_REG = squares_precalc_x[cy][ra];
 		SCY_REG = squares_precalc_y[cy][ra]-y;
 	}
-	else if (y<30)
+	else if (y<50)
 	{
-		UINT8 cy = 72-y*2-6;
+		UINT8 cy = 72-y-6;
 		UINT8 ra = race_anim;
 		SCX_REG = squares_precalc_x[cy][ra];
 		SCY_REG = squares_precalc_y[cy][ra]-y;

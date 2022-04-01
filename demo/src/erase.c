@@ -112,6 +112,8 @@ UINT8 update_slots() BANKED
 
 void Scene_Erase(int slow) BANKED
 {
+	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_erase); }
+	
 	init_slots();
 	
 	UINT8 update = 0;

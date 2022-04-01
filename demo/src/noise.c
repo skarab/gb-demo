@@ -99,7 +99,7 @@ void Scene_Noise() BANKED
     }
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
 	
-	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
+	set_palette(PALETTE(CGRAY, CWHITE, CSILVER, CBLACK));
 	
 	int sync = 0;
 	
@@ -111,10 +111,10 @@ void Scene_Noise() BANKED
     }
 	
 	CRITICAL {
-		remove_LCD(noise_lcd);
 		remove_VBL(noise_vbl);
+		remove_LCD(noise_lcd);
 		SCX_REG = 0;
 		STAT_REG = 0x44;
 	}
-	set_interrupts(LCD_IFLAG | VBL_IFLAG);
+	set_interrupts(VBL_IFLAG);
 }

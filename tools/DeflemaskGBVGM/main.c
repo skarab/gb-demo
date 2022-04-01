@@ -54,7 +54,7 @@ typedef struct LoopInfo LoopInfo;
 //Globals
 //===========================================================
 int EXPORTMODE = 0;//0 = patch .gb
-int ENGINE_RATE = 50;//default rate to 60hz
+int ENGINE_RATE = 60;//default rate to 60hz
 char OUTPATH[0xFF] = "output";
 char* PATCHROM_PATH = "patchROM.gb";
 int TMA_OFFSET = 0;//value to add to TMA for fine control

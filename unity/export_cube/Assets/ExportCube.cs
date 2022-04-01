@@ -7,7 +7,7 @@ using System.Text;
 
 public class ExportCube : MonoBehaviour
 {
-	private const string _Path = @"D:\prog\gameboy\demo\resources\cube.h";
+	private const string _Path = @"D:\prog\gameboy\demo\data\cube.h";
 	private const float s = 0.5f;
 	private Vector3[] _cubeVertices = { new Vector3(-s, s, -s), new Vector3(s, s, -s), new Vector3(s, -s, -s), new Vector3(-s, -s, -s), new Vector3(-s, s, s), new Vector3(s, s, s), new Vector3(s, -s, s), new Vector3(-s, -s, s) };
 	private uint[][] _cubeFaces = { new uint[] { 0, 1, 2, 3 }, new uint[] { 4, 5, 6, 7 }, new uint[] { 1, 5, 6, 2 }, new uint[] { 4, 0, 3, 7 }, new uint[] { 0, 4, 5, 1 }, new uint[] { 3, 7, 6, 2 } };

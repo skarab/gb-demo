@@ -113,7 +113,7 @@ void Scene_Fire() BANKED
 		move_sprite(i, fire_sprite_x[i], fire_sprite_y[i]);
 	}
 	SHOW_SPRITES;
-	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
+	set_palette(PALETTE(CWHITE, CBLACK, CGRAY, CSILVER));
 	
 	while (1)
 	{

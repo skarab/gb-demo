@@ -80,4 +80,3 @@ void draw_fullscreen_bitmap(UINT8 tiledata_count, UINT8* tiledata, UINT8* tilema
 	set_bkg_tiles(16, 12, 4, 1, tilemap1);
 	set_bkg_tiles(0, 13, 20, 5, tilemap1+4);
 }
-

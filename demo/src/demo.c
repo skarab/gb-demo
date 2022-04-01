@@ -17,9 +17,10 @@ void Scene_Rain() BANKED;
 void Scene_VBarrels() BANKED;
 void Scene_Kiss() BANKED;
 void Scene_FunkyGirl() BANKED;
-void Scene_AlienGirl() BANKED;
 void Scene_Senses() BANKED;
 void Scene_Logo() BANKED;
+void Scene_Landscape() BANKED;
+void Scene_Scroller() BANKED;
 
 void main()
 {
@@ -42,18 +43,19 @@ void main()
 	Scene_Logo();
 	Scene_SquaresRace();
 	Scene_Lines();
-	Scene_FunkyGirl();
 	Scene_Cube();
+	Scene_FunkyGirl();
 	Scene_VBarrels();
 	Scene_CubePhysics();
 	Scene_Erase(0);
 	Scene_Kiss();
 	Scene_SquaresZoom2();
-	Scene_AlienGirl();
 	Scene_Axelay();
 	Scene_Senses();
 	Scene_Rain();
 	Scene_SquaresZoom();
 	Scene_Noise();
 	Scene_Erase(0);
+	Scene_Landscape();
+	Scene_Scroller();
 }

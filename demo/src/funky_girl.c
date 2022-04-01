@@ -60,9 +60,9 @@ void Scene_FunkyGirl() BANKED
 	
 	int i = 0;
 	int time = 0;
-	while (++time<100)
+	while (++time<200)
 	{
-		funky_girl_glitch = (funky_girl_glitch + 1) % 2;
+		//funky_girl_glitch = (funky_girl_glitch + 1) % 2;
 		wait_vbl_done();
 	}
 	

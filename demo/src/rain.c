@@ -176,7 +176,7 @@ void Scene_Rain() BANKED
 	
 	int time = 0;
 	
-	while (++time<400)
+	while (++time<300)
 	{
 		update_sprites();
 		//wait_vbl_done();

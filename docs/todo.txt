@@ -1,11 +1,9 @@
-* some bitmap on the "3 planes looking effect" but trying to keep the "3 planes look", maybe sprites too?
-* a text scroller (maybe will be on this: ck_gb_aliengirl.gif)
+Released at revision.
+
 * more transition effects (like erase.c, but without animation), fade in-out too.. etc..
 
 some effects to try:
--starfield
 -3d things using sprites on unity exported vertice anim
--panorama scrolling?
 -port the horizontal barrel effect (https://www.youtube.com/watch?v=mDcmiFa3K0M)
--tunnel
+
 

@@ -259,7 +259,7 @@ void ExportSquaresRacePrecalc(string name)
 
 	const unsigned char race_loop = 64;
 	const unsigned char race_divide = 12;
-	#define race_i_mul 12/8
+#define race_i_mul 12/8
 	unsigned char squares_precalc_x[72][race_loop];
 	unsigned char squares_precalc_y[72][race_loop];
 
@@ -349,7 +349,7 @@ void ExportVBarrels(string name)
 		for (int x = 0; x < 20 * 8; ++x)
 		{
 			unsigned char color = 0;
-			
+
 			if (x >= 30 && x < 70)
 			{
 				color = 2;
@@ -357,8 +357,8 @@ void ExportVBarrels(string name)
 					color = 3;
 			}
 
-			int p = (int)(20 + sin(3.14156f * (y/4) / 40.0f) * 110.0f);
-			if (x >= p && x < p+40)
+			int p = (int)(20 + sin(3.14156f * (y / 4) / 40.0f) * 110.0f);
+			if (x >= p && x < p + 40)
 			{
 				color = 1;
 				if (x >= p + offset)
@@ -368,7 +368,7 @@ void ExportVBarrels(string name)
 			if (x >= 110 && x < 130)
 			{
 				color = 2;
-				if (x >= 110 + (offset/2 + 10)%21)
+				if (x >= 110 + (offset / 2 + 10) % 21)
 					color = 3;
 			}
 
@@ -381,6 +381,111 @@ void ExportVBarrels(string name)
 	vector<vector<unsigned char>> tiles_data;
 	PackToTiles(data, tiles_ids, tiles_data, true);
 	ExportTiles(tiles_ids, tiles_data, name);
+}
+
+void ExportScroller(string name, int base)
+{
+	vector<vector<unsigned char>> src_data;
+	vector<vector<unsigned char>> data;
+	string src = "../images/" + name + "_font.bmp";
+	string dst = "bitmap_" + name + "_font";
+
+	printf((src + "\n").c_str());
+
+	FILE* file;
+	fopen_s(&file, src.c_str(), "rb");
+	fseek(file, 18, SEEK_SET);
+	int w, h;
+	fread(&w, 4, 1, file);
+	fread(&h, 4, 1, file);
+
+	fseek(file, 0x000A, SEEK_SET);
+	int offset;
+	fread(&offset, 4, 1, file);
+	fseek(file, offset, SEEK_SET);
+
+	src_data.resize(h);
+	for (int y = h - 1; y >= 0; --y)
+	{
+		src_data[y].resize(w);
+		for (int x = 0; x < w / 2; ++x)
+		{
+			unsigned char pixel;
+			fread(&pixel, 1, 1, file);
+
+			unsigned char left = pixel >> 4;
+			unsigned char right = pixel & 15;
+
+			if (left > 3 || right > 3)
+			{
+				printf("INVALID BITMAP !!!\n");
+				break;
+			}
+			src_data[y][x * 2 + 0] = 3 - left;
+			src_data[y][x * 2 + 1] = 3 - right;
+		}
+	}
+
+	data.resize(h * 3);
+	for (int angle = 0; angle < 3; ++angle)
+	{
+		for (int glyph = 0; glyph < 25; ++glyph)
+		{
+			for (int y = 0; y < 8; ++y)
+			{
+				if (data[angle * 8 + y].size() != w)
+				{
+					data[angle * 8 + y].resize(w);
+				}
+
+				for (int x = 0; x < 8; ++x)
+				{
+					int gx = (int)((x - 3.5f) * abs(sin((angle * 360.0f / 3.0f) * 3.14159f / 180.0f)) + 3.5f);
+					int gy = y;
+
+					data[angle * 8 + y][glyph * 8 + x] = src_data[gy][glyph * 8 + gx];
+				}
+			}
+		}
+	}
+
+	fclose(file);
+
+	vector<unsigned int> tiles_ids;
+	vector<vector<unsigned char>> tiles_data;
+	PackToTiles(data, tiles_ids, tiles_data, false);
+	ExportTiles(tiles_ids, tiles_data, dst);
+
+	src = "../images/" + name + ".txt";
+	dst = "resources/bitmap_" + name + ".h";
+
+	string file_data;
+	file_data += "const unsigned char " + name + "_data[] = {\n";
+
+	std::ifstream ifile(src);
+	std::string str;
+	int count = 0;
+	while (std::getline(ifile, str))
+	{
+		int len = str.length();
+		file_data += to_string(len) + ", ";
+		for (int i = 0; i < len; ++i)
+		{
+			unsigned char c = str[i] - 'a';
+			if (c < 0 || c >= 26 - 1) // no Z
+			{
+				c = 0;
+			}
+			file_data += to_string(c + base) + ", ";
+		}
+		file_data += "\n";
+		++count;
+	}
+
+	file_data += "0};\n";
+	file_data += "const unsigned int " + name + "_data_count = " + to_string(count) + ";\n";
+	ofstream output(dst);
+	output << file_data;
 }
 
 void ExportBitmap(string name, bool pack = true, int max_tiles_count = 255, int acceptable_error = 0)
@@ -420,8 +525,8 @@ void ExportBitmap(string name, bool pack = true, int max_tiles_count = 255, int 
 				printf("INVALID BITMAP !!!\n");
 				break;
 			}
-			data[y][x * 2 + 0] = 3-left;
-			data[y][x * 2 + 1] = 3-right;
+			data[y][x * 2 + 0] = 3 - left;
+			data[y][x * 2 + 1] = 3 - right;
 		}
 	}
 
@@ -464,6 +569,8 @@ int main()
 	ExportBitmap("alien_girl");
 	ExportBitmap("senses", true, 255, 0);
 	ExportBitmap("logo");
+
+	ExportScroller("scroller", 0);
 
 	printf("done.\n");
 }

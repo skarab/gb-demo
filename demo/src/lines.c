@@ -37,23 +37,23 @@ void Scene_Lines() BANKED
 	while (1)
 	{
 		++sync;
-		if (sync==100)
+		if (sync==80)
 		{
 			col_max = 7;
 			set_palette(0);
 		}
-		else if (sync==101)
+		else if (sync==81)
 		{
 			set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
 		}
-		else if (sync==158)
+		else if (sync==108)
 		{
 			dx0 = -6;
 			dy0 = 5;
 			dx1 = 3;
 			dy1 = -4;
 		}
-		else if (sync==300)
+		else if (sync==150)
 		{
 			break;
 		}
@@ -72,7 +72,7 @@ void Scene_Lines() BANKED
 		if (y1+dy1<miny || y1+dy1>maxy) dy1 = -dy1;
 		y1 += dy1;
 		
-		if (sync>155)
+		if (sync>102)
 		{
 			w = abs(x0-x1);
 			h = abs(y0-y1);
