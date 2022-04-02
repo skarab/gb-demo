@@ -1,5 +1,4 @@
 #include <gb/gb.h>
-#include <gb/sample.h>
 
 #define CWHITE  0U
 #define CSILVER 1U
@@ -22,6 +21,8 @@ extern unsigned int pause_counter;
 
 void play_music();
 void vbl_music();
+
+void play_sample(uint8_t *start, uint16_t len) OLDCALL;
 
 INT8 abs(INT8 a);
 INT8 mod(INT8 a, INT8 b);

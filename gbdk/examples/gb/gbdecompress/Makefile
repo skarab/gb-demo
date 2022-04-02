@@ -4,7 +4,7 @@
 
 # If you move this project you can change the directory 
 # to match your GBDK root directory (ex: GBDK_HOME = "C:/GBDK/"
-GBDK_HOME = "../../../"
+GBDK_HOME = ../../../
 
 LCC = $(GBDK_HOME)bin/lcc
 
@@ -20,13 +20,13 @@ ASMSOURCES := $(wildcard *.s)
 
 all:	$(BINS)
 
-make.bat: Makefile
-	@echo "REM Automatically generated from Makefile" > make.bat
-	@make -sn | sed y/\\//\\\\/ | grep -v make >> make.bat
+compile.bat: Makefile
+	@echo "REM Automatically generated from Makefile" > compile.bat
+	@make -sn | sed y/\\//\\\\/ | grep -v make >> compile.bat
 
 # Compile and link all source files in a single call to LCC
-$(BINS): $(CSOURCES) $(ADMSOURCES)
-	$(LCC) -o $@ $(CSOURCES) $(ADMSOURCES)
+$(BINS): $(CSOURCES) $(ASMSOURCES)
+	$(LCC) -o $@ $(CSOURCES) $(ASMSOURCES)
 
 clean:
 	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm *.noi

@@ -1,11 +1,15 @@
 /** @file gb/gbdecompress.h
-    
+
     GB-Compress decompressor
     Compatible with the compression used in GBTD
+    @see utility_gbcompress "gbcompress"
 */
 
 #ifndef __GBDECOMPRESS_H_INCLUDE
 #define __GBDECOMPRESS_H_INCLUDE
+
+#include <types.h>
+#include <stdint.h>
 
 /** gb-decompress data from sour into dest
 
@@ -14,7 +18,7 @@
 
     @see gb_decompress_bkg_data, gb_decompress_win_data, gb_decompress_sprite_data
  */
-void gb_decompress(const unsigned char * sour, unsigned char * dest) __preserves_regs(b, c);
+uint16_t gb_decompress(const uint8_t * sour, uint8_t * dest) OLDCALL PRESERVES_REGS(b, c);
 
 
 /** gb-decompress background tiles into VRAM
@@ -24,9 +28,9 @@ void gb_decompress(const unsigned char * sour, unsigned char * dest) __preserves
 
     Note: This function avoids writes during modes 2 & 3
 
-    @see gb_decompress_bkg, gb_decompress_win_data, gb_decompress_sprite_data
+    @see gb_decompress_bkg_data, gb_decompress_win_data, gb_decompress_sprite_data
 */
-void gb_decompress_bkg_data(UINT8 first_tile, const unsigned char * sour) __preserves_regs(b, c);
+void gb_decompress_bkg_data(uint8_t first_tile, const uint8_t * sour) OLDCALL PRESERVES_REGS(b, c);
 
 
 /** gb-decompress window tiles into VRAM
@@ -41,7 +45,7 @@ void gb_decompress_bkg_data(UINT8 first_tile, const unsigned char * sour) __pres
 
     @see gb_decompress, gb_decompress_bkg_data, gb_decompress_sprite_data
  */
-void gb_decompress_win_data(UINT8 first_tile, const unsigned char * sour) __preserves_regs(b, c);
+void gb_decompress_win_data(uint8_t first_tile, const uint8_t * sour) OLDCALL PRESERVES_REGS(b, c);
 
 
 /** gb-decompress sprite tiles into VRAM
@@ -53,6 +57,6 @@ void gb_decompress_win_data(UINT8 first_tile, const unsigned char * sour) __pres
 
     @see gb_decompress, gb_decompress_bkg_data, gb_decompress_win_data
  */
-void gb_decompress_sprite_data(UINT8 first_tile, const unsigned char * sour) __preserves_regs(b, c);
+void gb_decompress_sprite_data(uint8_t first_tile, const uint8_t * sour) OLDCALL PRESERVES_REGS(b, c);
 
 #endif

@@ -7,6 +7,7 @@
 #define RAND_INCLUDE
 
 #include <types.h>
+#include <stdint.h>
 
 /** Initalise the pseudo-random number generator.
 
@@ -19,26 +20,44 @@
     particularly if read at some variable point in time (such
     as when the player presses a button).
 
-    Only needs to be called once to initialize, buy may be called
+    Only needs to be called once to initialize, but may be called
     again to re-initialize with the same or a different seed.
+
     @see rand(), randw()
 */
-void
-initrand(UINT16 seed) NONBANKED; /* Non-banked as called from asm in arand.s */
+#if defined(__PORT_gbz80)
+void initrand(uint16_t seed) OLDCALL;
+#elif defined(__PORT_z80)
+void initrand(uint16_t seed) Z88DK_FASTCALL;
+#endif
+
+#define RAND_MAX 255
+#define RANDW_MAX 65535
+
+/** The random number seed is stored in __rand_seed and can be
+    saved and restored if needed.
+
+    \code{.c}
+    // Save
+    some_uint16 = __rand_seed;
+    ...
+    // Restore
+    __rand_seed = some_uint16;
+    \endcode
+*/
+extern uint16_t __rand_seed;
 
 /** Returns a random byte (8 bit) value.
 
     @ref initrand() should be used to initialize the random number generator before using rand()
  */
-INT8
-rand(void);
+uint8_t rand() OLDCALL;
 
 /** Returns a random word (16 bit) value.
 
     @ref initrand() should be used to initialize the random number generator before using rand()
  */
-UINT16
-randw(void);
+uint16_t randw() OLDCALL;
 
 /** Random generator using the linear lagged additive method
 
@@ -49,14 +68,16 @@ randw(void);
 
     @see initrand() for suggestions about seed values, arand()
 */
-void
-initarand(UINT16 seed);
+#if defined(__PORT_gbz80)
+void initarand(uint16_t seed) OLDCALL;
+#elif defined(__PORT_z80)
+void initarand(uint16_t seed) Z88DK_FASTCALL;
+#endif
 
 /** Returns a random number generated with the linear lagged additive method.
 
     @ref initarand() should be used to initialize the random number generator before using arand()
  */
-INT8
-arand(void);
+uint8_t arand() OLDCALL;
 
 #endif

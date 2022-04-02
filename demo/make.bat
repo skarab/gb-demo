@@ -3,6 +3,7 @@ del *.gb
 call make_resources.bat
 @echo building asm files...
 ..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o vgmplayer.o src\vgmplayer.s
+..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o sample.o src\sample.s
 @echo building c files...
 ..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o gameboy.o src\gameboy.c
 ..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o demo.o src\demo.c
@@ -33,9 +34,9 @@ call make_resources.bat
 ..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o landscape.o src\landscape.c
 ..\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -Wl-yt26 -c -o scroller.o src\scroller.c
 @echo building banks...
-..\gbdk\bin\bankpack -ext=.rel -v -yt19 vgmplayer.o gameboy.o demo.o shake.o erase.o sega.o lines.o cube.o noise.o fire.o axelay.o sprites_physics.o squares_zoom.o squares_race.o rain.o vbarrels.o kiss.o funky_girl.o senses.o logo.o landscape.o scroller.o
+..\gbdk\bin\bankpack -ext=.rel -v -yt19 vgmplayer.o sample.o gameboy.o demo.o shake.o erase.o sega.o lines.o cube.o noise.o fire.o axelay.o sprites_physics.o squares_zoom.o squares_race.o rain.o vbarrels.o kiss.o funky_girl.o senses.o logo.o landscape.o scroller.o
 @echo linking...
-..\gbdk\bin\lcc -Wl-yo256 -Wl-ya1 -Wa-l -Wl-m -Wl-j -Wl-yt26 -o demo.gb vgmplayer.rel gameboy.rel demo.rel shake.rel erase.rel sega.rel lines.rel cube.rel noise.rel fire.rel axelay.rel sprites_physics.rel squares_zoom.rel squares_race.rel rain.rel vbarrels.rel kiss.rel funky_girl.rel senses.rel logo.rel landscape.rel scroller.rel
+..\gbdk\bin\lcc -Wl-yo256 -Wl-ya1 -Wa-l -Wl-m -Wl-j -Wl-yt26 -o demo.gb vgmplayer.rel sample.rel gameboy.rel demo.rel shake.rel erase.rel sega.rel lines.rel cube.rel noise.rel fire.rel axelay.rel sprites_physics.rel squares_zoom.rel squares_race.rel rain.rel vbarrels.rel kiss.rel funky_girl.rel senses.rel logo.rel landscape.rel scroller.rel
 @echo inject music...
 ..\tools\inject\Debug\inject.exe tmp\music demo.gb
 @echo fix checksum...

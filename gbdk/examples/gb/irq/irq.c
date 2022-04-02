@@ -1,5 +1,7 @@
 #include <gb/gb.h>
-#include <gb/console.h>
+#include <gbdk/console.h>
+
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 

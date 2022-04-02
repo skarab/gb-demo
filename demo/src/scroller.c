@@ -38,6 +38,7 @@ void Scene_Scroller() BANKED
 		//add_LCD(scroller_lcd);
 	}
     //set_interrupts(LCD_IFLAG | VBL_IFLAG);
+	set_interrupts(VBL_IFLAG);
 	
 	BGP_REG = PALETTE(CWHITE, CSILVER, CGRAY, CBLACK);
 	
@@ -62,12 +63,11 @@ void Scene_Scroller() BANKED
 			else angle = y==0?0:(y+1)%3;
 				
 			UINT8 count = *data++;
-			for (UINT8 i=0 ; i<count ; ++i)
+			for (UINT8 i=0 ; i<count && spriteId<40 ; ++i)
 			{
-				set_sprite_tile(spriteId, spritesBase + 25 * angle + *data);
-				move_sprite(spriteId, 160+4-count*9 + i * 9, 16+4+y*9-yOffset/slowDown+64);
+				set_sprite_tile(spriteId, spritesBase + 25 * angle + *data++);
+				move_sprite(spriteId, 164-count*9 + i * 9, 100+y*9-yOffset/slowDown);
 				++spriteId;
-				++data;
 			}
 			++id;
 			if (id==scroller_data_count)
@@ -102,13 +102,13 @@ void Scene_Scroller() BANKED
 			}
 		}
 	}
-	
+	/*
 	CRITICAL {
-		remove_LCD(scroller_lcd);
-		remove_VBL(scroller_vbl);
+		//remove_LCD(scroller_lcd);
+		//remove_VBL(scroller_vbl);
 		SCX_REG = SCY_REG = 0;
 	}
 	
 	HIDE_SPRITES;
-	set_interrupts(VBL_IFLAG);
+	set_interrupts(VBL_IFLAG);*/
 }

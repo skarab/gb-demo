@@ -5,14 +5,38 @@
 #ifndef ASM_GBZ80_TYPES_INCLUDE
 #define ASM_GBZ80_TYPES_INCLUDE
 
-#if SDCC_PORT!=gbz80
-#error gbz80 only.
+#ifndef __PORT_gbz80
+  #error gbz80 only.
 #endif
 
-#define NONBANKED		__nonbanked
-#define BANKED			__banked
+#ifdef __SDCC
+
+#define NONBANKED		__nonbanked  /**< Placed in the non-banked lower 16K region (bank 0), regardless of the bank selected by it's source file. */
+#define BANKED			__banked     /**< The function will use banked sdcc calls, and is placed in the bank selected by it's source file (or compiler switches). */
+
+/**  Use to create a block of of code which should execute with interrupts temporarily turned off.
+
+    __Do not__ use @ref CRITICAL and @ref INTERRUPT attributes for a
+    function added via add_VBL() (or LCD, etc). The attributes
+    are only required when constructing a bare jump from the
+    interrupt vector itself.
+
+    @see enable_interrupts, disable_interrupts
+*/
 #define CRITICAL		__critical
+
+/**  Indicate to the compiler the function will be used as an interrupt handler.
+
+    __Do not__ use @ref CRITICAL and @ref INTERRUPT attributes for a
+    function added via add_VBL() (or LCD, etc). The attributes
+    are only required when constructing a bare jump from the
+    interrupt vector itself.
+
+    @see ISR_VECTOR(), ISR_NESTED_VECTOR()
+*/
 #define INTERRUPT		__interrupt
+
+#endif
 
 /** Signed eight bit.
  */
@@ -35,12 +59,12 @@ typedef unsigned long 	UINT32;
 
 #ifndef __SIZE_T_DEFINED
 #define __SIZE_T_DEFINED
-typedef int	      	size_t;
+typedef unsigned int	size_t;
 #endif
 
 /** Returned from clock
     @see clock
 */
-typedef UINT16		clock_t;
+typedef unsigned int	clock_t;
 
 #endif

@@ -1,6 +1,7 @@
-#include <gb/gb.h>
-#include <gb/sgb.h>
-#include <gb/metasprites.h>
+#include <stdint.h>
+
+#include <gbdk/platform.h>
+#include <gbdk/metasprites.h>
 
 #include "sprite.h"
 
@@ -18,11 +19,11 @@ joypads_t joypads;
 #define TILE_NUM_START 0
 
 // sprite coords
-UINT16 PosX, PosY;
-INT16 SpdX, SpdY;
-UINT8 PosF;
-UINT8 hide, jitter;
-UINT8 idx, rot;
+uint16_t PosX, PosY;
+int16_t SpdX, SpdY;
+uint8_t PosF;
+uint8_t hide, jitter;
+uint8_t idx, rot;
 
 // main funxction
 void main(void) {
@@ -35,7 +36,7 @@ void main(void) {
     set_bkg_data(0, 1, pattern);
 
     // Load metasprite tile data into VRAM
-    set_sprite_data(TILE_NUM_START, sizeof(sprite_data) >> 4, sprite_data);
+    set_sprite_data(TILE_NUM_START, sizeof(sprite_tiles) >> 4, sprite_tiles);
 
     // show bkg and sprites
     SHOW_BKG; SHOW_SPRITES;
@@ -106,11 +107,11 @@ void main(void) {
 
         PosX += SpdX, PosY += SpdY; 
 
-        UBYTE hiwater = 0;
+        uint8_t hiwater = 0;
 	
 		// NOTE: In a real game it would be better to only call the move_metasprite..()
         //       functions if something changed (such as movement or rotation). That
-		//	     reduces CPU usage on frames that don't need udpates.
+		//	     reduces CPU usage on frames that don't need updates.
 		//
 		// In this example they are called every frame to simplify the example code
 
@@ -126,7 +127,7 @@ void main(void) {
             };
 
         // Hide rest of the hardware sprites, because amount of sprites differ between animation frames.
-        for (UBYTE i = hiwater; i < 40; i++) shadow_OAM[i].y = 0;
+	hide_sprites_range(hiwater, 40);        
 
         // Y Axis: update velocity (reduce speed) if no U/D button pressed
         if (!(PosF & ACC_Y)) {

@@ -6,6 +6,9 @@
 #ifndef _SGB_H
 #define _SGB_H
 
+#include <types.h>
+#include <stdint.h>
+
 #define SGB_PAL_01 0x00U    /**< SGB Command: Set SGB Palettes 0 & 1 */
 #define SGB_PAL_23 0x01U    /**< SGB Command: Set SGB Palettes 2 & 3 */
 #define SGB_PAL_03 0x02U    /**< SGB Command: Set SGB Palettes 0 & 3 */
@@ -34,7 +37,7 @@
 
 
 /** Returns a non-null value if running on Super GameBoy */
-UINT8 sgb_check(void);
+uint8_t sgb_check() OLDCALL PRESERVES_REGS(b, c);
 
 /** Transfer a SGB packet
 
@@ -46,17 +49,17 @@ UINT8 sgb_check(void);
     See the `sgb_border` GBDK example project for a
     demo of how to use these the sgb functions.
 
+    When using the SGB with a PAL SNES, a delay should be added
+    just after program startup such as:
+
+    \code{.c}
+    // Wait 4 frames
+    // For PAL SNES this delay is required on startup
+    for (uint8_t i = 4; i != 0; i--) wait_vbl_done();
+    \endcode
+
     @see sgb_check()
 */
-void sgb_transfer(unsigned char * packet);
-
-/** Transfer a SGB packet without the 60 ms / 4 frame delay at the end
-    (the delay time is required between consecutive SGB packets)
-
-    @param packet    Pointer to buffer with SGB packet data.
-
-    @see sgb_transfer()
-*/
-void sgb_transfer_nowait(unsigned char * packet);
+void sgb_transfer(uint8_t * packet) OLDCALL PRESERVES_REGS(b, c);
 
 #endif /* _SGB_H */

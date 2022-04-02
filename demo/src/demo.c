@@ -31,12 +31,12 @@ void main()
 	HIDE_SPRITES;
 	HIDE_WIN;
 	
-	Scene_Shake();
+	/*Scene_Shake();
 	Scene_Erase(1);
 	Scene_Sega();
-	
+	*/
 	play_music();
-	Scene_Fire();
+	/*Scene_Fire();
 	Scene_Erase(1);
 	Scene_SpritesPhysics();
 	Scene_Erase(0);
@@ -56,6 +56,6 @@ void main()
 	Scene_SquaresZoom();
 	Scene_Noise();
 	Scene_Erase(0);
-	Scene_Landscape();
+	Scene_Landscape();*/
 	Scene_Scroller();
 }

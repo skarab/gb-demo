@@ -1,12 +1,14 @@
-CC	= ../../../bin/lcc -Wa-l -Wl-m -Wl-j
+GBDK	= ../../..
+LIB	= $(GBDK)/lib/small/asxxxx/
+CC	= $(GBDK)/bin/lcc -Wa-I$(LIB) -Wa-l -Wl-m -Wl-j
 
 BINS	= space.gb
 
 all:	$(BINS)
 
-make.bat: Makefile
-	@echo "REM Automatically generated from Makefile" > make.bat
-	@make -sn | sed y/\\//\\\\/ | grep -v make >> make.bat
+compile.bat: Makefile
+	@echo "REM Automatically generated from Makefile" > compile.bat
+	@make -sn | sed y/\\//\\\\/ | grep -v make >> compile.bat
 
 # Compile and link single file in one pass
 %.gb:	%.s
