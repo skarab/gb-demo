@@ -383,7 +383,7 @@ void ExportVBarrels(string name)
 	ExportTiles(tiles_ids, tiles_data, name);
 }
 
-void ExportScroller(string name, int base)
+void ExportScroller(string name)
 {
 	vector<vector<unsigned char>> src_data;
 	vector<vector<unsigned char>> data;
@@ -426,8 +426,8 @@ void ExportScroller(string name, int base)
 		}
 	}
 
-	data.resize(h * 3);
-	for (int angle = 0; angle < 3; ++angle)
+	data.resize(h * 5);
+	for (int angle = 0; angle < 5; ++angle)
 	{
 		for (int glyph = 0; glyph < 25; ++glyph)
 		{
@@ -440,10 +440,17 @@ void ExportScroller(string name, int base)
 
 				for (int x = 0; x < 8; ++x)
 				{
-					int gx = (int)((x - 3.5f) * abs(sin((angle * 360.0f / 3.0f) * 3.14159f / 180.0f)) + 3.5f);
+					int gx = (int)((x - 3.5f) * abs(sin((angle * 360.0f / 5.0f) * 3.14159f / 180.0f)) + 3.5f);
 					int gy = y;
 
-					data[angle * 8 + y][glyph * 8 + x] = src_data[gy][glyph * 8 + gx];
+					unsigned char v = src_data[gy][glyph * 8 + gx];
+
+					if (angle == 4)
+					{
+						v = v < 2 ? v : v - 1;
+					}
+
+					data[angle * 8 + y][glyph * 8 + x] = v;
 				}
 			}
 		}
@@ -476,7 +483,7 @@ void ExportScroller(string name, int base)
 			{
 				c = 0;
 			}
-			file_data += to_string(c + base) + ", ";
+			file_data += to_string(c) + ", ";
 		}
 		file_data += "\n";
 		++count;
@@ -486,6 +493,95 @@ void ExportScroller(string name, int base)
 	file_data += "const unsigned int " + name + "_data_count = " + to_string(count) + ";\n";
 	ofstream output(dst);
 	output << file_data;
+}
+
+void ExportScrollerCube()
+{
+	vector<vector<unsigned char>> bkg_data;
+	vector<vector<unsigned char>> data;
+	string bkgSrc = "../images/alien_girl_cube_bkg.bmp";
+	string src = "../data/cube.bytes";
+	string dst = "bitmap_scroller_cube";
+	int size = 32;
+	int angle = 24;
+	int framesCount = (360 - angle) / angle;
+
+	printf((src + "\n").c_str());
+
+	FILE* file;
+
+	fopen_s(&file, bkgSrc.c_str(), "rb");
+	fseek(file, 18, SEEK_SET);
+	int w, h;
+	fread(&w, 4, 1, file);
+	fread(&h, 4, 1, file);
+
+	fseek(file, 0x000A, SEEK_SET);
+	int offset;
+	fread(&offset, 4, 1, file);
+	fseek(file, offset, SEEK_SET);
+
+	bkg_data.resize(h);
+	for (int y = h - 1; y >= 0; --y)
+	{
+		bkg_data[y].resize(w);
+		for (int x = 0; x < w / 2; ++x)
+		{
+			unsigned char pixel;
+			fread(&pixel, 1, 1, file);
+
+			unsigned char left = pixel >> 4;
+			unsigned char right = pixel & 15;
+
+			if (left > 3 || right > 3)
+			{
+				printf("INVALID BITMAP !!!\n");
+				break;
+			}
+			bkg_data[y][x * 2 + 0] = 3 - left;
+			bkg_data[y][x * 2 + 1] = 3 - right;
+		}
+	}
+	fclose(file);
+
+	fopen_s(&file, src.c_str(), "rb");
+
+	data.resize(size * framesCount);
+	for (int y = 0; y < data.size(); ++y)
+	{
+		data[y].resize(size);
+	}
+
+	for (int f = 0; f < framesCount; ++f)
+	{
+		int clear = 0;
+		if (f < 4) clear = 8 - f * 2;
+		else if (f >= framesCount - 3) clear = 2 + (framesCount - 3) * 2;
+
+		for (int y = size-1; y >= 0; --y)
+		{
+			for (int x = 0; x < size; ++x)
+			{
+				unsigned char pixel;
+				fread(&pixel, 1, 1, file);
+
+				pixel = 3-pixel * 3 / 255;
+
+				if (clear != 0 && (clear==8 || x % clear != 0 || y % clear != 0))
+					pixel = 3;
+
+				if (pixel == 3) pixel = bkg_data[y][x];
+
+				data[y + f * size][x] = pixel;
+			}
+		}
+	}
+	fclose(file);
+
+	vector<unsigned int> tiles_ids;
+	vector<vector<unsigned char>> tiles_data;
+	PackToTiles(data, tiles_ids, tiles_data, true, 255, 2);
+	ExportTiles(tiles_ids, tiles_data, dst);
 }
 
 void ExportBitmap(string name, bool pack = true, int max_tiles_count = 255, int acceptable_error = 0)
@@ -567,10 +663,11 @@ int main()
 	ExportBitmap("funky_girl", true, 207, 2);
 	ExportBitmap("funky_girl_window");
 	ExportBitmap("alien_girl");
+	ExportBitmap("alien_girl_full");
 	ExportBitmap("senses", true, 255, 0);
 	ExportBitmap("logo");
-
-	ExportScroller("scroller", 0);
+	ExportScroller("scroller");
+	ExportScrollerCube();
 
 	printf("done.\n");
 }
