@@ -207,7 +207,7 @@ void ExportSquaresZoom(string name)
 
 	vector<unsigned int> tiles_ids;
 	vector<vector<unsigned char>> tiles_data;
-	PackToTiles(data, tiles_ids, tiles_data, true);
+	PackToTiles(data, tiles_ids, tiles_data, true, 180, 0);
 	ExportTiles(tiles_ids, tiles_data, name);
 }
 
@@ -383,14 +383,14 @@ void ExportVBarrels(string name)
 	ExportTiles(tiles_ids, tiles_data, name);
 }
 
-void ExportScroller(string name)
+void ExportFont(string name)
 {
 	vector<vector<unsigned char>> src_data;
 	vector<vector<unsigned char>> data;
 	string src = "../images/" + name + "_font.bmp";
 	string dst = "bitmap_" + name + "_font";
 
-	printf((src + "\n").c_str());
+	printf((src + " font\n").c_str());
 
 	FILE* file;
 	fopen_s(&file, src.c_str(), "rb");
@@ -462,9 +462,16 @@ void ExportScroller(string name)
 	vector<vector<unsigned char>> tiles_data;
 	PackToTiles(data, tiles_ids, tiles_data, false);
 	ExportTiles(tiles_ids, tiles_data, dst);
+}
 
-	src = "../images/" + name + ".txt";
-	dst = "resources/bitmap_" + name + ".h";
+void ExportScroller(string name)
+{
+	vector<vector<unsigned char>> src_data;
+	vector<vector<unsigned char>> data;
+	string src = "../images/" + name + ".txt";
+	string dst = "resources/bitmap_" + name + ".h";
+
+	printf((src + "\n").c_str());
 
 	string file_data;
 	file_data += "const unsigned char " + name + "_data[] = {\n";
@@ -655,7 +662,8 @@ int main()
 	ExportBitmap("sprites_physics_bkg");
 	ExportBitmap("rain_bkg");
 	ExportBitmap("rain_sprites", false);
-	ExportBitmap("squares_bkg");
+	ExportBitmap("credits");
+	ExportFont("credits");
 	ExportBitmap("vbarrels_wnd");
 	ExportBitmap("race_bkg");
 	ExportBitmap("kiss", true, 205, 2);
@@ -666,6 +674,7 @@ int main()
 	ExportBitmap("alien_girl_full");
 	ExportBitmap("senses", true, 255, 0);
 	ExportBitmap("logo");
+	ExportFont("scroller");
 	ExportScroller("scroller");
 	ExportScrollerCube();
 

@@ -5,7 +5,8 @@ const void __at(23) __bank_squares_zoom;
 
 #include "../resources/squares_zoom.h"
 #include "../resources/squares_zoom_precalc.h"
-#include "../resources/bitmap_squares_bkg.h"
+#include "../resources/bitmap_credits.h"
+#include "../resources/bitmap_credits_font.h"
 
 UINT8 squares_scroll = 0;
 UINT8 squares_zoom_scroll = 0;
@@ -137,21 +138,31 @@ void Scene_Zoom() BANKED
 			  
 void Scene_Credits() BANKED
 {
+	const char* credits[] = { "critikill", "aceman", "skarab" };
+	const int creditsLength[] = { 9, 6, 6 };
+	UINT8 creditId = 0;
+	
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_squares_zoom); }
 	
-	set_mode1();
+	set_mode2();
 	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
-	set_bkg_data(0, squares_zoom_tiledata_count, squares_zoom_tiledata);
+	
+	set_tile_data(0, 128, squares_zoom_tiledata, 0x90);
+	set_tile_data(128, squares_zoom_tiledata_count-128, squares_zoom_tiledata+128*16, 0x80);
 	set_bkg_tiles(0, 0, 32, 8, squares_zoom_tilemap0);
 	set_bkg_tiles(0, 8, 32, 8, squares_zoom_tilemap1);
 	set_bkg_tiles(0, 16, 32, 6, squares_zoom_tilemap2);
 	
-	set_win_data(squares_zoom_tiledata_count, bitmap_squares_bkg_tiledata_count, bitmap_squares_bkg_tiledata);
-	for (UINT8 y=0 ; y<bitmap_squares_bkg_tilemap0_count ; ++y)
+	set_tile_data(squares_zoom_tiledata_count, bitmap_credits_tiledata_count, bitmap_credits_tiledata, 0x80);
+	for (UINT8 y=0 ; y<bitmap_credits_tilemap0_count ; ++y)
 	{
-		UINT8 tile_id = bitmap_squares_bkg_tilemap0[y]+squares_zoom_tiledata_count;
+		UINT8 tile_id = bitmap_credits_tilemap0[y]+squares_zoom_tiledata_count;
 		set_win_tiles(y%20, y/20, 1, 1, &tile_id);
 	}
+	
+	SPRITES_8x8;
+	set_sprite_data(0, bitmap_credits_font_tiledata_count, bitmap_credits_font_tiledata);
+	SHOW_SPRITES;
 	
 	move_win(255, 82);
 	SHOW_BKG;
@@ -171,17 +182,46 @@ void Scene_Credits() BANKED
 	UINT8 win_x = 255;
 	UINT8 win_y = 82;
 	int time = 0;
-	while (++time<650)
+	UINT8 c = 0;
+	UINT8 stopper = 1;
+	while (++time<180)
 	{
 		UINT8 sin = sintable[squares_s];
-		win_x -= 3;
-		if (win_x<60) win_y += 3;
-		if (sin<150)
+		if (stopper==1 && sin<150)
 		{
-			win_x = 255;
-			win_y = 82;
+		}
+		else
+		{
+			stopper = 0;
+			if (win_x>=60+20) win_x -= 20;
+			else win_x = 60;
+			if (win_x==60) win_y += 1;
+			if (sin<150 && win_x!=255)
+			{
+				win_x = 255;
+				win_y = 82;
+				
+				for (UINT8 i=0 ; i<10 ; ++i)
+					move_sprite(i, 0, 0);
+				
+				creditId = (creditId+1)%3;
+				c = 0;
+				stopper = 1;
+			}
 		}
 		move_win(win_x, win_y);
+		
+		if (win_x<120)
+		{
+			for (UINT8 j=0 ; j<(creditId==0?3:2) ; ++j)
+			{
+				UINT8 angle = (c+time)%5;
+				set_sprite_tile(c, 25 * angle + (credits[creditId][c]-'a'));
+				move_sprite(c, 82 + c * 9, 132);
+				c = (c+1)%creditsLength[creditId];
+			}
+		}
+		
 		wait_vbl_done();
 	}
 	

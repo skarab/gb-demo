@@ -29,11 +29,11 @@ void main()
     NR51_REG = 0xFF;
     NR50_REG = 0x77;
 	
-	/*Scene_Shake();
+	Scene_Shake();
 	Scene_Erase(1);
-	Scene_Sega();*/
+	Scene_Sega();
 	
-	//play_music();
+	play_music();
 	
 	/*Scene_Fire();
 	Scene_Erase(1);
@@ -51,11 +51,11 @@ void main()
 	Scene_Senses();
 	Scene_Zoom();*/
 	
+	Scene_SquaresRace();
 	Scene_Credits();
 	Scene_CubePhysics();
 	Scene_Kiss();
-	Scene_SquaresRace();
-	Scene_Rain();
 	Scene_Landscape();
+	Scene_Rain();
 	Scene_Scroller();
 }
