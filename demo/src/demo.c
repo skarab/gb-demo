@@ -10,8 +10,8 @@ void Scene_Noise() BANKED;
 void Scene_Fire() BANKED;
 void Scene_Axelay() BANKED;
 void Scene_SpritesPhysics() BANKED;
-void Scene_SquaresZoom() BANKED;
-void Scene_SquaresZoom2() BANKED;
+void Scene_Zoom() BANKED;
+void Scene_Credits() BANKED;
 void Scene_SquaresRace() BANKED;
 void Scene_Rain() BANKED;
 void Scene_VBarrels() BANKED;
@@ -24,38 +24,38 @@ void Scene_Scroller() BANKED;
 
 void main()
 {
-	LCDC_REG = 0xD1;
+	set_mode1();
     NR52_REG = 0x80;
     NR51_REG = 0xFF;
     NR50_REG = 0x77;
-	HIDE_SPRITES;
-	HIDE_WIN;
 	
 	/*Scene_Shake();
 	Scene_Erase(1);
-	Scene_Sega();
-	*/
-	play_music();
+	Scene_Sega();*/
+	
+	//play_music();
+	
 	/*Scene_Fire();
 	Scene_Erase(1);
 	Scene_SpritesPhysics();
 	Scene_Erase(0);
 	Scene_Logo();
-	Scene_SquaresRace();
 	Scene_Lines();
 	Scene_Cube();
 	Scene_FunkyGirl();
-	Scene_VBarrels();
-	Scene_CubePhysics();
-	Scene_Erase(0);
-	Scene_Kiss();
-	Scene_SquaresZoom2();
-	Scene_Axelay();
-	Scene_Senses();
-	Scene_Rain();
-	Scene_SquaresZoom();
 	Scene_Noise();
 	Scene_Erase(0);
-	Scene_Landscape();*/
+	Scene_VBarrels();
+	Scene_Erase(0);
+	Scene_Axelay();
+	Scene_Senses();
+	Scene_Zoom();*/
+	
+	Scene_Credits();
+	Scene_CubePhysics();
+	Scene_Kiss();
+	Scene_SquaresRace();
+	Scene_Rain();
+	Scene_Landscape();
 	Scene_Scroller();
 }

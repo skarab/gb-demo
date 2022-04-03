@@ -19,15 +19,21 @@ void Scene_Landscape() BANKED
 	
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_landscape); }
 	
+	set_mode1();
+	
 	LCDC_REG = 0xD1;
 	SCY_REG = SCX_REG = 0;
 	BGP_REG = PALETTE(CBLACK, CBLACK, CBLACK, CBLACK);
 	
-	while (++sync<300)
+	while (++sync<250)
 	{
-		vmemset((void*)(0x8000+(landscape_draw_color-1)*1920), 0, 1920);
+		if (sync<230)
+		{
+			vmemset((void*)(0x8000+(landscape_draw_color-1)*1920), 0, 1920);
+		}
 		BGP_REG = landscape_palettes2[landscape_draw_color-1];
 		color(landscape_draw_color, 0, SOLID);
+		
 		
 		const UINT8* input = resources_landscape_data + frameId*200;
 		for (UINT8 i=0 ; i<100 ; ++i)
@@ -35,7 +41,7 @@ void Scene_Landscape() BANKED
 			plot_point(input[i*2], input[i*2+1]);
 		}
 		
-		if (sync>200)
+		if (sync>150)
 		{
 			for (UINT8 i=0 ; i<8 ; ++i)
 			{
@@ -75,6 +81,8 @@ void Scene_Landscape() BANKED
 		
 		++sync;
 	}
+	
+	FADE_IN_WHITE();
 	
 	//mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
 	disable_interrupts();

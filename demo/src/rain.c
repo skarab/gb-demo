@@ -13,27 +13,22 @@ UINT8 rain_sprite_y[rain_sprite_count];
 UINT8 rain_sprite_a[rain_sprite_count];
 UINT8 rain_addx = 0;
 UINT8 rain_splash = 0;
-	
-void rain_vbl() BANKED
-{
-	++rain_scroll;
-}
 
-UINT8 olds = 0;
 void rain_lcd() BANKED
 {
 	UINT8 y = LY_REG;
-	if (y>=72)
+	if (y>=104)
 	{
-		UINT8 scroll = (sintable[(rain_scroll+y<<1)%128] / ((60-(y-72)))<<1);
-		scroll = (scroll+olds*2)/3;
-		olds = scroll;
-		SCX_REG = scroll;
+		UINT8 z = (UINT8)(144-(int)y);
+		z += (y%2)*2;
+		UINT8 water = rain_scroll + (y-104) ;
+		water = sintable[(water)/2]/(8+z)-(255/(8+z)/2);
+		SCX_REG = water;
+		++rain_scroll;
 	}
 	else
 	{
 		SCX_REG = 0;
-		olds = 0;
 	}
 }
 
@@ -73,9 +68,9 @@ void update_sprites() BANKED
 			
 			rain_sprite_y[i] += s;
 		
-			if (rain_sprite_y[i]>=80)
+			if (rain_sprite_y[i]>=130)
 			{
-				if (rand()>115)
+				if (rand()>220)
 				{
 					rain_sprite_a[i] = 1;
 					set_sprite_tile(i, bitmap_rain_bkg_tiledata_count+8);
@@ -124,16 +119,11 @@ void Scene_Rain() BANKED
 	
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_rain); }
 	
+	set_mode1();
 	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
 	draw_fullscreen_bitmap(bitmap_rain_bkg_tiledata_count, bitmap_rain_bkg_tiledata, bitmap_rain_bkg_tilemap0, bitmap_rain_bkg_tilemap1);
 	
 	UINT8 clear = 0;
-	for (j = 0 ; j<2 ; ++j)
-	for (i = 0 ; i<32 ; ++i)
-	{
-		set_bkg_tiles(i, j, 1, 1, &clear);
-	}
-	
 	for (j = 0 ; j<18 ; ++j)
 	{
 		get_bkg_tiles(19, j, 1, 1, &clear);
@@ -150,38 +140,29 @@ void Scene_Rain() BANKED
 	}
 	SHOW_SPRITES;
 	
-	rain_vbl();
-	
-	CRITICAL {
-        STAT_REG = 0x18;
-		add_VBL(rain_vbl);
-		//add_LCD(rain_lcd);
-	}
-    set_interrupts(/*LCD_IFLAG |*/ VBL_IFLAG);
-	
 	for (i=0 ; i<rain_sprite_count ; ++i)
 	{
 		rain_sprite_x[i] = rand()%160;
-		rain_sprite_y[i] = rand()%140;
+		rain_sprite_y[i] = 164; //rand()%140;
 		rain_sprite_a[i] = 0;
 		set_sprite_tile(i, bitmap_rain_bkg_tiledata_count+(i%4)*2+1);
 		set_sprite_prop(i, get_sprite_prop(i) & ~S_PALETTE);
 		move_sprite(i, rain_sprite_x[i], rain_sprite_y[i]);
 	}
 	
-	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
+	//set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
 	
 	UINT8 fade = 0;
 	UINT8 speed = 1;
 	
 	int time = 0;
 	
-	while (++time<300)
+	while (++time<700)
 	{
+		++time;
 		update_sprites();
-		//wait_vbl_done();
 		
-		if (fade>0)
+		if (time>110 && fade>0)
 		{
 			if ((fade-1)/speed==PalFadeCount)
 			{
@@ -196,7 +177,7 @@ void Scene_Rain() BANKED
 		}
 		else
 		{
-			if (rand()>120)
+			if (rand()>220)
 			{
 				fade = 1;
 				speed = ((UINT8)rand())%3+1;
@@ -204,10 +185,7 @@ void Scene_Rain() BANKED
 		}
 	}
 	
-	CRITICAL {
-        //remove_LCD(rain_lcd);
-	    remove_VBL(rain_vbl);
-	}
-	
+	FADE_IN_BLACK();
+	SCX_REG = 0;
 	HIDE_SPRITES;
 }

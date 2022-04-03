@@ -1,73 +1,74 @@
-#pragma bank 27
-const void __at(27) __bank_scroller;
+#pragma bank 29
+const void __at(29) __bank_scroller;
 
 #include "gameboy.h"
 #include "rand.h"
 #include "../resources/bitmap_alien_girl.h"
+#include "../resources/bitmap_alien_girl_full.h"
 #include "../resources/bitmap_scroller.h"
 #include "../resources/bitmap_scroller_font.h"
-
-void scroller_vbl() BANKED
-{
-}
-
-void scroller_lcd() BANKED
-{
-}
+#include "../resources/bitmap_scroller_cube.h"
 
 void Scene_Scroller() BANKED
 {
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_scroller); }
 	
-	BGP_REG = PALETTE(CBLACK, CBLACK, CBLACK, CBLACK);
+	BGP_REG = PALETTE(CWHITE, CWHITE, CWHITE, CWHITE);
 	
-	draw_fullscreen_bitmap(bitmap_alien_girl_tiledata_count, bitmap_alien_girl_tiledata, bitmap_alien_girl_tilemap0, bitmap_alien_girl_tilemap1);
+	set_mode2();
+	draw_fullscreen_bitmap_mode2(bitmap_alien_girl_full_tiledata_count, bitmap_alien_girl_full_tiledata, bitmap_alien_girl_full_tilemap0, bitmap_alien_girl_full_tilemap1);
 	
-	UINT8 spritesBase = 162;
+	FADE_OUT_WHITE();
+	PAUSE(100);
+	FADE_IN_WHITE();
+	
+	draw_fullscreen_bitmap_mode2(bitmap_alien_girl_tiledata_count, bitmap_alien_girl_tiledata, bitmap_alien_girl_tilemap0, bitmap_alien_girl_tilemap1);
+	set_tile_data(162, bitmap_scroller_cube_tiledata_count, bitmap_scroller_cube_tiledata, 0x80); //128+34
 	
 	SPRITES_8x8;
-	set_sprite_data(spritesBase, 25*3, bitmap_scroller_font_tiledata);
-	
+	set_sprite_data(0, bitmap_scroller_font_tiledata_count, bitmap_scroller_font_tiledata);
 	SHOW_SPRITES;
 	
-	scroller_vbl();
-	
-	CRITICAL {
-        STAT_REG = 0x18;
-		//add_VBL(scroller_vbl);
-		//add_LCD(scroller_lcd);
-	}
-    //set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	set_interrupts(VBL_IFLAG);
-	
-	BGP_REG = PALETTE(CWHITE, CSILVER, CGRAY, CBLACK);
-	
-	int time = 0;
 	int angle = 0;
 	int txtId = 0;
 	const UINT8* txtData = scroller_data;
 	UINT8 yOffset = 0;
 	UINT8 spritesCount = 0;
 	UINT8 slowDown = 4;
+	UINT8 palId = PalFadeCount;
+	int cubeFramesCount = (360 - 22) / 22;
+	int cubeFrameId0 = 0;
+	UINT8 animCube0 = 0;
+	int cubeFrameId1 = 0;
+	UINT8 animCube1 = 0;
+	int cubeFrameId2 = 12;
+	UINT8 animCube2 = 0;
+	UINT8 cubeId = 0;
+	UINT8 cubePosX = 12;
+	UINT8 cubePosY = 6;
+	int cubeTime = 0;
 	
-	while (1)  //++time<100)
+	while (1)
 	{
-		wait_vbl_done();
+		if (palId!=0)
+		{
+			--palId;
+			BGP_REG = PalFadeWhite[palId];
+		}
 		
 		const UINT8* data = txtData;
 		int id = txtId;
 		UINT8 spriteId = 0;
 		for (UINT8 y=0 ; y<6 ; ++y)
 		{
-			if (y>1 && y<5) angle = (y+yOffset/slowDown)%3;
-			else angle = y==0?0:(y+1)%3;
+			if (y>1 && y<5) { angle = (y+(yOffset/slowDown)/2)%5; if (angle==1) angle = 2; }
+			else angle = y==1?1:0;
 				
 			UINT8 count = *data++;
 			for (UINT8 i=0 ; i<count && spriteId<40 ; ++i)
 			{
-				set_sprite_tile(spriteId, spritesBase + 25 * angle + *data++);
-				move_sprite(spriteId, 164-count*9 + i * 9, 100+y*9-yOffset/slowDown);
-				++spriteId;
+				set_sprite_tile(spriteId, 25 * angle + *data++);
+				move_sprite(spriteId++, 164-count*9 + i * 9, 100+y*9-yOffset/slowDown);
 			}
 			++id;
 			if (id==scroller_data_count)
@@ -101,14 +102,47 @@ void Scene_Scroller() BANKED
 				txtData += *txtData + 1;
 			}
 		}
-	}
-	/*
-	CRITICAL {
-		//remove_LCD(scroller_lcd);
-		//remove_VBL(scroller_vbl);
-		SCX_REG = SCY_REG = 0;
-	}
+		
+		if (cubeTime<600)
+		{
+			++cubeTime;
+			continue;
+		}
 	
-	HIDE_SPRITES;
-	set_interrupts(VBL_IFLAG);*/
+		if (cubeId==0)
+		{
+			if (animCube0==0)
+			{
+				int base = cubeFrameId0*4*4;
+				set_bkg_based_tiles(cubePosX, cubePosY, 4, 4, bitmap_scroller_cube_tilemap0+base, 162); //128+34);
+				if (cubeFrameId0==0) { ++cubeId; cubePosX = 10+((UINT8)rand())%7; cubePosY = 1+((UINT8)rand())%6; }
+				cubeFrameId0 = (cubeFrameId0+1)%cubeFramesCount;
+			}
+			animCube0 = (animCube0+1)%8;
+		}
+		else if (cubeId==1)
+		{
+			if (animCube1==0)
+			{
+				int base = cubeFrameId1*4*4;
+				set_bkg_based_tiles(cubePosX, cubePosY, 4, 4, bitmap_scroller_cube_tilemap0+((cubeFramesCount-1)*4*4-base), 162); //128+34);
+				if (cubeFrameId1==cubeFramesCount-1) { ++cubeId; cubePosX = 10+((UINT8)rand())%7; cubePosY = 1+((UINT8)rand())%6; }
+				cubeFrameId1 = (cubeFrameId1+1)%cubeFramesCount;
+			}
+			animCube1 = (animCube1+1)%4;
+		}
+		else if (cubeId==2)
+		{
+			if (animCube2==0)
+			{
+				int base = cubeFrameId2*4*4;
+				set_bkg_based_tiles(cubePosX, cubePosY, 4, 4, bitmap_scroller_cube_tilemap0+base, 162); //128+34);
+				if (cubeFrameId2==0) { cubeId = 0; cubePosX = 10+((UINT8)rand())%7; cubePosY = 1+((UINT8)rand())%6; }
+				cubeFrameId2 = (cubeFrameId2+1)%cubeFramesCount;
+			}
+			animCube2 = (animCube2+1)%6;
+		}
+	}
+
+	//set_mode1();
 }

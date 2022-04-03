@@ -69,15 +69,7 @@ void Scene_Cube() BANKED
 			break;
 	}
 	
-	HIDE_SPRITES;
-	
-	//mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
-	disable_interrupts();
-	mode(0);
-	enable_interrupts();
-	
-	mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
-	LCDC_REG = 0xD1;
+	exit_draw_mode();
 }
 	
 UINT8 motion_blur_enabled = 0;
@@ -120,6 +112,7 @@ void Scene_CubePhysics() BANKED
 {
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_cube); }
 	
+	set_mode1();
 	LCDC_REG = 0xD1;
 	
 	set_default_palette();
@@ -146,16 +139,10 @@ void Scene_CubePhysics() BANKED
 	UINT8 logo_y = 0;
 	UINT8 room_line_id = 0;
 	
-	CRITICAL {
-		add_VBL(motion_blur_vbl);
-	}
 	set_interrupts(VBL_IFLAG);
 	
 	LCDC_REG = 0xD1;
 	SCY_REG = SCX_REG = 0;
-	
-	SPRITES_8x8;
-	SHOW_SPRITES;
 	
 	vmemset((void*)0x8000, 0, 1920);
 		
@@ -163,7 +150,7 @@ void Scene_CubePhysics() BANKED
 	{
 		++sync;
 		
-		if (sync>80 && logo_y<80)
+		if (sync>0 && logo_y<80)
 		{
 			UINT8 y = logo_y/2;
 			
@@ -179,12 +166,15 @@ void Scene_CubePhysics() BANKED
 			++logo_y;
 		}		
 		
-		if (sync>190)
+		if (sync>220 && motion_blur_enabled==0)
 		{
+			CRITICAL {
+				add_VBL(motion_blur_vbl);
+			}
 			motion_blur_enabled = 1;
 		}
 		
-		if (sync>260)
+		if (sync>250)
 		{
 			break;
 		}
@@ -217,22 +207,36 @@ void Scene_CubePhysics() BANKED
 		
 		if (motion_blur_enabled==0)
 			BGP_REG = palettes[draw_color-1];
-		
-		color(draw_color, 0, SOLID);
-		unsigned int previousOffset = offset;
-		UINT8 previousCount = resources_cube_data[offset++];
-		UINT8 count = resources_cube_data[offset++];
-		for (UINT8 i=0 ; i<count ; ++i)
-		{
-			INT8 p0x = (INT8)(cube_x + (int)resources_cube_data[offset] * size / 160);
-			INT8 p0y = (INT8)(cube_y + (int)resources_cube_data[offset+1] * size / 160);
-			INT8 p1x = (INT8)(cube_x + (int)resources_cube_data[offset+2] * size / 160);
-			INT8 p1y = (INT8)(cube_y + (int)resources_cube_data[offset+3] * size / 160);
-			line(p0x, p0y, p1x, p1y);
-			offset += 4;
-		}
 
-		if (sync>165)
+		color(draw_color, 0, SOLID);
+		if (logo_y==80)
+		{
+			unsigned int previousOffset = offset;
+			UINT8 previousCount = resources_cube_data[offset++];
+			UINT8 count = resources_cube_data[offset++];
+			
+			for (UINT8 i=0 ; i<count ; ++i)
+			{
+				INT8 p0x = (INT8)(cube_x + (int)resources_cube_data[offset] * size / 160);
+				INT8 p0y = (INT8)(cube_y + (int)resources_cube_data[offset+1] * size / 160);
+				INT8 p1x = (INT8)(cube_x + (int)resources_cube_data[offset+2] * size / 160);
+				INT8 p1y = (INT8)(cube_y + (int)resources_cube_data[offset+3] * size / 160);
+				line(p0x, p0y, p1x, p1y);
+				offset += 4;
+			}
+			
+			if (direction==-1)
+			{
+				if (previousOffset==0) previousOffset = resources_cube_data_size;
+				offset = previousOffset-previousCount*4-2;
+			}
+			else if (offset == resources_cube_data_size)
+			{
+				offset = 0;
+			}
+		}
+		
+		if (sync>150)
 		{
 			for (UINT8 r=0 ; r<3 ; ++r)
 			{
@@ -243,49 +247,18 @@ void Scene_CubePhysics() BANKED
 			}
 		}
 		
-		if (direction==-1)
-		{
-			if (previousOffset==0) previousOffset = resources_cube_data_size;
-			offset = previousOffset-previousCount*4-2;
-		}
-		else if (offset == resources_cube_data_size)
-		{
-			offset = 0;
-		}
-		
 		++draw_color;
 		if (draw_color & 4)
 		{
 			draw_color = 1;
 		}
-		
-		if (sync<100)
-		{
-			for (UINT8 i=0 ; i<10 ; ++i)
-			{
-				set_sprite_tile(i, (UINT8)rand());
-				move_sprite(i, ((UINT8)rand())%152, ((UINT8)rand())%136);
-			}
-		}
-		else if (sync==100)
-		{
-			HIDE_SPRITES;
-		}
 	}
 	
-	disable_interrupts();
-	mode(0);
 	CRITICAL {
 		remove_VBL(motion_blur_vbl);
 	}
-	enable_interrupts();
 	
-	for (UINT8 i=0 ; i<10 ; ++i)
-	{
-		move_sprite(i, 0, 0);
-	}
-	HIDE_SPRITES;
+	FADE_IN_BLACK();
 	
-	mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
-	LCDC_REG = 0xD1;
+	exit_draw_mode();
 }

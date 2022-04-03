@@ -106,8 +106,8 @@ void Scene_Axelay() BANKED
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_axelay); }
 	
 	BGP_REG = PALETTE(CWHITE, CWHITE, CWHITE, CWHITE);
+	set_mode1();
 	
-	HIDE_WIN;
 	set_bkg_data(0, bitmap_axelay_sky_tiledata_count, bitmap_axelay_sky_tiledata);
 	set_bkg_tiles(0, 0, 16, 8, bitmap_axelay_sky_tilemap0);
 	set_bkg_tiles(0, 8, 16, 8, bitmap_axelay_sky_tilemap0);

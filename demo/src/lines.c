@@ -150,11 +150,5 @@ void Scene_Lines() BANKED
 		line(0, k+1, 159, k+1);
 	}
 	
-	//mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
-	disable_interrupts();
-	mode(0);
-	enable_interrupts();
-	
-	mode(M_TEXT_OUT); // ugly hacky way to stop gfx mode interrupts!!!
-	LCDC_REG = 0xD1;
+	exit_draw_mode();
 }

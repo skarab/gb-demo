@@ -40,7 +40,7 @@ void squares_zoom_vbl1() BANKED
 		squares_scroll = 0;
 }
 
-void squares_zoom_vbl2() BANKED
+void credits_vbl() BANKED
 {
 	squares_t+=2;
 	if (squares_t&4) ++squares_s;
@@ -91,18 +91,18 @@ void squares_zoom_lcd() BANKED
 	SCX_REG = squares_zoom_precalc[y+squares_scroll][squares_size]+squares_scroll+squares_zoom_scroll;
 }
 
-void squares_zoom_lcd2() BANKED
+void credits_lcd() BANKED
 {
 	UINT8 y = LY_REG;
 	SCY_REG = (squares_size<<2)-y;
 	SCX_REG = squares_zoom_precalc[y+squares_scroll][squares_size]+squares_scroll+squares_zoom_scroll;
 }
 
-void Scene_SquaresZoom() BANKED
+void Scene_Zoom() BANKED
 {
-	DISPLAY_OFF;
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_squares_zoom); }
 
+	set_mode1();
 	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
 	set_bkg_data(0, squares_zoom_tiledata_count, squares_zoom_tiledata);
 	set_bkg_tiles(0, 0, 32, 8, squares_zoom_tilemap0);
@@ -118,8 +118,7 @@ void Scene_SquaresZoom() BANKED
 	}
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
 	
-	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
-	DISPLAY_ON;
+	FADE_OUT_WHITE();
 	
 	int time = 0;
 	while (++time<800)
@@ -127,7 +126,7 @@ void Scene_SquaresZoom() BANKED
 		wait_vbl_done();
 	}
 	
-	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
+	FADE_IN_WHITE();
 	
 	CRITICAL {
         remove_LCD(squares_zoom_lcd);
@@ -136,10 +135,11 @@ void Scene_SquaresZoom() BANKED
 	}
 }
 			  
-void Scene_SquaresZoom2() BANKED
+void Scene_Credits() BANKED
 {
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_squares_zoom); }
 	
+	set_mode1();
 	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
 	set_bkg_data(0, squares_zoom_tiledata_count, squares_zoom_tiledata);
 	set_bkg_tiles(0, 0, 32, 8, squares_zoom_tilemap0);
@@ -153,19 +153,20 @@ void Scene_SquaresZoom2() BANKED
 		set_win_tiles(y%20, y/20, 1, 1, &tile_id);
 	}
 	
-	move_win(7, 98);
+	move_win(255, 82);
 	SHOW_BKG;
 	SHOW_WIN;
 	
-	squares_zoom_vbl2();
+	credits_vbl();
 	
 	CRITICAL {
         STAT_REG = 0x18;
-		add_VBL(squares_zoom_vbl2);
-		add_LCD(squares_zoom_lcd2);
+		add_VBL(credits_vbl);
+		add_LCD(credits_lcd);
 	}
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
-	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
+	
+	FADE_OUT_WHITE();
 	
 	UINT8 win_x = 255;
 	UINT8 win_y = 82;
@@ -184,13 +185,12 @@ void Scene_SquaresZoom2() BANKED
 		wait_vbl_done();
 	}
 	
+	FADE_IN_WHITE();
 	HIDE_WIN;
 
-	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
-	
 	CRITICAL {
-        remove_VBL(squares_zoom_vbl2);
-		remove_LCD(squares_zoom_lcd2);
+        remove_VBL(credits_vbl);
+		remove_LCD(credits_lcd);
 		SCY_REG = SCX_REG = 0;
 	}
 }

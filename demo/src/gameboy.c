@@ -37,6 +37,7 @@ inline void set_default_palette()
 }
 
 unsigned int pause_counter;
+unsigned int fade_counter;
 
 void VGMPlayerInit();
 void VGMPlayerUpdate();
@@ -72,6 +73,42 @@ INT8 mod(INT8 a, INT8 b)
     return r < 0 ? r + b : r;
 }
 
+void set_mode1()
+{
+	LCDC_REG = 0xD1;
+	HIDE_SPRITES;
+	HIDE_WIN;
+	set_interrupts(VBL_IFLAG);
+	
+	for (UINT8 i=0 ; i<40 ; ++i)
+	{
+		move_sprite(i, 0, 0);
+	}
+}
+
+void set_mode2()
+{
+	LCDC_REG = 0xC1;
+	HIDE_SPRITES;
+	HIDE_WIN;
+	set_interrupts(VBL_IFLAG);
+	
+	for (UINT8 i=0 ; i<40 ; ++i)
+	{
+		move_sprite(i, 0, 0);
+	}
+}
+
+void exit_draw_mode()
+{
+	// ugly hacky way to stop gfx mode.
+	disable_interrupts();
+	mode(0);
+	enable_interrupts();
+	mode(M_TEXT_OUT); 
+	set_mode1();
+}
+
 void draw_fullscreen_bitmap(UINT8 tiledata_count, UINT8* tiledata, UINT8* tilemap0, UINT8* tilemap1)
 {
 	set_bkg_data(0, tiledata_count, tiledata);
@@ -80,3 +117,15 @@ void draw_fullscreen_bitmap(UINT8 tiledata_count, UINT8* tiledata, UINT8* tilema
 	set_bkg_tiles(16, 12, 4, 1, tilemap1);
 	set_bkg_tiles(0, 13, 20, 5, tilemap1+4);
 }
+
+void draw_fullscreen_bitmap_mode2(UINT8 tiledata_count, UINT8* tiledata, UINT8* tilemap0, UINT8* tilemap1)
+{
+	set_tile_data(0, 128, tiledata, 0x90);
+	set_tile_data(128, tiledata_count-128, tiledata+128*16, 0x80);
+	
+	set_bkg_tiles(0, 0, 20, 12, tilemap0);
+	set_bkg_tiles(0, 12, 16, 1, tilemap0+20*12);
+	set_bkg_tiles(16, 12, 4, 1, tilemap1);
+	set_bkg_tiles(0, 13, 20, 5, tilemap1+4);
+}
+

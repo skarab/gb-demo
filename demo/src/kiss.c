@@ -31,6 +31,7 @@ void Scene_Kiss() BANKED
 {
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_kiss); }
 	
+	set_mode1();
 	BGP_REG = PALETTE(CBLACK, CBLACK, CBLACK, CBLACK);
 	
 	draw_fullscreen_bitmap(bitmap_kiss_tiledata_count, bitmap_kiss_tiledata, bitmap_kiss_tilemap0, bitmap_kiss_tilemap1);
@@ -73,7 +74,7 @@ void Scene_Kiss() BANKED
 		remove_VBL(kiss_vbl);
 		SCX_REG = SCY_REG = 0;
 	}
-	
-	HIDE_WIN;
 	set_interrupts(VBL_IFLAG);
+	
+	FADE_IN_BLACK();
 }
