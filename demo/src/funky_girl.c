@@ -33,6 +33,7 @@ void Scene_FunkyGirl() BANKED
 	
 	BGP_REG = PALETTE(CBLACK, CBLACK, CBLACK, CBLACK);
 	
+	set_mode1();
 	draw_fullscreen_bitmap(bitmap_funky_girl_tiledata_count, bitmap_funky_girl_tiledata, bitmap_funky_girl_tilemap0, bitmap_funky_girl_tilemap1);
 	
 	int availableTiles = 255 - bitmap_funky_girl_window_tiledata_count; // 255 - bitmap_funky_girl_tiledata_count
@@ -43,7 +44,7 @@ void Scene_FunkyGirl() BANKED
 		set_win_tiles(y%20, y/20, 1, 1, &tile_id);
 	}
 	
-	move_win(7, 144 - 24);
+	move_win(7, 144);
 	SHOW_BKG;
 	SHOW_WIN;
 	
@@ -60,9 +61,17 @@ void Scene_FunkyGirl() BANKED
 	
 	int i = 0;
 	int time = 0;
-	while (++time<200)
+	int wh = 144;
+	while (++time<100)
 	{
-		//funky_girl_glitch = (funky_girl_glitch + 1) % 2;
+		funky_girl_glitch = (funky_girl_glitch + 1) % 3;
+		
+		if (time>30 && wh>120)
+		{
+			--wh;
+			move_win(7, wh);
+		}
+		
 		wait_vbl_done();
 	}
 	

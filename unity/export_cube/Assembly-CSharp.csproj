@@ -57,8 +57,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\ExportVideo.cs" />
+    <Compile Include="Assets\ExportTunnel.cs" />
     <Compile Include="Assets\ExportLandscape.cs" />
     <Compile Include="Assets\ExportCube.cs" />
+    <Compile Include="Assets\ExportCubeVideo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

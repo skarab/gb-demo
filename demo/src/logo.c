@@ -8,7 +8,7 @@ const void __at(27) __bank_logo;
 int logo_anim = 0;
 const int logo_anim_slowdown = 2;
 int logo_time = 0;
-const int logo_scene_time = 200; // This is used to return outside of "main thread", else it hangs and I really can't figure out why.
+const int logo_scene_time = 150; // This is used to return outside of "main thread", else it hangs and I really can't figure out why.
 
 void logo_vbl() BANKED
 {
@@ -46,6 +46,7 @@ void Scene_Logo() BANKED
 {
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_logo); }
 	
+	set_mode1();
 	BGP_REG = PALETTE(CBLACK, CBLACK, CBLACK, CBLACK);
 	
 	draw_fullscreen_bitmap(bitmap_logo_tiledata_count, bitmap_logo_tiledata, bitmap_logo_tilemap0, bitmap_logo_tilemap1);
@@ -69,7 +70,6 @@ void Scene_Logo() BANKED
 		remove_VBL(logo_vbl);
 		SCX_REG = SCY_REG = 0;
 	}
-	
-	HIDE_WIN;
 	set_interrupts(VBL_IFLAG);
+	FADE_IN_WHITE();
 }

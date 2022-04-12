@@ -12,6 +12,23 @@ const unsigned int palettes[] = { PALETTE(CWHITE, CBLACK, CWHITE, CWHITE), PALET
 const unsigned int palettes2[] = { PALETTE(CBLACK, CWHITE, CBLACK, CBLACK), PALETTE(CBLACK, CBLACK, CWHITE, CBLACK), PALETTE(CBLACK, CBLACK, CBLACK, CWHITE) };
 
 UINT8 draw_color = 1;
+UINT8 motion_blur_enabled = 0;
+UINT8 vbl_y = 0;
+
+void motion_blur_vbl() BANKED
+{
+	if (motion_blur_enabled)
+	{
+		if (vbl_y==0)
+			set_default_palette();
+		else if (vbl_y==40)
+			BGP_REG = palettes[draw_color-1];
+	}
+	
+	++vbl_y;
+	if (vbl_y>=144/8)
+		vbl_y=0;
+}
 
 void Scene_Cube() BANKED
 {
@@ -22,17 +39,16 @@ void Scene_Cube() BANKED
 	
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_cube); }
 	
+	set_mode1();
 	LCDC_REG = 0xD1;
 	SCY_REG = SCX_REG = 0;
 	BGP_REG = PALETTE(CBLACK, CBLACK, CBLACK, CBLACK);
-	
-	SPRITES_8x8;
-	SHOW_SPRITES;
+	motion_blur_enabled = 0;
 	
 	while (1)
 	{
 		vmemset((void*)(0x8000+(draw_color-1)*1920), 0, 1920);
-		if (sync>25)
+		if (motion_blur_enabled==0)
 		{
 			BGP_REG = palettes2[draw_color-1];
 		}
@@ -56,38 +72,26 @@ void Scene_Cube() BANKED
 			draw_color = 1;
 		}
 
-		for (UINT8 i=0 ; i<10 ; ++i)
-		{
-			set_sprite_tile(i, 0x7C+((UINT8)rand())%4);
-			move_sprite(i, ((UINT8)rand())%152, ((UINT8)rand())%136);
-		}
-
 		if (offset == resources_cube_data_size) offset = 0;
 		
+		if (sync>50 && motion_blur_enabled==0)
+		{
+			CRITICAL {
+				add_VBL(motion_blur_vbl);
+			}
+			motion_blur_enabled = 1;
+		}
+		
 		++sync;
-		if (sync==114)
+		if (sync==80)
 			break;
 	}
 	
-	exit_draw_mode();
-}
-	
-UINT8 motion_blur_enabled = 0;
-UINT8 vbl_y = 0;
-
-void motion_blur_vbl() BANKED
-{
-	if (motion_blur_enabled)
-	{
-		if (vbl_y==0)
-			set_default_palette();
-		else if (vbl_y==40)
-			BGP_REG = palettes[draw_color-1];
+	CRITICAL {
+		remove_VBL(motion_blur_vbl);
 	}
 	
-	++vbl_y;
-	if (vbl_y>=144/8)
-		vbl_y=0;
+	exit_draw_mode();
 }
 
 #define room_up 39 //55
@@ -114,6 +118,7 @@ void Scene_CubePhysics() BANKED
 	
 	set_mode1();
 	LCDC_REG = 0xD1;
+	motion_blur_enabled = 0;
 	
 	set_default_palette();
 	
@@ -150,31 +155,33 @@ void Scene_CubePhysics() BANKED
 	{
 		++sync;
 		
-		if (sync>0 && logo_y<80)
+		if (sync>0 && logo_y<40)
 		{
-			UINT8 y = logo_y/2;
-			
-			if (y*2==logo_y)
-			for (UINT8 x=0 ; x<40 ; ++x)
+			for (UINT8 k=0 ; k<2 ; ++k)
 			{
-				UINT8 p = ___images_cube_header_raw[y*40+x];
-				plot(x * 4, y, (p & 3), SOLID);
-				plot(x * 4 + 1, y, (p >> 2) & 3, SOLID);
-				plot(x * 4 + 2, y, (p >> 4) & 3, SOLID);
-				plot(x * 4 + 3, y, (p >> 6) & 3, SOLID);
+				UINT8 y = logo_y;
+				
+				for (UINT8 x=0 ; x<40 ; ++x)
+				{
+					UINT8 p = ___images_cube_header_raw[y*40+x];
+					plot(x * 4, y, (p & 3), SOLID);
+					plot(x * 4 + 1, y, (p >> 2) & 3, SOLID);
+					plot(x * 4 + 2, y, (p >> 4) & 3, SOLID);
+					plot(x * 4 + 3, y, (p >> 6) & 3, SOLID);
+				}
+				++logo_y;
 			}
-			++logo_y;
 		}		
 		
-		if (sync>220 && motion_blur_enabled==0)
+		if (sync>180 && motion_blur_enabled==0)
 		{
+			motion_blur_enabled = 1;
 			CRITICAL {
 				add_VBL(motion_blur_vbl);
 			}
-			motion_blur_enabled = 1;
 		}
 		
-		if (sync>250)
+		if (sync>230)
 		{
 			break;
 		}
@@ -199,7 +206,7 @@ void Scene_CubePhysics() BANKED
 		++sy;
 		
 		int cube_x = 160 / 2 + px * 160 / 3 / ((pz+20)/2);
-		int cube_y = 144 / 2 + py * 144 / 3 / ((pz+20)/2);
+		int cube_y = 144 / 2 + py * 144 / 3 / ((pz+20)/2) + 1;
 		int size = size_near - (size_near - size_far) * (pz-near) / (far-near);
 	
 		if (draw_color>1)
@@ -209,7 +216,7 @@ void Scene_CubePhysics() BANKED
 			BGP_REG = palettes[draw_color-1];
 
 		color(draw_color, 0, SOLID);
-		if (logo_y==80)
+		if (logo_y==40)
 		{
 			unsigned int previousOffset = offset;
 			UINT8 previousCount = resources_cube_data[offset++];
@@ -236,7 +243,7 @@ void Scene_CubePhysics() BANKED
 			}
 		}
 		
-		if (sync>150)
+		if (sync>130)
 		{
 			for (UINT8 r=0 ; r<3 ; ++r)
 			{

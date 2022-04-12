@@ -9,6 +9,7 @@ int sense_anim = 0;
 	
 void senses_vbl() BANKED
 {
+	SCX_REG = 0;
 	SCY_REG = 0;
 	++sense_anim;
 }
@@ -16,13 +17,18 @@ void senses_vbl() BANKED
 void senses_lcd() BANKED
 {
 	UBYTE y = LY_REG + sense_anim;
-	SCX_REG = sintable[y];
+	
+	if ((y>50 && y<80) || y<sense_anim*2)
+		SCY_REG = sintable[y];
+	if ((y>70 && y<90) || y<sense_anim*4)
+		SCX_REG = sintable[y];
 }
 
 void Scene_Senses() BANKED
 {
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_senses); }
 	
+	set_mode1();
 	BGP_REG = PALETTE(CBLACK, CBLACK, CBLACK, CBLACK);
 	
 	draw_fullscreen_bitmap(bitmap_senses_tiledata_count, bitmap_senses_tiledata, bitmap_senses_tilemap0, bitmap_senses_tilemap1);

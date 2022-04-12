@@ -83,7 +83,7 @@ checkNextBank:
     bit 5,a
     jr z,checkLoop
     ld bc, #0x4000
-    ld hl,#0xCE04 ;load data pointer
+    ld hl, #0xCE04 ;load data pointer
 	ld (hl), b
     inc hl
     ld (hl), c
@@ -97,36 +97,18 @@ checkNextBank:
     ld a, c
     ld (0xCE03),a
     ret ;DO NOT END FRAME NORMALLY
-checkLoop: ;unimplemented
-    bit 4,a
-    jr z,checkEndSong
-    ;load new bank
-    ld hl, #1
-    ld a, (hl+)
-    ld (0xCE03),a
-    ld a, (hl)
+checkLoop: ;hardcoded
+	;load loop bank 2
+    ld a, #0
     ld (0xCE02),a
-    ;load new Address
-    ld hl, #0x4000
-    ld a, (hl+)
-    ld (0xCE05),a
-    ld a, (hl)
+	ld a, #2
+    ld (0xCE03),a
+	;load loop address 0x7FD0
+    ld a, #0x7F
     ld (0xCE04),a
+	ld a, #0xD0
+    ld (0xCE05),a
     ret
-checkEndSong:
-    bit 3,a
-    jr z,errorInCheck
-    ;No need to set up registers for quiet status. should be done in tracker via envelopes, OFF or ECxx
-    xor a
-    ld (0xCE00),a
-    ;call resetSound
-    ;jr endFrame
-	call resetSound
-	call _VGMPlayerInit
-	ret
-errorInCheck:
-    ;handle stuff
-    ld b,b;debug breakpoint
 endFrame:
     ld a, h
     ld (0xCE04),a

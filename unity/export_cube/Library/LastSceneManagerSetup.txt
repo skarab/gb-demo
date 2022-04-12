@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/ExportLandscape.unity
+- path: Assets/ExportCubeVideo.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

@@ -332,7 +332,9 @@
 -r:"Library/Bee/artifacts/500b0aEDbg.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/500b0aEDbg.dag/UnityEngine.UI.ref.dll"
 "Assets/ExportCube.cs"
+"Assets/ExportCubeVideo.cs"
 "Assets/ExportLandscape.cs"
+"Assets/ExportTunnel.cs"
 "Assets/ExportVideo.cs"
 -langversion:9.0
 

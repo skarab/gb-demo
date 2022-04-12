@@ -135,3 +135,26 @@ void Scene_Erase(int slow) BANKED
 			wait_vbl_done();
 	}
 }
+
+
+void Scene_ErasePal() BANKED
+{
+	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_erase); }
+	
+	init_slots();
+	
+	UINT8 update = 0;
+	UINT8 tile = 255;
+	set_bkg_tiles(0, 0, 1, 1, &tile);
+	
+	while (1)
+	{
+		++update;
+		
+		if (!update_slots())
+			return;
+		
+		if (update%4==0) BGP_REG = PalScroll[(update)%PalScrollCount];
+		wait_vbl_done();
+	}
+}

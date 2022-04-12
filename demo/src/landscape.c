@@ -23,17 +23,16 @@ void Scene_Landscape() BANKED
 	
 	LCDC_REG = 0xD1;
 	SCY_REG = SCX_REG = 0;
-	BGP_REG = PALETTE(CBLACK, CBLACK, CBLACK, CBLACK);
+	BGP_REG = PALETTE(CWHITE, CWHITE, CWHITE, CWHITE);
 	
-	while (++sync<250)
+	while (++sync<280)
 	{
-		if (sync<230)
+		if (sync<260)
 		{
 			vmemset((void*)(0x8000+(landscape_draw_color-1)*1920), 0, 1920);
 		}
-		BGP_REG = landscape_palettes2[landscape_draw_color-1];
+		BGP_REG = landscape_palettes[landscape_draw_color-1];
 		color(landscape_draw_color, 0, SOLID);
-		
 		
 		const UINT8* input = resources_landscape_data + frameId*200;
 		for (UINT8 i=0 ; i<100 ; ++i)
@@ -41,7 +40,7 @@ void Scene_Landscape() BANKED
 			plot_point(input[i*2], input[i*2+1]);
 		}
 		
-		if (sync>150)
+		if (sync>180)
 		{
 			for (UINT8 i=0 ; i<8 ; ++i)
 			{

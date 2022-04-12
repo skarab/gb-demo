@@ -3,6 +3,7 @@ const void __at(22) __bank_sprites_physics;
 
 #include "gameboy.h"
 #include "rand.h"
+#include "../resources/bitmap_sprites_physics.h"
 #include "../resources/bitmap_sprites_physics_bkg.h"
 
 extern const unsigned char bitmap_sprites3d_tiledata[];
@@ -12,6 +13,8 @@ void Scene_SpritesPhysics() BANKED
 	UINT8 i;
 	
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_sprites_physics); }
+	
+	set_mode1();
 	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
 	
 	draw_fullscreen_bitmap(bitmap_sprites_physics_bkg_tiledata_count, bitmap_sprites_physics_bkg_tiledata, bitmap_sprites_physics_bkg_tilemap0, bitmap_sprites_physics_bkg_tilemap1);
@@ -19,8 +22,8 @@ void Scene_SpritesPhysics() BANKED
 	SPRITES_8x16;
 	for (i=0 ; i<8 ; ++i)
 	{
-		set_sprite_data(168+i*2, 1, bitmap_sprites3d_tiledata+i*16);
-		set_sprite_data(168+i*2+1, 1, bitmap_sprites3d_tiledata+i*16+16*8);
+		set_sprite_data(168+i*2, 1, bitmap_sprites_physics_tiledata+i*16);
+		set_sprite_data(168+i*2+1, 1, bitmap_sprites_physics_tiledata+i*16+16*8);
 	}
 	SHOW_SPRITES;
 	
@@ -50,13 +53,13 @@ void Scene_SpritesPhysics() BANKED
 	for (i=0 ; i<sprite_count ; ++i)
 	{
 		sprite_size[i] = 255;
-		sprite_x[i] = rand()/(128/right);
-		sprite_y[i] = rand()/(128/-bottom);
+		sprite_x[i] = ((INT8)rand())/(128/right);
+		sprite_y[i] = ((INT8)rand())/(128/-bottom);
 		sprite_z[i] = TOINT(5);
-		sprite_dx[i] = rand()/32;
+		sprite_dx[i] = ((INT8)rand())/32;
 		if (sprite_dx[i]==0) sprite_dx[i] = 1;
 		sprite_dy[i] = 4;
-		sprite_dz[i] = rand()/32;
+		sprite_dz[i] = ((INT8)rand())/32;
 		if (sprite_dz[i]==0) sprite_dz[i] = 1;
 	}
 

@@ -1,3 +1,2 @@
 ﻿  generator.cpp
-D:\prog\gameboy\generator\generator.cpp(557,20): warning C4018: '<': signed/unsigned mismatch
   generator.vcxproj -> D:\prog\gameboy\generator\Debug\generator.exe

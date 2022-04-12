@@ -83,6 +83,7 @@ void set_mode1()
 	for (UINT8 i=0 ; i<40 ; ++i)
 	{
 		move_sprite(i, 0, 0);
+		set_sprite_prop(i, get_sprite_prop(i) & ~S_PALETTE);
 	}
 }
 
@@ -96,6 +97,7 @@ void set_mode2()
 	for (UINT8 i=0 ; i<40 ; ++i)
 	{
 		move_sprite(i, 0, 0);
+		set_sprite_prop(i, get_sprite_prop(i) & ~S_PALETTE);
 	}
 }
 

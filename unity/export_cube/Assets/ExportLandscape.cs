@@ -56,7 +56,7 @@ public class ExportLandscape : MonoBehaviour
 		{
 			for (int i = 0; i < _gridSize; ++i)
 			{
-				float y = Mathf.Sin((_angle / 2.0f + i + j) * Mathf.Deg2Rad) * 0.2f + Mathf.Cos((_angle + i * 10) * Mathf.Deg2Rad) * 0.2f + Mathf.Sin((_angle / 3.0f + i*j * 2) * Mathf.Deg2Rad) * 0.3f;
+				float y = Mathf.Sin((_angle + i + j) * Mathf.Deg2Rad) * 0.2f + Mathf.Cos((_angle + i * 10) * Mathf.Deg2Rad) * 0.2f + Mathf.Sin((_angle + i*j * 2) * Mathf.Deg2Rad) * 0.3f;
 				_vertices[j * _gridSize + i] = new Vector3(i * _size / (_gridSize - 1.0f) - _size / 2.0f, y, _size / 2.0f - j * _size / (_gridSize - 1.0f));
 			}
 		}
@@ -71,8 +71,8 @@ public class ExportLandscape : MonoBehaviour
 		}
 		_framesData.Add(frameData);
 
-		_angle += 14;
-		if (_angle >= 360*3-14)
+		_angle += 5;
+		if (_angle >= 360-5)
 		{
 			Export();
 			UnityEditor.EditorApplication.isPlaying = false;

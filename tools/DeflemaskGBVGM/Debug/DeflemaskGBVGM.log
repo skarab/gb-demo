@@ -1,5 +1,1 @@
-﻿  main.c
-D:\prog\gameboy\tools\DeflemaskGBVGM\main.c(159,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\prog\gameboy\tools\DeflemaskGBVGM\main.c(153,1): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\prog\gameboy\tools\DeflemaskGBVGM\main.c(168,39): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  DeflemaskGBVGM.vcxproj -> D:\prog\gameboy\tools\DeflemaskGBVGM\Debug\DeflemaskGBVGM.exe
+﻿  DeflemaskGBVGM.vcxproj -> D:\prog\gameboy\tools\DeflemaskGBVGM\Debug\DeflemaskGBVGM.exe

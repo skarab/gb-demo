@@ -157,7 +157,7 @@ void Scene_Rain() BANKED
 	
 	int time = 0;
 	
-	while (++time<700)
+	while (++time<900)
 	{
 		++time;
 		update_sprites();
@@ -177,7 +177,7 @@ void Scene_Rain() BANKED
 		}
 		else
 		{
-			if (rand()>220)
+			if (rand()>240)
 			{
 				fade = 1;
 				speed = ((UINT8)rand())%3+1;

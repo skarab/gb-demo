@@ -61,7 +61,7 @@ void Scene_Kiss() BANKED
 	
 	int i = 0;
 	int time = 0;
-	while (++time<100)
+	while (++time<70)
 	{
 		glitch = (glitch + 1) % 3;
 		wait_vbl_done();

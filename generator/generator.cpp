@@ -352,24 +352,28 @@ void ExportVBarrels(string name)
 
 			if (x >= 30 && x < 70)
 			{
-				color = 2;
-				if (x >= 30 + (offset / 2 + 5) % 21)
-					color = 3;
+				if (x < y) color = 2;
+				else color = 1;
+				if (x >= 30 + (offset / 2 + 5) % 40)
+					color = 3 - (y < 80 ? x % 2 : 0);
 			}
 
 			int p = (int)(20 + sin(3.14156f * (y / 4) / 40.0f) * 110.0f);
-			if (x >= p && x < p + 40)
+			if (x >= p && x < p + 40 && y % 2 == 0)
 			{
 				color = 1;
 				if (x >= p + offset)
-					color = 2;
+					color = 1 + x % 2;
 			}
 
 			if (x >= 110 && x < 130)
 			{
-				color = 2;
-				if (x >= 110 + (offset / 2 + 10) % 21)
-					color = 3;
+				if (x % 4 > 1)
+				{
+					color = x % 4;
+					if (x >= 110 + (offset / 2 + 10) % 21)
+						color = 2 + x % 6;
+				}
 			}
 
 			line.push_back(color);
@@ -427,30 +431,39 @@ void ExportFont(string name)
 	}
 
 	data.resize(h * 5);
-	for (int angle = 0; angle < 5; ++angle)
+	for (int step = 0; step < 5; ++step)
 	{
 		for (int glyph = 0; glyph < 25; ++glyph)
 		{
 			for (int y = 0; y < 8; ++y)
 			{
-				if (data[angle * 8 + y].size() != w)
+				if (data[step * 8 + y].size() != w)
 				{
-					data[angle * 8 + y].resize(w);
+					data[step * 8 + y].resize(w);
 				}
 
 				for (int x = 0; x < 8; ++x)
 				{
-					int gx = (int)((x - 3.5f) * abs(sin((angle * 360.0f / 5.0f) * 3.14159f / 180.0f)) + 3.5f);
-					int gy = y;
+					unsigned char v = src_data[y][glyph * 8 + x];
 
-					unsigned char v = src_data[gy][glyph * 8 + gx];
-
-					if (angle == 4)
+					if (step == 1 && (y % 5 == 0 || x % 5 == 0))
 					{
-						v = v < 2 ? v : v - 1;
+						v = 0;
+					}
+					else if (step == 2 && (y % 4 == 0 || x % 4 == 0))
+					{
+						v = 0;
+					}
+					else if (step == 3 && (y % 3 == 0 || x % 3 == 0))
+					{
+						v = 0;
+					}
+					else if (step == 4 && (y % 2 == 0 || x % 2 == 0))
+					{
+						v = 0;
 					}
 
-					data[angle * 8 + y][glyph * 8 + x] = v;
+					data[step * 8 + y][glyph * 8 + x] = v;
 				}
 			}
 		}
@@ -554,7 +567,7 @@ void ExportScrollerCube()
 	fopen_s(&file, src.c_str(), "rb");
 
 	data.resize(size * framesCount);
-	for (int y = 0; y < data.size(); ++y)
+	for (int y = 0; y < (int)data.size(); ++y)
 	{
 		data[y].resize(size);
 	}
@@ -565,16 +578,16 @@ void ExportScrollerCube()
 		if (f < 4) clear = 8 - f * 2;
 		else if (f >= framesCount - 3) clear = 2 + (framesCount - 3) * 2;
 
-		for (int y = size-1; y >= 0; --y)
+		for (int y = size - 1; y >= 0; --y)
 		{
 			for (int x = 0; x < size; ++x)
 			{
 				unsigned char pixel;
 				fread(&pixel, 1, 1, file);
 
-				pixel = 3-pixel * 3 / 255;
+				pixel = 3 - pixel * 3 / 255;
 
-				if (clear != 0 && (clear==8 || x % clear != 0 || y % clear != 0))
+				if (clear != 0 && (clear == 8 || x % clear != 0 || y % clear != 0))
 					pixel = 3;
 
 				if (pixel == 3) pixel = bkg_data[y][x];
@@ -589,6 +602,278 @@ void ExportScrollerCube()
 	vector<vector<unsigned char>> tiles_data;
 	PackToTiles(data, tiles_ids, tiles_data, true, 255, 2);
 	ExportTiles(tiles_ids, tiles_data, dst);
+}
+
+void ExportTitleTiles(const vector<unsigned int>& tiles_ids, const vector<vector<unsigned char>>& tiles_data, string name)
+{
+	string file_path = "../demo/resources/" + name + ".h";
+	string file_data;
+
+	file_data += "const unsigned int " + name + "_tiledata_count = " + to_string(tiles_data.size()) + ";\n";
+	file_data += "const unsigned char " + name + "_tiledata[] = {";
+	for (unsigned int i = 0; i < tiles_data.size(); ++i)
+	{
+		file_data += "\n    ";
+		for (unsigned int j = 0; j < tiles_data[i].size(); ++j)
+		{
+			file_data += to_string(tiles_data[i][j]) + (!(i == tiles_data.size() - 1 && j == tiles_data[i].size() - 1) ? ", " : "\n");
+		}
+	}
+	file_data += "};\n\n";
+
+	unsigned int id = 0;
+	unsigned int offset = 0;
+	unsigned int max = 256;
+	while (offset < tiles_ids.size())
+	{
+		unsigned int count = tiles_ids.size() - offset;
+		if (count > max)
+			count = max;
+
+		if (max == 256) max = 104;
+		else max = 256;
+
+		file_data += "const unsigned int " + name + "_tilemap" + to_string(id) + "_count = " + to_string(count) + ";\n";
+		file_data += "const unsigned char " + name + "_tilemap" + to_string(id) + "[] = { \n";
+		for (unsigned int i = offset; i < offset + count; ++i)
+		{
+			file_data += to_string(tiles_ids[i]) + (i < offset + count - 1 ? ", " : "\n");
+		}
+		file_data += "};\n\n";
+
+		++id;
+		offset += count;
+	}
+
+	ofstream output(file_path);
+	output << file_data;
+}
+
+void ExportTitle(string name)
+{
+	vector<vector<unsigned char>> data;
+	string src = "../images/" + name + ".bmp";
+	string dst = "bitmap_" + name;
+
+	printf((src + "\n").c_str());
+
+	FILE* file;
+	fopen_s(&file, src.c_str(), "rb");
+	fseek(file, 18, SEEK_SET);
+	int w, h;
+	fread(&w, 4, 1, file);
+	fread(&h, 4, 1, file);
+
+	fseek(file, 0x000A, SEEK_SET);
+	int offset;
+	fread(&offset, 4, 1, file);
+	fseek(file, offset, SEEK_SET);
+
+	data.resize(h * 8);
+	for (int y = h - 1; y >= 0; --y)
+	{
+		data[y].resize(w);
+		for (int x = 0; x < w / 2; ++x)
+		{
+			unsigned char pixel;
+			fread(&pixel, 1, 1, file);
+
+			unsigned char left = pixel >> 4;
+			unsigned char right = pixel & 15;
+
+			if (left > 3 || right > 3)
+			{
+				printf("INVALID BITMAP !!!\n");
+				break;
+			}
+			data[y][x * 2 + 0] = 3 - left;
+			data[y][x * 2 + 1] = 3 - right;
+		}
+	}
+	fclose(file);
+
+	for (int s = 1; s < 8; ++s)
+	{
+		for (int y = 0; y < h; ++y)
+		{
+			data[y + s * h].resize(w);
+
+			for (int x = 0; x < w; ++x)
+			{
+				float zoom = 1.0f / (1.0f + s * 0.4f);
+				int ux = (int)((x - (w - 1.0f) / 2.0f) * zoom + (w - 1.0f) / 2.0f);
+				int uy = (int)((y - (h - 1.0f) / 2.0f) * zoom + (h - 1.0f) / 2.0f);
+
+				if (ux >= w || ux < 0 || ux >= h || uy < 0)
+				{
+					data[y + s * h][x] = 3;
+				}
+				else
+				{
+					data[y + s * h][x] = data[uy][ux];
+				}
+			}
+		}
+	}
+
+	vector<unsigned int> tiles_ids;
+	vector<vector<unsigned char>> tiles_data;
+	PackToTiles(data, tiles_ids, tiles_data, true, 255, 0);
+	ExportTitleTiles(tiles_ids, tiles_data, dst);
+}
+
+static std::vector<unsigned char> ReadAllBytes(string filename)
+{
+	std::ifstream ifs(filename, std::ios::binary | std::ios::ate);
+	std::ifstream::pos_type pos = ifs.tellg();
+
+	if (pos == 0) {
+		return std::vector<unsigned char>{};
+	}
+
+	std::vector<unsigned char> result((unsigned int)pos);
+	std::vector<char> tmp((unsigned int)pos);
+
+	ifs.seekg(0, std::ios::beg);
+	ifs.read(&tmp[0], pos);
+
+	memcpy(&result[0], &tmp[0], result.size());
+
+	return result;
+}
+
+void ExportAnimation(string name)
+{
+	string src = "../data/" + name + ".bytes";
+	std::vector<unsigned char> data = ReadAllBytes(src);
+
+	int framesCount = data[0];
+	unsigned char* tilesData = &data[0] + (20 * 18) * framesCount + 1;
+	int tilesCount = *tilesData;
+
+	string file_data;
+	string file_path = "../demo/resources/" + name + "_animation.h";
+	file_data += "const unsigned int " + name + "_tiledata_count = " + to_string(tilesCount) + ";\n";
+	file_data += "const unsigned char " + name + "_tiledata[] = {";
+
+	for (int t = 0; t < tilesCount; ++t)
+	{
+		file_data += "\n    ";
+
+		unsigned char p0 = *(tilesData + 1 + t * 4);
+		unsigned char p1 = *(tilesData + 1 + t * 4 + 1);
+		unsigned char p2 = *(tilesData + 1 + t * 4 + 2);
+		unsigned char p3 = *(tilesData + 1 + t * 4 + 3);
+
+		unsigned char tile[8 * 8];
+
+		for (int y = 0; y < 8; ++y)
+		{
+			for (int x = 0; x < 8; ++x)
+			{
+				unsigned char v;
+				if (x < 4)
+				{
+					v = y < 4 ? p0 : p2;
+				}
+				else
+				{
+					v = y < 4 ? p1 : p3;
+				}
+
+				if (x == 2) 
+				{
+					v = y < 4 ? p1 : p3;
+				}
+
+				if (y == 5)
+				{
+					v = x < 4 ? p0 : p1;
+				}
+
+				if (x == 5)
+				{
+					v = y < 4 ? p0 : p2;
+				}
+				
+				if (y == 2)
+				{
+					v = x < 4 ? p2 : p3;
+				}
+
+				tile[y * 8 + x] = v;
+			}
+		}
+
+		// Pack tile
+		for (unsigned int j = 0; j < 8; ++j)
+		{
+			for (unsigned int i = 0; i < 2; ++i)
+			{
+				unsigned char c0 = tile[j * 8 + 0] >> i & 1;
+				unsigned char c1 = tile[j * 8 + 1] >> i & 1;
+				unsigned char c2 = tile[j * 8 + 2] >> i & 1;
+				unsigned char c3 = tile[j * 8 + 3] >> i & 1;
+				unsigned char c4 = tile[j * 8 + 4] >> i & 1;
+				unsigned char c5 = tile[j * 8 + 5] >> i & 1;
+				unsigned char c6 = tile[j * 8 + 6] >> i & 1;
+				unsigned char c7 = tile[j * 8 + 7] >> i & 1;
+				unsigned char p = (c0 << 7) | (c1 << 6) | (c2 << 5) | (c3 << 4) | (c4 << 3) | (c5 << 2) | (c6 << 1) | (c7 << 0);
+				file_data += to_string(p) + ", ";
+			}
+		}
+	}
+
+	file_data += "0};\n\n";
+
+	file_data += "const unsigned int " + name + "_frames_count = " + to_string(framesCount) + ";\n";
+	file_data += "const unsigned char " + name + "_frames[] = {";
+
+	for (int i = 0; i < framesCount; ++i)
+	{
+		file_data += "\n    ";
+
+		for (int j = 0; j < 20 * 18; ++j)
+		{
+			file_data += to_string(data[i * 20 * 18 + j + 1]) + ", ";
+		}
+	}
+
+	file_data += "\n};\n";
+	file_data += "const unsigned char* " + name + "_frames_end = "+name + "_frames + " + to_string(framesCount * 20 * 18) + ";\n";
+
+	ofstream output(file_path);
+	output << file_data;
+}
+
+void ExportCubeVideo(string name)
+{
+	string src = "../data/" + name + ".bytes";
+	std::vector<unsigned char> data = ReadAllBytes(src);
+
+	int framesCount = data[0];
+	
+	string file_data;
+	string file_path = "../demo/resources/" + name + ".h";
+	
+	file_data += "const unsigned int " + name + "_frames_count = " + to_string(framesCount) + ";\n";
+	file_data += "const unsigned char " + name + "_frames[] = {";
+
+	for (int i = 0; i < framesCount; ++i)
+	{
+		file_data += "\n    ";
+
+		for (int j = 0; j < 20 * 18; ++j)
+		{
+			file_data += to_string(data[i * 20 * 18 + j + 1]) + ", ";
+		}
+	}
+
+	file_data += "\n};\n";
+	file_data += "const unsigned char* " + name + "_frames_end = " + name + "_frames + " + to_string(framesCount * 20 * 18) + ";\n";
+
+	ofstream output(file_path);
+	output << file_data;
 }
 
 void ExportBitmap(string name, bool pack = true, int max_tiles_count = 255, int acceptable_error = 0)
@@ -654,16 +939,17 @@ int main()
 	printf("Exporting bitmaps...\n");
 
 	ExportBitmap("sega");
-	ExportBitmap("fire");
+	ExportBitmap("fire", false);
 	ExportBitmap("fire_sprites", false);
-	ExportBitmap("sprites3d", false);
 	ExportBitmap("axelay_sky");
 	ExportBitmap("axelay_overlay");
+	ExportBitmap("axelay_sprites", false);
+	ExportBitmap("sprites_physics", false);
 	ExportBitmap("sprites_physics_bkg");
 	ExportBitmap("rain_bkg");
 	ExportBitmap("rain_sprites", false);
 	ExportBitmap("credits");
-	ExportFont("credits");
+	ExportBitmap("credits_font", false);
 	ExportBitmap("vbarrels_wnd");
 	ExportBitmap("race_bkg");
 	ExportBitmap("kiss", true, 205, 2);
@@ -677,6 +963,11 @@ int main()
 	ExportFont("scroller");
 	ExportScroller("scroller");
 	ExportScrollerCube();
+	ExportBitmap("title_full");
+	ExportTitle("title");
+	ExportAnimation("tunnel");
+	ExportBitmap("cube_video", false);
+	ExportCubeVideo("cube_video");
 
 	printf("done.\n");
 }

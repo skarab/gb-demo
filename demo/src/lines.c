@@ -8,6 +8,7 @@ void Scene_Lines() BANKED
 {
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_lines); }
 	
+	set_mode1();
 	LCDC_REG = 0xD1;
 	
 	set_default_palette();

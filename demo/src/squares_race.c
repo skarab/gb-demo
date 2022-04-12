@@ -64,7 +64,11 @@ void squares_race_lcd() BANKED
 {
 	UINT8 y = LY_REG;
 	
-	if (y>=50 && y<60)
+	if (y>=143)
+	{
+		BGP_REG = PALETTE(CSILVER, CGRAY, CBLACK, CBLACK);
+	}
+	else if (y>=50 && y<60)
 	{
 		//SCY_REG = -y-10;
 		//SCX_REG = 0;
@@ -79,7 +83,7 @@ void squares_race_lcd() BANKED
 	}
 	else if (y<50)
 	{
-		UINT8 cy = 72-y-6;
+		UINT8 cy = 72-y-12;
 		UINT8 ra = race_anim;
 		SCX_REG = squares_precalc_x[cy][ra];
 		SCY_REG = squares_precalc_y[cy][ra]-y;
@@ -97,7 +101,7 @@ void Scene_SquaresRace() BANKED
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_squares_race); }
 	
 	set_mode1();
-	//set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
+	set_palette(PALETTE(CBLACK, CBLACK, CBLACK, CBLACK));
 	init_bkg(255);
 	set_bkg_data(0, squares_race_tiledata_count, squares_race_tiledata);
 	set_bkg_tiles(0, 0, 32, 8, squares_race_tilemap0);
@@ -120,7 +124,7 @@ void Scene_SquaresRace() BANKED
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
 	
 	int t = 0;
-	while (t<10000)
+	while (t<13000)
 	{	
 		++t;
 		//wait_vbl_done();		

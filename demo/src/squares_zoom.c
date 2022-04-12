@@ -184,41 +184,45 @@ void Scene_Credits() BANKED
 	int time = 0;
 	UINT8 c = 0;
 	UINT8 stopper = 1;
-	while (++time<180)
+	int wait = 0;
+	while (++time<180 || creditId<3)
 	{
-		UINT8 sin = sintable[squares_s];
-		if (stopper==1 && sin<150)
+		++wait;
+		if (wait>130 && creditId<3)
 		{
-		}
-		else
-		{
-			stopper = 0;
-			if (win_x>=60+20) win_x -= 20;
-			else win_x = 60;
-			if (win_x==60) win_y += 1;
-			if (sin<150 && win_x!=255)
+			UINT8 sin = sintable[squares_s];
+			if (stopper==1 && sin<150)
 			{
-				win_x = 255;
-				win_y = 82;
-				
-				for (UINT8 i=0 ; i<10 ; ++i)
-					move_sprite(i, 0, 0);
-				
-				creditId = (creditId+1)%3;
-				c = 0;
-				stopper = 1;
 			}
-		}
-		move_win(win_x, win_y);
-		
-		if (win_x<120)
-		{
-			for (UINT8 j=0 ; j<(creditId==0?3:2) ; ++j)
+			else
 			{
-				UINT8 angle = (c+time)%5;
-				set_sprite_tile(c, 25 * angle + (credits[creditId][c]-'a'));
-				move_sprite(c, 82 + c * 9, 132);
-				c = (c+1)%creditsLength[creditId];
+				stopper = 0;
+				if (win_x>=60+20) win_x -= 20;
+				else win_x = 60;
+				if (win_x==60) win_y += 3;
+				if (sin<150 && win_x!=255)
+				{
+					win_x = 255;
+					win_y = 82;
+					
+					for (UINT8 i=0 ; i<10 ; ++i)
+						move_sprite(i, 0, 0);
+					
+					++creditId;
+					c = 0;
+					stopper = 1;
+				}
+			}
+			move_win(win_x, win_y);
+			
+			if (win_x<80)
+			{
+				for (UINT8 j=0 ; j<(creditId==0?3:2) ; ++j)
+				{
+					set_sprite_tile(c, credits[creditId][c]-'a');
+					move_sprite(c, 82 + c * 9, 132);
+					c = (c+1)%creditsLength[creditId];
+				}
 			}
 		}
 		

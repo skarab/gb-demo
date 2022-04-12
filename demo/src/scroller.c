@@ -29,12 +29,11 @@ void Scene_Scroller() BANKED
 	set_sprite_data(0, bitmap_scroller_font_tiledata_count, bitmap_scroller_font_tiledata);
 	SHOW_SPRITES;
 	
-	int angle = 0;
 	int txtId = 0;
 	const UINT8* txtData = scroller_data;
-	UINT8 yOffset = 0;
+	UINT8 yOffset = 100;
+	UINT8 slowDown = 0;
 	UINT8 spritesCount = 0;
-	UINT8 slowDown = 4;
 	UINT8 palId = PalFadeCount;
 	int cubeFramesCount = (360 - 22) / 22;
 	int cubeFrameId0 = 0;
@@ -61,14 +60,24 @@ void Scene_Scroller() BANKED
 		UINT8 spriteId = 0;
 		for (UINT8 y=0 ; y<6 ; ++y)
 		{
-			if (y>1 && y<5) { angle = (y+(yOffset/slowDown)/2)%5; if (angle==1) angle = 2; }
-			else angle = y==1?1:0;
-				
+			UINT8 scrollY = yOffset+y*10;
+			
+			UINT8 step = 0;
+			if (scrollY<110)
+			{
+				step = 4-(scrollY-90)/4;
+			}
+			else if (scrollY>130)
+			{
+				step = (scrollY-130)/10;
+			}
+			
 			UINT8 count = *data++;
 			for (UINT8 i=0 ; i<count && spriteId<40 ; ++i)
 			{
-				set_sprite_tile(spriteId, 25 * angle + *data++);
-				move_sprite(spriteId++, 164-count*9 + i * 9, 100+y*9-yOffset/slowDown);
+				set_sprite_tile(spriteId, 25 * step + *data++);
+				move_sprite(spriteId++, 80 + i * 9, scrollY + 4);
+				//move_sprite(spriteId++, 164-count*9 + i * 9, scrollY);
 			}
 			++id;
 			if (id==scroller_data_count)
@@ -87,19 +96,24 @@ void Scene_Scroller() BANKED
 		}
 		spritesCount = spriteId;
 		
-		++yOffset;
-		if (yOffset==9*slowDown)
+		UINT8 slow = spritesCount<10?7:(spritesCount<20?5:(spritesCount<30?4:3));
+		if (++slowDown==slow)
 		{
-			yOffset = 0;
-			++txtId;
-			if (txtId==scroller_data_count)
+			slowDown = 0;
+			--yOffset;
+			if (yOffset==90)
 			{
-				txtId = 0;
-				txtData = scroller_data;
-			}
-			else
-			{
-				txtData += *txtData + 1;
+				yOffset = 100;
+				++txtId;
+				if (txtId==scroller_data_count)
+				{
+					txtId = 0;
+					txtData = scroller_data;
+				}
+				else
+				{
+					txtData += *txtData + 1;
+				}
 			}
 		}
 		
@@ -109,6 +123,11 @@ void Scene_Scroller() BANKED
 			continue;
 		}
 	
+		if (slowDown%(slow/3)!=0)
+		{
+			continue;
+		}
+		
 		if (cubeId==0)
 		{
 			if (animCube0==0)
