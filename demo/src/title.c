@@ -86,6 +86,9 @@ void Scene_Title() BANKED
 	set_bkg_tiles(0, 13, 20, 5, bitmap_title_tilemap1+4);
 	
 	FADE_IN_WHITE();
+	
+	PAUSE(20);
+	
 	set_bkg_data(0, bitmap_title_full_tiledata_count, bitmap_title_full_tiledata);
 	set_bkg_tiles(0, 0, 20, 12, bitmap_title_full_tilemap0);
 	set_bkg_tiles(0, 12, 16, 1, bitmap_title_full_tilemap0+20*12);
@@ -94,7 +97,7 @@ void Scene_Title() BANKED
 	BGP_REG = PALETTE(CWHITE, CSILVER, CGRAY, CBLACK);
 	
 	int i = 0;
-	while (++i<80)
+	while (++i<44)
 	{
 		wait_vbl_done();
 		wait_vbl_done();

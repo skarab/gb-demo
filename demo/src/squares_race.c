@@ -101,7 +101,7 @@ void Scene_SquaresRace() BANKED
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_squares_race); }
 	
 	set_mode1();
-	set_palette(PALETTE(CBLACK, CBLACK, CBLACK, CBLACK));
+	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
 	init_bkg(255);
 	set_bkg_data(0, squares_race_tiledata_count, squares_race_tiledata);
 	set_bkg_tiles(0, 0, 32, 8, squares_race_tilemap0);
@@ -124,7 +124,7 @@ void Scene_SquaresRace() BANKED
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
 	
 	int t = 0;
-	while (t<13000)
+	while (t<5000)
 	{	
 		++t;
 		//wait_vbl_done();		

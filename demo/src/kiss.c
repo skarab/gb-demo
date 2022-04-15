@@ -33,6 +33,7 @@ void Scene_Kiss() BANKED
 	
 	set_mode1();
 	BGP_REG = PALETTE(CBLACK, CBLACK, CBLACK, CBLACK);
+	init_bkg(128);
 	
 	draw_fullscreen_bitmap(bitmap_kiss_tiledata_count, bitmap_kiss_tiledata, bitmap_kiss_tilemap0, bitmap_kiss_tilemap1);
 	

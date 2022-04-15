@@ -604,6 +604,48 @@ void ExportScrollerCube()
 	ExportTiles(tiles_ids, tiles_data, dst);
 }
 
+void ExportTorus()
+{
+	vector<vector<unsigned char>> data;
+	string src = "../data/torus.bytes";
+	string dst = "bitmap_torus";
+	int size = 16;
+	int angle = 20;
+	int framesCount = (360 - angle) / angle;
+
+	printf((src + "\n").c_str());
+
+	FILE* file;
+
+	fopen_s(&file, src.c_str(), "rb");
+
+	data.resize(size);
+	for (int y = 0; y < (int)data.size(); ++y)
+	{
+		data[y].resize(size * framesCount);
+	}
+
+	for (int y = 0; y < size; ++y)
+	{
+		for (int x = 0; x < size * framesCount; ++x)
+		{
+			unsigned char pixel;
+			fread(&pixel, 1, 1, file);
+
+			pixel = pixel * 3 / 255;
+			if (pixel > 0) pixel = 4 - pixel;
+
+			data[y][x] = pixel;
+		}
+	}
+	fclose(file);
+
+	vector<unsigned int> tiles_ids;
+	vector<vector<unsigned char>> tiles_data;
+	PackToTiles(data, tiles_ids, tiles_data, false, 255, 0);
+	ExportTiles(tiles_ids, tiles_data, dst);
+}
+
 void ExportTitleTiles(const vector<unsigned int>& tiles_ids, const vector<vector<unsigned char>>& tiles_data, string name)
 {
 	string file_path = "../demo/resources/" + name + ".h";
@@ -846,7 +888,7 @@ void ExportAnimation(string name)
 	output << file_data;
 }
 
-void ExportCubeVideo(string name)
+void ExportVideo(string name)
 {
 	string src = "../data/" + name + ".bytes";
 	std::vector<unsigned char> data = ReadAllBytes(src);
@@ -967,7 +1009,10 @@ int main()
 	ExportTitle("title");
 	ExportAnimation("tunnel");
 	ExportBitmap("cube_video", false);
-	ExportCubeVideo("cube_video");
+	ExportVideo("cube_video");
+	ExportBitmap("tunnel_video", false);
+	ExportVideo("tunnel_video");
+	ExportTorus();
 
 	printf("done.\n");
 }

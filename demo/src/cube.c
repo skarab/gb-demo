@@ -74,7 +74,7 @@ void Scene_Cube() BANKED
 
 		if (offset == resources_cube_data_size) offset = 0;
 		
-		if (sync>50 && motion_blur_enabled==0)
+		if (sync>36 && motion_blur_enabled==0)
 		{
 			CRITICAL {
 				add_VBL(motion_blur_vbl);
@@ -83,7 +83,7 @@ void Scene_Cube() BANKED
 		}
 		
 		++sync;
-		if (sync==80)
+		if (sync==84)
 			break;
 	}
 	
@@ -173,7 +173,7 @@ void Scene_CubePhysics() BANKED
 			}
 		}		
 		
-		if (sync>180 && motion_blur_enabled==0)
+		if (sync>90 && motion_blur_enabled==0)
 		{
 			motion_blur_enabled = 1;
 			CRITICAL {
@@ -181,7 +181,7 @@ void Scene_CubePhysics() BANKED
 			}
 		}
 		
-		if (sync>230)
+		if (sync>140)
 		{
 			break;
 		}
@@ -243,7 +243,7 @@ void Scene_CubePhysics() BANKED
 			}
 		}
 		
-		if (sync>130)
+		if (sync>110)
 		{
 			for (UINT8 r=0 ; r<3 ; ++r)
 			{

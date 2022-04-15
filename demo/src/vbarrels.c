@@ -8,12 +8,12 @@ const void __at(25) __bank_vbarrels;
 
 UINT8 vbarrels_time = 0;
 int vbarrels_global_time = 0; // This is used to return outside of "main thread", else it hangs and I really can't figure out why.
-int vbarrels_end = 200;
+int vbarrels_end = 180;
 UINT8 vbarrels_palId = 0;
 
 void vbarrels_vbl() BANKED
 {
-	vbarrels_time = (vbarrels_time+1);
+	vbarrels_time = (vbarrels_time+2);
 	++vbarrels_global_time;
 }
 

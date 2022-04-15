@@ -1,5 +1,0 @@
-Bouncing cube.
-There is palette scrolling on it, used to "clear" the screen, when it stops it simulate a motion blur effect.
-The picture is a raw file, its not tiled but plotted on screen.
-
-The 3D background is drawn by code, and each frame, need to keep this minimal.

@@ -1,3 +1,0 @@
-Polished single plane zoom with simulated lighting.
-
-May add a small picture in the window plane.

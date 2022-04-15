@@ -6,9 +6,9 @@ const void __at(27) __bank_logo;
 #include "../resources/bitmap_logo.h"
 
 int logo_anim = 0;
-const int logo_anim_slowdown = 2;
+const int logo_anim_slowdown = 4;
 int logo_time = 0;
-const int logo_scene_time = 150; // This is used to return outside of "main thread", else it hangs and I really can't figure out why.
+const int logo_scene_time = 250; // This is used to return outside of "main thread", else it hangs and I really can't figure out why.
 
 void logo_vbl() BANKED
 {
@@ -26,18 +26,20 @@ void logo_vbl() BANKED
 
 void logo_lcd() BANKED
 {
-	UINT8 y = LY_REG;
-
+	UBYTE y = LY_REG;
+	
 	if (y<80)
 	{
-		SCY_REG = 0;
+		y += logo_time * 4;
+		SCY_REG = sintable[y] / 10;
+		
 		BGP_REG = PalScroll[logo_anim/logo_anim_slowdown];
 	}
 	else if (y<120)
 	{
 		BGP_REG = PALETTE(CWHITE, CSILVER, CGRAY, CBLACK);
 		
-		UBYTE y = LY_REG + logo_time;
+		y += logo_time;
 		SCY_REG = sintable[y];
 	}
 }

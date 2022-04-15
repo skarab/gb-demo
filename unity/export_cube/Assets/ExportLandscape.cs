@@ -71,8 +71,8 @@ public class ExportLandscape : MonoBehaviour
 		}
 		_framesData.Add(frameData);
 
-		_angle += 5;
-		if (_angle >= 360-5)
+		_angle += 10;
+		if (_angle >= 360-10)
 		{
 			Export();
 			UnityEditor.EditorApplication.isPlaying = false;

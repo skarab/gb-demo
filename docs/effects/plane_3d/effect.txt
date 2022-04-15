@@ -1,3 +1,0 @@
-3D planes.
-The squares are code generated.
-May add a small window picture too.

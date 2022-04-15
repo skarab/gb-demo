@@ -157,7 +157,7 @@ void Scene_Rain() BANKED
 	
 	int time = 0;
 	
-	while (++time<900)
+	while (++time<1180)
 	{
 		++time;
 		update_sprites();

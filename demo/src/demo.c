@@ -1,6 +1,6 @@
 #include "gameboy.h"
 
-void Scene_Erase(int slow) BANKED;
+void Scene_Erase(int slow, UINT8 color, UINT8 empty) BANKED;
 void Scene_ErasePal() BANKED;
 void Scene_Shake() BANKED;
 void Scene_Sega() BANKED;
@@ -25,15 +25,10 @@ void Scene_Title() BANKED;
 void Scene_TitleZoomOut() BANKED;
 void Scene_Tunnel() BANKED;
 void Scene_CubeVideo() BANKED;
+void Scene_TunnelVideo() BANKED;
 
 /*
 so the framerate should be 60 FPS and shutter speed is 1/160 (1/180 is ok)
-
-
-The Dubstep part on the city fits well from yesterday!
-Gordian
-Gordian Neumann
-would make the scene longer until the plasma maybe
 */
 
 void main()
@@ -44,95 +39,32 @@ void main()
     NR50_REG = 0x77;
 	
 	Scene_Shake();
-	Scene_Erase(1);
+	Scene_Erase(1, 255, 255);
 	Scene_Sega();
 	
 	play_music();
 	
-	Scene_Lines();	
-	Scene_Logo();	
 	Scene_Fire();	
-	Scene_Zoom();	
-	Scene_TitleZoomOut();	
-	Scene_SpritesPhysics();	
-	Scene_FunkyGirl();	
+	Scene_Lines();	
+	Scene_Credits();	
+	Scene_Logo();	
+	Scene_Title();
+	Scene_TitleZoomOut();
+	Scene_FunkyGirl();
+	Scene_Erase(0, 0, 255);
+	Scene_SquaresRace();	
 	Scene_CubeVideo();
 	Scene_Cube();
 	Scene_CubePhysics();	
-	Scene_Title();	
-	Scene_VBarrels();	
+	Scene_Zoom();	
 	Scene_Kiss();	
-	Scene_Credits();	
+	Scene_VBarrels();	
+	Scene_SpritesPhysics();	
+	Scene_TunnelVideo();
+	Scene_Tunnel();	
+	Scene_Senses();	
 	Scene_Axelay();	
 	Scene_Landscape();
 	Scene_Rain();	
-	Scene_SquaresRace();	
-	Scene_Senses();	
-	Scene_Tunnel();	
 	Scene_Scroller();
-	
-	
-/*
-	Scene_Fire();
-	Scene_Erase(0);
-	Scene_Logo();
-	//Scene_ErasePal();
-	Scene_Lines();
-	Scene_FunkyGirl();
-	Scene_Erase(0);
-	Scene_VBarrels();
-	Scene_Credits();
-	Scene_SquaresRace();
-	Scene_Title();
-	Scene_SpritesPhysics();
-	Scene_Erase(0);
-	Scene_CubeVideo();
-	//Scene_ErasePal();
-	Scene_Cube();
-	Scene_CubePhysics();
-	Scene_TitleZoomOut();
-	Scene_Senses();
-	Scene_Erase(0);
-	Scene_Landscape();
-	Scene_Rain();
-	Scene_Axelay();
-	Scene_Kiss();
-	Scene_Tunnel();
-	Scene_Zoom();
-	Scene_Scroller();
-	*/
-
-/*
-  Rebels:
-	Scene_Logo();
-	Scene_FunkyGirl();    with picture
-	Scene_VBarrels();
-	Scene_SquaresRace();
-	Scene_Axelay();
-	
-  Pictures:
-	Scene_Senses();
-	Scene_Kiss();
-	
-  Others:
-	Scene_Fire();
-	Scene_Lines();
-	Scene_Landscape();
-	Scene_Rain();
-	Scene_Zoom();
-	Scene_Tunnel();
-	Scene_SpritesPhysics();
-	
-	Scene_CubeVideo();
-	Scene_Cube();
-	Scene_CubePhysics();
-	
-  Specials:
-	Scene_Credits();
-	
-	Scene_Title();
-	Scene_TitleZoomOut();
-	
-	Scene_Scroller();	
-*/
 }

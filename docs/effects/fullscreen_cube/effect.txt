@@ -1,4 +1,0 @@
-This is a fullscreen cube, with some glitchs on it (could remove it but it looks maybe cool).
-Possible to add some small picture on it (but on part not covered by the cube, so we may reduce its size a bit...).
-
-Note that there is palette scrolling on it.

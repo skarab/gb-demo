@@ -103,7 +103,7 @@ void Scene_Fire() BANKED
 	for (UINT8 i=0 ; i<fire_sprite_count ; ++i)
 	{
 		fire_sprite_x[i] = 60+rand()%40;
-		fire_sprite_y[i] = 134+rand()%10;
+		fire_sprite_y[i] = 114+rand()%20;
 		fire_sprite_a[i] = 0;
 		set_sprite_tile(i, 80);
 		move_sprite(i, fire_sprite_x[i], fire_sprite_y[i]);
@@ -157,7 +157,7 @@ void Scene_Fire() BANKED
 		++fire_sync;
 		fire_wind = fire_scanline_offsets_tbl[(fire_sync%32)*3/5]*60;
 		
-		if (fire_sync>20)
+		if (fire_sync>13)
 			break;
 	}
 	

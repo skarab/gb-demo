@@ -1,2 +1,0 @@
-Rain simulator.
-Scanlines, sprites, palette fade for thunder.

@@ -25,9 +25,9 @@ void Scene_Landscape() BANKED
 	SCY_REG = SCX_REG = 0;
 	BGP_REG = PALETTE(CWHITE, CWHITE, CWHITE, CWHITE);
 	
-	while (++sync<280)
+	while (++sync<320)
 	{
-		if (sync<260)
+		if (sync<300)
 		{
 			vmemset((void*)(0x8000+(landscape_draw_color-1)*1920), 0, 1920);
 		}

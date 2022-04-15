@@ -11,7 +11,7 @@ void Scene_Lines() BANKED
 	set_mode1();
 	LCDC_REG = 0xD1;
 	
-	set_default_palette();
+	set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
 	
 	const short int minx = 0;
 	const short int maxx = 159;
@@ -38,23 +38,23 @@ void Scene_Lines() BANKED
 	while (1)
 	{
 		++sync;
-		if (sync==80)
+		if (sync==60)
 		{
 			col_max = 7;
 			set_palette(0);
 		}
-		else if (sync==81)
+		else if (sync==61)
 		{
-			set_palette(PALETTE(CBLACK, CGRAY, CSILVER, CWHITE));
+			set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
 		}
-		else if (sync==108)
+		else if (sync==110)
 		{
 			dx0 = -6;
 			dy0 = 5;
 			dx1 = 3;
 			dy1 = -4;
 		}
-		else if (sync==150)
+		else if (sync==130)
 		{
 			break;
 		}
@@ -73,7 +73,7 @@ void Scene_Lines() BANKED
 		if (y1+dy1<miny || y1+dy1>maxy) dy1 = -dy1;
 		y1 += dy1;
 		
-		if (sync>102)
+		if (sync>120)
 		{
 			w = abs(x0-x1);
 			h = abs(y0-y1);
@@ -100,7 +100,7 @@ void Scene_Lines() BANKED
 		}
 	}
 
-	for (int k=0 ; k<144 ; k += 2)
+	for (int k=0 ; k<144 ; k += 3)
 	{
 		miny = k;
 		
@@ -140,15 +140,18 @@ void Scene_Lines() BANKED
 			INT8 col = 3-(((i-j)%7)*3/7);
 			INT8 id = mod(j, 7);
 			color(col, 0, SOLID);
-			if (y0s[id]>k && y1s[id] >k)
+			if (y0s[id]>k && y1s[id]>k)
 			{
 				line(x0s[id], y0s[id], x1s[id], y1s[id]);
 			}
 		}
 		
-		color(BLACK, 0, SOLID);
+		/*color(BLACK, 0, SOLID);
 		line(0, k, 159, k);
 		line(0, k+1, 159, k+1);
+		line(0, k+2, 159, k+2);
+		line(0, k+3, 159, k+3);*/
+		vmemset((void*)(0x8000+k*40), 255, 120);
 	}
 	
 	exit_draw_mode();

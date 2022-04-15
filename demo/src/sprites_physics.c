@@ -22,8 +22,8 @@ void Scene_SpritesPhysics() BANKED
 	SPRITES_8x16;
 	for (i=0 ; i<8 ; ++i)
 	{
-		set_sprite_data(168+i*2, 1, bitmap_sprites_physics_tiledata+i*16);
-		set_sprite_data(168+i*2+1, 1, bitmap_sprites_physics_tiledata+i*16+16*8);
+		set_sprite_data(180+i*2, 1, bitmap_sprites_physics_tiledata+i*16);
+		set_sprite_data(180+i*2+1, 1, bitmap_sprites_physics_tiledata+i*16+16*8);
 	}
 	SHOW_SPRITES;
 	
@@ -67,7 +67,7 @@ void Scene_SpritesPhysics() BANKED
 	
 	int time = 0;
 	
-	while (++time<250)
+	while (++time<280)
 	{
 		BGP_REG = PalScroll[(time>>1)%PalScrollCount];
 		
@@ -100,7 +100,7 @@ void Scene_SpritesPhysics() BANKED
 			UINT8 size = s;
 			if (size != sprite_size[i])
 			{
-				set_sprite_tile(i, 168+size*2);
+				set_sprite_tile(i, 180+size*2);
 				sprite_size[i] = size;
 				
 				if (size<4) set_sprite_prop(i, get_sprite_prop(i) & ~S_PALETTE);

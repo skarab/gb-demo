@@ -19,7 +19,7 @@ void Scene_Tunnel() BANKED
 	const UINT8* frame = tunnel_frames;
 	
 	int time = 0;
-	while (++time<100)
+	while (++time<150)
 	{
 		set_bkg_tiles(0, 0, 20, 18, frame);
 		frame += 20*18;

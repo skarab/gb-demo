@@ -19,7 +19,7 @@ void Scene_CubeVideo() BANKED
 	const UINT8* frame = cube_video_frames;
 	
 	int time = 0;
-	while (++time<80)
+	while (++time<65)
 	{
 		set_bkg_tiles(0, 0, 20, 18, frame);
 		frame += 20*18;
@@ -30,7 +30,7 @@ void Scene_CubeVideo() BANKED
 		}
 		
 		wait_vbl_done();
-		BGP_REG = PalScroll[(time)%PalScrollCount];
+		BGP_REG = PalScroll[(time/4)%PalScrollCount];
 		wait_vbl_done();
 	}
 }

@@ -7,6 +7,7 @@ const void __at(23) __bank_squares_zoom;
 #include "../resources/squares_zoom_precalc.h"
 #include "../resources/bitmap_credits.h"
 #include "../resources/bitmap_credits_font.h"
+#include "../resources/bitmap_torus.h"
 
 UINT8 squares_scroll = 0;
 UINT8 squares_zoom_scroll = 0;
@@ -16,9 +17,9 @@ UINT8 squares_s = 0;
 
 void squares_zoom_vbl1() BANKED
 {
-	++squares_t;
-	if (squares_t&2) ++squares_s;
-	
+	squares_t += 3;
+	//if (squares_t&2) ++squares_s;
+	++squares_s;
 	UINT8 sin = sintable[squares_s];
 	if (sin>=128)
 	{
@@ -36,7 +37,7 @@ void squares_zoom_vbl1() BANKED
 	
 	squares_zoom_scroll = (16+squares_size)/2; //%(16+square_size);
 	
-	squares_scroll += (squares_size>>4)+1;
+	squares_scroll += (squares_size>>4)+2;
 	if (squares_scroll>16+squares_size)
 		squares_scroll = 0;
 }
@@ -44,7 +45,7 @@ void squares_zoom_vbl1() BANKED
 void credits_vbl() BANKED
 {
 	squares_t+=2;
-	if (squares_t&4) ++squares_s;
+	if (squares_t&6) ++squares_s;
 	
 	UINT8 sin = sintable[squares_s];
 	if (sin>=128)
@@ -110,6 +111,14 @@ void Scene_Zoom() BANKED
 	set_bkg_tiles(0, 8, 32, 8, squares_zoom_tilemap1);
 	set_bkg_tiles(0, 16, 32, 6, squares_zoom_tilemap2);
 	
+	SPRITES_8x16;
+	for (UINT8 i=0 ; i<bitmap_torus_tiledata_count/2 ; ++i)
+	{
+		set_sprite_data(180+i*2, 1, bitmap_torus_tiledata+i*16);
+		set_sprite_data(180+i*2+1, 1, bitmap_torus_tiledata+i*16+(bitmap_torus_tiledata_count/2)*16);
+	}
+	SHOW_SPRITES;
+	
 	squares_zoom_vbl1();
 	
 	CRITICAL {
@@ -121,13 +130,29 @@ void Scene_Zoom() BANKED
 	
 	FADE_OUT_WHITE();
 	
+	set_sprite_tile(0, 180);
+	set_sprite_tile(1, 182);
+	move_sprite(0, 16, 24);
+	move_sprite(1, 24, 24);
+		
 	int time = 0;
-	while (++time<800)
+	int anim = 0;
+	while (++time<190)
 	{	
+		set_sprite_tile(0, 180+4*anim);
+		set_sprite_tile(1, 180+4*anim+2);
+		++anim;
+		if (anim>=bitmap_torus_tiledata_count/4)
+		{
+			anim = 0;
+		}
+		
+		wait_vbl_done();
 		wait_vbl_done();
 	}
 	
 	FADE_IN_WHITE();
+	HIDE_SPRITES;
 	
 	CRITICAL {
         remove_LCD(squares_zoom_lcd);
@@ -145,7 +170,7 @@ void Scene_Credits() BANKED
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_squares_zoom); }
 	
 	set_mode2();
-	set_palette(PALETTE(CWHITE, CWHITE, CWHITE, CWHITE));
+	set_palette(PALETTE(CBLACK, CBLACK, CBLACK, CBLACK));
 	
 	set_tile_data(0, 128, squares_zoom_tiledata, 0x90);
 	set_tile_data(128, squares_zoom_tiledata_count-128, squares_zoom_tiledata+128*16, 0x80);
@@ -168,6 +193,8 @@ void Scene_Credits() BANKED
 	SHOW_BKG;
 	SHOW_WIN;
 	
+	squares_s = 80;
+	
 	credits_vbl();
 	
 	CRITICAL {
@@ -177,7 +204,8 @@ void Scene_Credits() BANKED
 	}
     set_interrupts(LCD_IFLAG | VBL_IFLAG);
 	
-	FADE_OUT_WHITE();
+	//FADE_OUT_BLACK();	
+	fade_counter=0;
 	
 	UINT8 win_x = 255;
 	UINT8 win_y = 82;
@@ -185,22 +213,31 @@ void Scene_Credits() BANKED
 	UINT8 c = 0;
 	UINT8 stopper = 1;
 	int wait = 0;
-	while (++time<180 || creditId<3)
+	while (++time<142 || creditId<3)
 	{
+		if (fade_counter<(PalScrollCount-1)*4+1)
+		{
+			BGP_REG = PalFadeBlack[PalScrollCount-fade_counter/4-1];
+			++fade_counter;
+		}
+		
 		++wait;
-		if (wait>130 && creditId<3)
+		if (wait>0 && creditId<3)
 		{
 			UINT8 sin = sintable[squares_s];
-			if (stopper==1 && sin<150)
+			/*if (sin<128)
 			{
 			}
-			else
+			else*/
 			{
-				stopper = 0;
-				if (win_x>=60+20) win_x -= 20;
-				else win_x = 60;
-				if (win_x==60) win_y += 3;
-				if (sin<150 && win_x!=255)
+				//stopper = 0;
+				if (sin>128)
+				{
+					if (win_x>=60+20) win_x -= 20;
+					else win_x = 60;
+					if (win_x==60) win_y += 3;
+				}
+				else if (win_x!=255)
 				{
 					win_x = 255;
 					win_y = 82;

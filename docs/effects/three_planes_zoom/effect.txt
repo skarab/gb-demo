@@ -1,8 +1,0 @@
-This simulate a three planes zooming.
-
-The GB only as two planes, one real plane and the window.
-The first two planes are emulated, its a code generated pattern.
-
-The window plane is a picture, which should look similar to the other (to get a real 3 planes effect)...
-
-I'd the idea to add credits on it, dont know, or maybe greatings but this will make a lot of pictures...

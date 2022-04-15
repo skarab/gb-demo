@@ -1,2 +1,0 @@
-Vertical barrels, with added glitch.
-Code generated, added a small picture on the window plane.

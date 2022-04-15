@@ -117,7 +117,7 @@ void Scene_Scroller() BANKED
 			}
 		}
 		
-		if (cubeTime<600)
+		if (cubeTime<1200)
 		{
 			++cubeTime;
 			continue;

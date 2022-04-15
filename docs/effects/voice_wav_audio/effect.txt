@@ -1,3 +1,0 @@
-The wave file should be really short, and playing it should be at the very beginning or end of the demo
-(since it destroys everything...), playing it hangs the system as well.
-Found it cool for a logo...
