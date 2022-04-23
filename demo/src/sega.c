@@ -4,6 +4,7 @@ const void __at(20) __bank_sega;
 #include "gameboy.h"
 #include "../resources/bitmap_sega.h"
 #include "../resources/sega_wav.h"
+#include "../resources/nintendo_wav.h"
 	
 void Scene_Sega() BANKED
 {
@@ -44,7 +45,14 @@ void Scene_Sega() BANKED
 		BGP_REG = PalScroll[++i%PalScrollCount];
 	}	
 	
-	play_sample(sega_raw, sega_raw_len/16);
+	if (joypad()==J_SELECT)
+	{
+		play_sample(nintendo_raw, nintendo_raw_len/16);
+	}
+	else
+	{
+		play_sample(sega_raw, sega_raw_len/16);
+	}
 	
 	for (i=0 ; i<PalFadeCount ; ++i)
 	{
