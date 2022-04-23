@@ -67,7 +67,7 @@ void Scene_FunkyGirl() BANKED
 	int wh = 144;
 	while (++time<108)
 	{
-		funky_girl_glitch = (funky_girl_glitch + 1) % 2;
+		funky_girl_glitch = (funky_girl_glitch + 1) % 3;
 		
 		if (time>40 && wh>120)
 		{

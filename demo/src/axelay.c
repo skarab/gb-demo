@@ -170,7 +170,7 @@ void Scene_Axelay() BANKED
 	BGP_REG = PALETTE(CBLACK, CGRAY, CSILVER, CWHITE);
 	int time = 0;
 	
-	while (++time<9000)
+	while (++time<7500)
 	{
 		axelay_lcd();
     	axelay_lcd();

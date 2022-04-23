@@ -26,7 +26,7 @@ void Scene_Landscape() BANKED
 	
 	while (++sync<320)
 	{
-		if (sync<300)
+		if (sync<270)
 		{
 			vmemset((void*)(0x8000+(landscape_draw_color-1)*1920), 0, 1920);
 		}
@@ -39,7 +39,7 @@ void Scene_Landscape() BANKED
 			plot_point(input[i*2], input[i*2+1]);
 		}
 		
-		if (sync>180)
+		if (sync>220)
 		{
 			for (UINT8 i=0 ; i<8 ; ++i)
 			{

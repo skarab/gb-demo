@@ -48,7 +48,7 @@ void Scene_Senses() BANKED
 	set_palette(PALETTE(CWHITE, CSILVER, CGRAY, CBLACK));
 	
 	int time = 0;
-	while (++time<500)
+	while (++time<650)
 	{
 		wait_vbl_done();
 	}

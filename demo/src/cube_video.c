@@ -30,7 +30,7 @@ void Scene_CubeVideo() BANKED
 		}
 		
 		wait_vbl_done();
-		BGP_REG = PalScroll[(time/4)%PalScrollCount];
+		BGP_REG = PalScroll[(time/2)%PalScrollCount];
 		wait_vbl_done();
 	}
 }

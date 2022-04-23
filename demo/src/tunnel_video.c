@@ -19,7 +19,7 @@ void Scene_TunnelVideo() BANKED
 	const UINT8* frame = tunnel_video_frames;
 	
 	int time = 0;
-	while (++time<124)
+	while (++time<142)
 	{
 		set_bkg_tiles(0, 0, 20, 18, frame);
 		frame += 20*18;
@@ -30,7 +30,7 @@ void Scene_TunnelVideo() BANKED
 		}
 		
 		wait_vbl_done();
-		BGP_REG = PalScroll[(time/4)%PalScrollCount];
+		BGP_REG = PalScroll[(time/2)%PalScrollCount];
 		wait_vbl_done();
 	}
 }

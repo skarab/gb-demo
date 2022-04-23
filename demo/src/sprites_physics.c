@@ -67,9 +67,11 @@ void Scene_SpritesPhysics() BANKED
 	
 	int time = 0;
 	
-	while (++time<280)
+	while (++time<274)
 	{
-		BGP_REG = PalScroll[(time>>1)%PalScrollCount];
+		BGP_REG = PalScroll[time%PalScrollCount];
+		
+		int count = time/8;
 		
 		for (i=0 ; i<sprite_count ; ++i)
 		{
@@ -107,7 +109,14 @@ void Scene_SpritesPhysics() BANKED
 				else set_sprite_prop(i, get_sprite_prop(i) | S_PALETTE);
 			}
 		
-			move_sprite(i, px, py);
+			if (i>=count)
+			{
+				move_sprite(i, 0, 0);
+			}
+			else
+			{
+				move_sprite(i, px, py);
+			}
 			
 			sprite_x[i] = x;
 			sprite_y[i] = y;
