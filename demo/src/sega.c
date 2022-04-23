@@ -1,5 +1,5 @@
-#pragma bank 20
-const void __at(20) __bank_sega;
+#pragma bank 17
+const void __at(17) __bank_sega;
 
 #include "gameboy.h"
 #include "../resources/bitmap_sega.h"
@@ -65,12 +65,12 @@ void Scene_Sega() BANKED
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0	};
 	play_sample(empty_sample, 1);
 	
-	disable_interrupts();
 	HIDE_WIN;
-	NR52_REG = 0x80;
-    NR51_REG = 0xFF;
-    NR50_REG = 0x77;
-	enable_interrupts();
+	__critical { 
+		NR52_REG = 0x80;
+		NR51_REG = 0xFF;
+		NR50_REG = 0x77;
+	}
 }
 
 

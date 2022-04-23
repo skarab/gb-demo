@@ -1,5 +1,5 @@
-#pragma bank 22
-const void __at(22) __bank_axelay;
+#pragma bank 15
+const void __at(15) __bank_axelay;
 
 #include "gameboy.h"
 #include "rand.h"
@@ -102,6 +102,11 @@ void Scene_Axelay() BANKED
 {
 	UINT8 y;
 	
+	axelay_scroll_x = 0;
+	axelay_scroll_y = 0;
+	sprite_id = 0;
+	create = 0;
+
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_axelay); }
 	
 	set_mode1();
@@ -165,7 +170,7 @@ void Scene_Axelay() BANKED
 	BGP_REG = PALETTE(CBLACK, CGRAY, CSILVER, CWHITE);
 	int time = 0;
 	
-	while (++time<10000)
+	while (++time<9000)
 	{
 		axelay_lcd();
     	axelay_lcd();

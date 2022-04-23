@@ -1,5 +1,5 @@
-#pragma bank 27
-const void __at(27) __bank_senses;
+#pragma bank 22
+const void __at(22) __bank_senses;
 
 #include "gameboy.h"
 #include "rand.h"
@@ -26,6 +26,8 @@ void senses_lcd() BANKED
 
 void Scene_Senses() BANKED
 {
+	sense_anim = 0;
+	
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_senses); }
 	
 	set_mode1();

@@ -1,5 +1,5 @@
-#pragma bank 25
-const void __at(25) __bank_rain;
+#pragma bank 19
+const void __at(19) __bank_rain;
 
 #include "gameboy.h"
 #include "rand.h"
@@ -117,6 +117,10 @@ void Scene_Rain() BANKED
 {
 	UINT8 i, j;
 	
+	rain_scroll = 0;
+	rain_addx = 0;
+	rain_splash = 0;
+
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_rain); }
 	
 	set_mode1();

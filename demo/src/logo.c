@@ -1,5 +1,5 @@
-#pragma bank 27
-const void __at(27) __bank_logo;
+#pragma bank 20
+const void __at(20) __bank_logo;
 
 #include "gameboy.h"
 #include "rand.h"
@@ -46,6 +46,9 @@ void logo_lcd() BANKED
 
 void Scene_Logo() BANKED
 {
+	logo_anim = 0;
+	logo_time = 0;
+
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_logo); }
 	
 	set_mode1();

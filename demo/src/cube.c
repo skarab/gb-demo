@@ -1,5 +1,5 @@
-#pragma bank 21
-const void __at(21) __bank_cube;
+#pragma bank 15
+const void __at(15) __bank_cube;
 
 #include "gameboy.h"
 #include <gb/drawing.h>
@@ -36,6 +36,10 @@ void Scene_Cube() BANKED
 	const INT8 cube_y = 144 / 2;
 	unsigned int offset = 0;
 	unsigned int sync = 0;
+
+	draw_color = 1;
+	motion_blur_enabled = 0;
+	vbl_y = 0;
 	
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_cube); }
 	

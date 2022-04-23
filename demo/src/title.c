@@ -1,5 +1,5 @@
-#pragma bank 30
-const void __at(30) __bank_title;
+#pragma bank 24
+const void __at(24) __bank_title;
 
 #include "gameboy.h"
 #include "../resources/bitmap_title.h"

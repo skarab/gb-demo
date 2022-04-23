@@ -1,5 +1,5 @@
-#pragma bank 31
-const void __at(31) __bank_tunnel;
+#pragma bank 25
+const void __at(25) __bank_tunnel;
 
 #include "gameboy.h"
 #include "rand.h"

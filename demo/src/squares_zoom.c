@@ -1,5 +1,5 @@
-#pragma bank 23
-const void __at(23) __bank_squares_zoom;
+#pragma bank 16
+const void __at(16) __bank_squares_zoom;
 
 #include "gameboy.h"
 
@@ -102,6 +102,12 @@ void credits_lcd() BANKED
 
 void Scene_Zoom() BANKED
 {
+	squares_scroll = 0;
+	squares_zoom_scroll = 0;
+	squares_size = 0;
+	squares_t = 0;
+	squares_s = 0;
+
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_squares_zoom); }
 
 	set_mode1();
@@ -134,20 +140,35 @@ void Scene_Zoom() BANKED
 	set_sprite_tile(1, 182);
 	move_sprite(0, 16, 24);
 	move_sprite(1, 24, 24);
-		
+	
+	int x = 16;
+	int y = 24;
+	int dx = 2;
+	int dy = 2;
+	
 	int time = 0;
 	int anim = 0;
-	while (++time<190)
+	while (++time<180)
 	{	
 		set_sprite_tile(0, 180+4*anim);
 		set_sprite_tile(1, 180+4*anim+2);
+		move_sprite(0, x, y);
+		move_sprite(1, x+8, y);
+	
+		x += dx;
+		y += dy;
+		
+		if (x<=10 || x>=136)
+			dx = -dx;
+		if (y<=16 || y>=116)
+			dy = -dy;
+	
 		++anim;
 		if (anim>=bitmap_torus_tiledata_count/4)
 		{
 			anim = 0;
 		}
 		
-		wait_vbl_done();
 		wait_vbl_done();
 	}
 	
@@ -163,6 +184,12 @@ void Scene_Zoom() BANKED
 			  
 void Scene_Credits() BANKED
 {
+	squares_scroll = 0;
+	squares_zoom_scroll = 0;
+	squares_size = 0;
+	squares_t = 0;
+	squares_s = 0;
+
 	const char* credits[] = { "critikill", "aceman", "skarab" };
 	const int creditsLength[] = { 9, 6, 6 };
 	UINT8 creditId = 0;
@@ -213,7 +240,7 @@ void Scene_Credits() BANKED
 	UINT8 c = 0;
 	UINT8 stopper = 1;
 	int wait = 0;
-	while (++time<142 || creditId<3)
+	while (++time<136 || creditId<3)
 	{
 		if (fade_counter<(PalScrollCount-1)*4+1)
 		{

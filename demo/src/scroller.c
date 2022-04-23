@@ -1,5 +1,5 @@
-#pragma bank 29
-const void __at(29) __bank_scroller;
+#pragma bank 20
+const void __at(20) __bank_scroller;
 
 #include "gameboy.h"
 #include "rand.h"
@@ -161,6 +161,9 @@ void Scene_Scroller() BANKED
 			}
 			animCube2 = (animCube2+1)%6;
 		}
+		
+		if (joypad()==J_START)
+			break;
 	}
 
 	//set_mode1();

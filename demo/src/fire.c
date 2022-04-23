@@ -1,5 +1,5 @@
-#pragma bank 21
-const void __at(21) __bank_fire;
+#pragma bank 15
+const void __at(15) __bank_fire;
 
 #include "gameboy.h"
 #include "rand.h"
@@ -66,6 +66,9 @@ void fire_update_sprites() BANKED
 
 void Scene_Fire() BANKED
 {
+	fire_wind = 0;
+	fire_sync = 0;
+
 	UINT8* fire_output[20*18];
 	UINT8 fire_buffer[20*18];
 	UINT8 x, y;

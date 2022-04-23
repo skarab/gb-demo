@@ -1,5 +1,5 @@
-#pragma bank 26
-const void __at(26) __bank_funky_girl;
+#pragma bank 19
+const void __at(19) __bank_funky_girl;
 
 #include "gameboy.h"
 #include "rand.h"
@@ -29,6 +29,8 @@ void funky_girl_lcd() BANKED
 
 void Scene_FunkyGirl() BANKED
 {
+	funky_girl_glitch = 0;
+	
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_funky_girl); }
 	
 	BGP_REG = PALETTE(CBLACK, CBLACK, CBLACK, CBLACK);
@@ -65,7 +67,7 @@ void Scene_FunkyGirl() BANKED
 	int wh = 144;
 	while (++time<108)
 	{
-		funky_girl_glitch = (funky_girl_glitch + 1) % 3;
+		funky_girl_glitch = (funky_girl_glitch + 1) % 2;
 		
 		if (time>40 && wh>120)
 		{

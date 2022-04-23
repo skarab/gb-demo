@@ -1,5 +1,5 @@
-#pragma bank 33
-const void __at(33) __bank_tunnel_video;
+#pragma bank 26
+const void __at(26) __bank_tunnel_video;
 
 #include "gameboy.h"
 #include "../resources/bitmap_tunnel_video.h"

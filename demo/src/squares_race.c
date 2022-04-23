@@ -1,5 +1,5 @@
-#pragma bank 24
-const void __at(24) __bank_squares_race;
+#pragma bank 21
+const void __at(21) __bank_squares_race;
 
 #include "gameboy.h"
 #include "../resources/squares_race.h"
@@ -98,6 +98,9 @@ void squares_race_lcd() BANKED
 
 void Scene_SquaresRace() BANKED
 {
+	race_anim = 0;
+	race_scroll_bkg_x = 0;
+
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_squares_race); }
 	
 	set_mode1();

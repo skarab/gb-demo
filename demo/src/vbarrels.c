@@ -1,5 +1,5 @@
-#pragma bank 25
-const void __at(25) __bank_vbarrels;
+#pragma bank 21
+const void __at(21) __bank_vbarrels;
 
 #include "gameboy.h"
 
@@ -40,6 +40,11 @@ void vbarrels_lcd() BANKED
 
 void Scene_VBarrels() BANKED
 {
+	vbarrels_time = 0;
+	vbarrels_global_time = 0;
+	vbarrels_end = 180;
+	vbarrels_palId = 0;
+
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_vbarrels); }
 	
 	set_mode1();

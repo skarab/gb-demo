@@ -56,6 +56,7 @@ void play_music()
 	__critical {
 		VGMPlayerInit();
 		STAT_REG = 0x18;
+		remove_VBL(vbl_music);
 		add_VBL(vbl_music);
 	}
 	set_interrupts(VBL_IFLAG);

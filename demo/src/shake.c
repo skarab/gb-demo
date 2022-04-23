@@ -1,5 +1,5 @@
-#pragma bank 20
-const void __at(20) __bank_shake;
+#pragma bank 15
+const void __at(15) __bank_shake;
 
 #include "gameboy.h"
 #include "rand.h"
@@ -27,6 +27,8 @@ void shake_lcd() BANKED
 
 void Scene_Shake() BANKED
 {
+	shake_glitch = 0;
+	
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_shake); }
 	
 	shake_vbl();

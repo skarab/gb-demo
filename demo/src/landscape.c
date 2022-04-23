@@ -1,5 +1,5 @@
-#pragma bank 28
-const void __at(28) __bank_landscape;
+#pragma bank 23
+const void __at(23) __bank_landscape;
 
 #include "gameboy.h"
 #include <gb/drawing.h>
@@ -10,12 +10,11 @@ const void __at(28) __bank_landscape;
 const unsigned int landscape_palettes[] = { PALETTE(CWHITE, CBLACK, CWHITE, CWHITE), PALETTE(CWHITE, CWHITE, CBLACK, CWHITE), PALETTE(CWHITE, CWHITE, CWHITE, CBLACK) };
 const unsigned int landscape_palettes2[] = { PALETTE(CBLACK, CWHITE, CBLACK, CBLACK), PALETTE(CBLACK, CBLACK, CWHITE, CBLACK), PALETTE(CBLACK, CBLACK, CBLACK, CWHITE) };
 
-UINT8 landscape_draw_color = 1;
-
 void Scene_Landscape() BANKED
 {
 	unsigned int frameId = 0;
 	unsigned int sync = 0;
+	UINT8 landscape_draw_color = 1;
 	
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_landscape); }
 	

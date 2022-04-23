@@ -20,16 +20,12 @@ void Scene_FunkyGirl() BANKED;
 void Scene_Senses() BANKED;
 void Scene_Logo() BANKED;
 void Scene_Landscape() BANKED;
-void Scene_Scroller() BANKED;
 void Scene_Title() BANKED;
 void Scene_TitleZoomOut() BANKED;
 void Scene_Tunnel() BANKED;
 void Scene_CubeVideo() BANKED;
 void Scene_TunnelVideo() BANKED;
-
-/*
-so the framerate should be 60 FPS and shutter speed is 1/160 (1/180 is ok)
-*/
+void Scene_Scroller() BANKED;
 
 void main()
 {
@@ -42,29 +38,36 @@ void main()
 	Scene_Erase(1, 255, 255);
 	Scene_Sega();
 	
-	play_music();
-	
-	Scene_Fire();	
-	Scene_Lines();	
-	Scene_Credits();	
-	Scene_Logo();	
-	Scene_Title();
-	Scene_TitleZoomOut();
-	Scene_FunkyGirl();
-	Scene_Erase(0, 0, 255);
-	Scene_SquaresRace();	
-	Scene_CubeVideo();
-	Scene_Cube();
-	Scene_CubePhysics();	
-	Scene_Zoom();	
-	Scene_Kiss();	
-	Scene_VBarrels();	
-	Scene_SpritesPhysics();	
-	Scene_TunnelVideo();
-	Scene_Tunnel();	
-	Scene_Senses();	
-	Scene_Axelay();	
-	Scene_Landscape();
-	Scene_Rain();	
-	Scene_Scroller();
+	while (1)
+	{
+		play_music();
+		
+		Scene_Fire();	
+		Scene_Lines();	
+		Scene_Credits();	
+		Scene_Logo();	
+		Scene_Title();
+		Scene_TitleZoomOut();
+		Scene_FunkyGirl();
+		Scene_Erase(0, 0, 255);
+		Scene_SquaresRace();	
+		Scene_CubeVideo();
+		Scene_Cube();
+		Scene_CubePhysics();	
+		Scene_Zoom();	
+		Scene_Kiss();	
+		Scene_VBarrels();	
+		Scene_SpritesPhysics();	
+		Scene_TunnelVideo();
+		Scene_Tunnel();	
+		Scene_Senses();	
+		Scene_Axelay();	
+		Scene_Landscape();
+		Scene_Rain();
+		Scene_Scroller();
+		
+		HIDE_SPRITES;
+		HIDE_WIN;
+		Scene_Erase(0, 255, 255);
+	}
 }

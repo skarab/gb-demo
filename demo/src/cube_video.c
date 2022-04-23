@@ -1,5 +1,5 @@
-#pragma bank 32
-const void __at(32) __bank_cube_video;
+#pragma bank 18
+const void __at(18) __bank_cube_video;
 
 #include "gameboy.h"
 #include "../resources/bitmap_cube_video.h"

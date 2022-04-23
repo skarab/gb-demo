@@ -1,5 +1,5 @@
-#pragma bank 26
-const void __at(26) __bank_kiss;
+#pragma bank 22
+const void __at(22) __bank_kiss;
 
 #include "gameboy.h"
 #include "rand.h"
@@ -17,7 +17,7 @@ void kiss_lcd() BANKED
 {
 	UINT8 y = LY_REG;
 	
-	if (y%2 == 1)
+	if (y < 140 && y%2 == 1)
 	{
 		SCY_REG = glitch;
 	}
@@ -29,6 +29,8 @@ void kiss_lcd() BANKED
 
 void Scene_Kiss() BANKED
 {
+	glitch = 0;
+	
 	__critical { SWITCH_ROM_MBC5((UINT8)&__bank_kiss); }
 	
 	set_mode1();
@@ -64,7 +66,7 @@ void Scene_Kiss() BANKED
 	int time = 0;
 	while (++time<70)
 	{
-		glitch = (glitch + 1) % 3;
+		glitch = (glitch + 1) % 2;
 		wait_vbl_done();
 		move_win(7 + sintable[i] / 30, 144 - 32);
 		i = (i+24) % 255;

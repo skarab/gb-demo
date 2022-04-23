@@ -1,5 +1,5 @@
-#pragma bank 20
-const void __at(20) __bank_erase;
+#pragma bank 15
+const void __at(15) __bank_erase;
 
 #include "gameboy.h"
 
