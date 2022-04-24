@@ -5,6 +5,10 @@ const unsigned char scroller_data[] = {
 0, 
 0, 
 0, 
+0, 
+0, 
+0, 
+0, 
 3, 24, 14, 20, 
 4, 7, 0, 21, 4, 
 4, 1, 4, 4, 13, 
@@ -45,6 +49,7 @@ const unsigned char scroller_data[] = {
 3, 19, 4, 14, 
 6, 12, 4, 5, 19, 4, 6, 
 5, 0, 20, 17, 4, 0, 
+6, 12, 4, 13, 5, 8, 13, 
 0, 
 0, 
 0, 
@@ -92,7 +97,6 @@ const unsigned char scroller_data[] = {
 3, 19, 1, 11, 
 8, 11, 14, 18, 19, 0, 2, 14, 18, 
 9, 15, 14, 15, 18, 24, 19, 4, 0, 12, 
-6, 12, 4, 13, 5, 8, 13, 
 7, 15, 17, 14, 23, 8, 12, 0, 
 5, 3, 14, 9, 14, 4, 
 9, 9, 20, 12, 0, 11, 0, 20, 19, 0, 
@@ -127,4 +131,4 @@ const unsigned char scroller_data[] = {
 0, 
 0, 
 0};
-const unsigned int scroller_data_count = 127;
+const unsigned int scroller_data_count = 131;
